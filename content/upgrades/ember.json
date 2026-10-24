@@ -1,0 +1,124 @@
+{
+  "gunId": "ember",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Hot Embers",
+      "description": "Adds 3 burn damage per second.",
+      "cost": 20,
+      "effect": {
+        "burn": 3
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Quick Feed",
+      "description": "Fires 8% faster.",
+      "cost": 22,
+      "effect": {
+        "fireRate": 0.08
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Inferno Spark",
+      "description": "Firestorm gains 15% ability power.",
+      "cost": 24,
+      "effect": {
+        "abilityPower": 0.15
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "White-Hot Fuel",
+      "description": "Adds 5 burn damage per second and 2 bullet damage.",
+      "cost": 42,
+      "effect": {
+        "burn": 5,
+        "damage": 2
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Rapid Cycling",
+      "description": "Fires 16% faster and adds 80 projectile speed.",
+      "cost": 44,
+      "effect": {
+        "fireRate": 0.16,
+        "projectileSpeed": 80
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Inferno Reservoir",
+      "description": "Firestorm gains 25% ability power and 10% shorter cooldown.",
+      "cost": 48,
+      "effect": {
+        "abilityPower": 0.25,
+        "abilityCooldown": 0.1
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Wildfire Stream",
+      "description": "Fires 12% faster, adds 6 burn damage per second, and pierces one extra enemy.",
+      "cost": 90,
+      "effect": {
+        "fireRate": 0.12,
+        "burn": 6,
+        "pierce": 1
+      },
+      "requiresPair": [
+        "left",
+        "middle"
+      ]
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Living Furnace",
+      "description": "Adds 8 burn damage per second and gives Firestorm 35% ability power.",
+      "cost": 96,
+      "effect": {
+        "burn": 8,
+        "abilityPower": 0.35
+      },
+      "requiresPair": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Inferno Overdrive",
+      "description": "Fires 14% faster and gives Firestorm 25% ability power and 15% shorter cooldown.",
+      "cost": 98,
+      "effect": {
+        "fireRate": 0.14,
+        "abilityPower": 0.25,
+        "abilityCooldown": 0.15
+      },
+      "requiresPair": [
+        "middle",
+        "right"
+      ]
+    }
+  ]
+}

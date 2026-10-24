@@ -1,0 +1,126 @@
+{
+  "gunId": "arc",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Conductive Coil",
+      "description": "Lightning chains to 1 additional target.",
+      "cost": 30,
+      "effect": {
+        "chain": 1
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Charged Capacitor",
+      "description": "Add 3 damage to each shot.",
+      "cost": 28,
+      "effect": {
+        "damage": 3
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Quick Discharge",
+      "description": "Add 8% fire rate and reduce Thunder Ring cooldown by 5% of its base cooldown.",
+      "cost": 32,
+      "effect": {
+        "fireRate": 0.08,
+        "abilityCooldown": 0.05
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Chain Reaction",
+      "description": "Lightning chains to 1 additional target and adds 2 damage.",
+      "cost": 60,
+      "effect": {
+        "chain": 1,
+        "damage": 2
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "High Voltage",
+      "description": "Add 10 percentage points of critical-hit chance and 4 damage.",
+      "cost": 65,
+      "effect": {
+        "crit": 0.1,
+        "damage": 4
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Gathering Storm",
+      "description": "Reduce Thunder Ring cooldown by 15% of its base cooldown and add 15% ability power.",
+      "cost": 58,
+      "effect": {
+        "abilityCooldown": 0.15,
+        "abilityPower": 0.15
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Voltage Web",
+      "description": "Lightning chains to 1 additional target; add 12 percentage points of critical-hit chance and 5 damage.",
+      "cost": 130,
+      "requiresPair": [
+        "left",
+        "middle"
+      ],
+      "effect": {
+        "chain": 1,
+        "crit": 0.12,
+        "damage": 5
+      }
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Endless Tempest",
+      "description": "Lightning chains to 1 additional target; reduce Thunder Ring cooldown by 15% of its base cooldown and add 25% ability power.",
+      "cost": 125,
+      "requiresPair": [
+        "left",
+        "right"
+      ],
+      "effect": {
+        "chain": 1,
+        "abilityCooldown": 0.15,
+        "abilityPower": 0.25
+      }
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Eye of the Storm",
+      "description": "Add 15 percentage points of critical-hit chance and 30% ability power; reduce Thunder Ring cooldown by 12% of its base cooldown.",
+      "cost": 135,
+      "requiresPair": [
+        "middle",
+        "right"
+      ],
+      "effect": {
+        "crit": 0.15,
+        "abilityPower": 0.3,
+        "abilityCooldown": 0.12
+      }
+    }
+  ]
+}

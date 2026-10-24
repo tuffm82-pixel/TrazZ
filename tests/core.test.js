@@ -1,58 +1,10 @@
-const { test } = require('node:test');
-const assert = require('node:assert/strict');
-const core = require('../core.js');
-test('a new pilot starts with the starter gun and no earned credits', () => {
-  const save = core.normalizeSave(null);
-  assert.equal(save.gun, 'pulse'); assert.equal(save.credits, 0); assert.equal(save.level, 1);
-});
-test('corrupted saves cannot grant invalid weapons or negative money', () => {
-  const save = core.normalizeSave({ gun: 'missing', credits: -20, xp: 'broken', upgrades: { pulse: 90 } });
-  assert.equal(save.gun, 'pulse'); assert.equal(save.credits, 0); assert.equal(save.xp, 0); assert.equal(save.upgrades.pulse, 5);
-});
-test('upgrading requires enough credits and does not spend on failure', () => {
-  const save = core.normalizeSave(null);
-  assert.equal(core.upgrade(save, 'pulse'), false); assert.equal(save.credits, 0);
-  save.credits = 100;
-  assert.equal(core.upgrade(save, 'pulse'), true); assert.equal(save.upgrades.pulse, 1); assert.equal(save.credits, 40);
-});
-test('guns unlock at their required pilot level', () => {
-  const save = core.normalizeSave(null);
-  assert.equal(core.canEquip(save, 'nova'), false);
-  core.reward(save, 0, 600);
-  assert.equal(save.level, 4); assert.equal(core.canEquip(save, 'nova'), true);
-});
-test('boss waves arrive every fifth wave', () => {
-  assert.equal(core.waveSpec(4).boss, false); assert.equal(core.waveSpec(5).boss, true);
-  assert.ok(core.waveSpec(6).count > core.waveSpec(1).count);
-});
-test('the campaign starts on the Moon with later worlds locked', () => {
-  const save = core.normalizeSave(null);
-  assert.equal(core.canPlayPlanet(save, 'moon'), true);
-  for (const id of ['mars', 'venus', 'acid', 'missing']) assert.equal(core.canPlayPlanet(save, id), false);
-});
-test('clearing a planet unlocks only the next planet, and replays stay available', () => {
-  const save = core.normalizeSave(null);
-  assert.equal(core.completePlanet(save, 'venus'), false);
-  for (const id of ['moon', 'mars', 'venus', 'acid']) {
-    assert.equal(core.canPlayPlanet(save, id), true);
-    assert.equal(core.completePlanet(save, id), true);
-    assert.equal(core.canPlayPlanet(save, id), true);
-  }
-  core.completePlanet(save, 'moon');
-  assert.deepEqual(save.completedPlanets, ['moon', 'mars', 'venus', 'acid']);
-  assert.deepEqual(core.normalizeSave(JSON.parse(JSON.stringify(save))).completedPlanets, save.completedPlanets);
-});
-test('old saves retain earned progress but do not skip the Moon', () => {
-  const save = core.normalizeSave({ xp: 500, credits: 200, gun: 'nova', completedPlanets: ['acid', 'mars'] });
-  assert.equal(save.gun, 'nova'); assert.equal(save.credits, 200);
-  assert.deepEqual(save.completedPlanets, []);
-  assert.equal(core.canPlayPlanet(save, 'mars'), false);
-});
-test('A W D aim and arrow keys move independently', () => {
-  assert.equal(core.aimForKey('a'), 'left'); assert.equal(core.aimForKey('w'), 'up'); assert.equal(core.aimForKey('d'), 'right');
-  assert.equal(core.aimForKey('ArrowLeft'), null);
-  assert.equal(core.movement(new Set(['a', 'w', 'd'])), 0);
-  assert.equal(core.movement(new Set(['ArrowLeft'])), -1);
-  assert.equal(core.movement(new Set(['ArrowRight'])), 1);
-  assert.equal(core.movement(new Set(['ArrowLeft', 'ArrowRight'])), 0);
-});
+const {test}=require('node:test'),assert=require('node:assert/strict');
+const C=require('../core.js'),D=require('../data.js');
+test('new save starts with free Pulse Pistol, currencies zero',()=>{const s=C.normalizeSave(null);assert.deepEqual(s.ownedGuns,['pulse']);assert.equal(s.gun,'pulse');assert.equal(s.coins,0);assert.equal(s.gems,0)});
+test('corrupt saves sanitize currencies, armour, gun, progression',()=>{const s=C.normalizeSave({coins:-1,gems:'bad',ownedGuns:['invalid'],gun:'invalid',armour:'invalid',completedPlanets:['acid']});assert.equal(s.coins,0);assert.equal(s.gems,0);assert.equal(s.armour,'basic');assert.equal(s.gun,'pulse');assert.deepEqual(s.completedPlanets,[])});
+test('legacy progress preserves XP and credits and refunds paid upgrades once',()=>{const s=C.normalizeSave({xp:500,credits:200,gun:'nova',upgrades:{pulse:2,nova:1},completedPlanets:['moon','mars','venus','acid']});assert.equal(s.level,3);assert.equal(s.gun,'burst');assert.equal(s.coins,440);assert.deepEqual(s.completedPlanets,['moon','mars']);assert.equal(C.normalizeSave(s).coins,440)});
+test('coins buy guns, level alone never grants ownership',()=>{const s=C.normalizeSave({xp:9999});assert.equal(C.canEquip(s,'wrath'),false);const g=D.guns.find(g=>g.id==='scatter');s.coins=g.cost;assert.equal(C.buyGun(s,g.id),true);assert.equal(s.coins,0);assert.equal(C.buyGun(s,g.id),false)});
+test('six worlds unlock in sequence and replays do not duplicate progress',()=>{const s=C.normalizeSave(null);assert.equal(C.completePlanet(s,'acid'),false);for(const p of D.planets){assert.equal(C.canPlayPlanet(s,p.id),true);assert.equal(C.completePlanet(s,p.id),true)}assert.equal(s.completedPlanets.length,6);C.completePlanet(s,'moon');assert.equal(s.completedPlanets.length,6)});
+test('global upgrades use gems and respect maximum rank',()=>{const s=C.normalizeSave(null);assert.equal(C.buyGlobal(s,'health'),false);s.gems=10000;for(let i=0;i<8;i++)assert.equal(C.buyGlobal(s,'health'),true);const balance=s.gems;assert.equal(C.buyGlobal(s,'health'),false);assert.equal(s.gems,balance);assert.equal(s.global.health,8)});
+test('aim and movement stay independent',()=>{assert.equal(C.aimForKey('a'),'left');assert.equal(C.aimForKey('w'),'up');assert.equal(C.aimForKey('d'),'right');assert.equal(C.movement(new Set(['a','w','d'])),0);assert.equal(C.movement(new Set(['ArrowLeft'])),-1);assert.equal(C.movement(new Set(['ArrowRight'])),1)});
+test('all weapon stats and abilities have finite supported base values',()=>{const s=C.normalizeSave(null);assert.equal(D.guns.length,20);for(const g of D.guns){const stats=C.stats(s,g.id);for(const k of ['damage','interval','projectileSpeed','cooldown','abilityPower'])assert.ok(stats[k]>0&&Number.isFinite(stats[k]),g.id+'/'+k)}});

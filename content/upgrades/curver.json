@@ -1,0 +1,14 @@
+{
+  "gunId": "curver",
+  "nodes": [
+    {"id":"t1-left","tier":1,"column":0,"name":"Elastic Chamber","description":"Bullets bounce 1 additional time.","cost":44,"effect":{"bounce":1}},
+    {"id":"t1-middle","tier":1,"column":1,"name":"Blue Pressure","description":"Add 4 damage to each bullet.","cost":40,"effect":{"damage":4}},
+    {"id":"t1-right","tier":1,"column":2,"name":"Orbital Primer","description":"Reduce Orbital Swarm cooldown by 8% of its base cooldown.","cost":42,"effect":{"abilityCooldown":0.08}},
+    {"id":"t2-left","tier":2,"column":0,"name":"Long Ricochet","description":"Bullets bounce 1 additional time and gain 40 projectile speed.","cost":96,"effect":{"bounce":1,"projectileSpeed":40}},
+    {"id":"t2-middle","tier":2,"column":1,"name":"Piercing Arc","description":"Bullets pierce 1 additional enemy and deal 4 additional damage.","cost":104,"effect":{"pierce":1,"damage":4}},
+    {"id":"t2-right","tier":2,"column":2,"name":"Orbital Engine","description":"Add 25% Orbital Swarm power and reduce its cooldown by 10% of its base cooldown.","cost":100,"effect":{"abilityPower":0.25,"abilityCooldown":0.10}},
+    {"id":"t3-lm","tier":3,"column":0,"name":"Azure Pinball","description":"Add 8 bullet damage, pierce 1 additional enemy, and gain 15% fire rate.","cost":225,"requiresPair":["left","middle"],"effect":{"damage":8,"pierce":1,"fireRate":0.15}},
+    {"id":"t3-lr","tier":3,"column":1,"name":"Satellite Storm","description":"Add 50% Orbital Swarm power, reduce its cooldown by 15% of its base cooldown, and add 4 bullet damage.","cost":230,"requiresPair":["left","right"],"effect":{"abilityPower":0.50,"abilityCooldown":0.15,"damage":4}},
+    {"id":"t3-mr","tier":3,"column":2,"name":"Blue Singularity","description":"Bullets pierce 1 additional enemy and deal 6 additional damage; add 40% Orbital Swarm power.","cost":235,"requiresPair":["middle","right"],"effect":{"pierce":1,"damage":6,"abilityPower":0.40}}
+  ]
+}

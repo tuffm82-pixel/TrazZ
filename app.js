@@ -1,268 +1,93 @@
-(() => {
-  'use strict';
-  const D = window.TrazZData, C = window.TrazZCore;
-  const $ = selector => document.querySelector(selector);
-  let raw;
-  try { raw = JSON.parse(localStorage.getItem('trazz-save')); } catch { raw = null; }
-  const save = C.normalizeSave(raw);
-  const panel = $('#panel'), content = $('#panel-content');
-  let storageWarning = false, selectedPlanet = D.planets[Math.min(save.completedPlanets.length, D.planets.length - 1)].id, selectedGun = save.gun, run = null, panelKind = '', toastTimer;
-  const keys = new Set();
-  const imageCache = new Map();
-  function persist() {
-    try { localStorage.setItem('trazz-save', JSON.stringify(save)); }
-    catch { if (!storageWarning) { storageWarning = true; toast('Browser storage is unavailable. Progress lasts for this visit.'); } }
-    updateStatus();
-  }
-  function toast(message) { $('#toast').textContent = message; $('#toast').classList.add('visible'); clearTimeout(toastTimer); toastTimer = setTimeout(() => $('#toast').classList.remove('visible'), 2800); }
-  let audio;
-  function sound(frequency = 420, duration = 0.065, volume = 0.035) {
-    if (!save.sound) return;
-    try {
-      audio ||= new (window.AudioContext || window.webkitAudioContext)();
-      if (audio.state === 'suspended') audio.resume();
-      const oscillator = audio.createOscillator(), gain = audio.createGain();
-      oscillator.type = 'triangle'; oscillator.frequency.setValueAtTime(frequency, audio.currentTime); oscillator.frequency.exponentialRampToValueAtTime(frequency * .55, audio.currentTime + duration);
-      gain.gain.setValueAtTime(volume, audio.currentTime); gain.gain.exponentialRampToValueAtTime(.001, audio.currentTime + duration);
-      oscillator.connect(gain); gain.connect(audio.destination); oscillator.start(); oscillator.stop(audio.currentTime + duration);
-    } catch { /* The game remains usable without browser audio. */ }
-  }
-  document.addEventListener('click', e => { if (e.target.closest('button:not(:disabled)')) sound(560, .045, .018); });
-  function character() { return D.characters.find(c => c.id === save.character); }
-  function characterPath(c) { return c.image || 'assets/characters/scout.svg'; }
-  function characterSprite(c) { return !c.image || c.image === 'assets/characters/scout.svg' ? 'assets/characters/scout-body.svg' : c.image; }
-  function characterFilter(c) { return c.id === 'orbit' ? 'hue-rotate(155deg)' : c.id === 'vex' ? 'hue-rotate(245deg)' : ''; }
-  function updateStatus() {
-    $('#pilot-level').textContent = String(save.level).padStart(2, '0'); $('#credit-count').textContent = save.credits;
-    const c = character(), image = $('#hero-character'); image.src = characterPath(c); image.style.filter = characterFilter(c); image.alt = `${c.name}, placeholder explorer artwork`;
-    $('#hero-name').textContent = c.name.toUpperCase();
-    $('#sound-toggle').setAttribute('aria-pressed', String(save.sound)); $('#sound-toggle').setAttribute('aria-label', save.sound ? 'Turn sound off' : 'Turn sound on');
-    $('#sound-toggle').style.opacity = save.sound ? '1' : '.45';
-    document.body.classList.toggle('motion-off', !save.motion);
-    renderPlanetCards();
-  }
-  // A missing replacement image automatically falls back to the supplied placeholder.
-  document.addEventListener('error', e => { if (e.target instanceof HTMLImageElement && !e.target.dataset.fallback) { e.target.dataset.fallback = 'true'; e.target.src = 'assets/characters/scout.svg'; } }, true);
-  function orb(p) { return `<div class="planet-orb ${p.id}" style="--planet-color:${p.color}" aria-hidden="true">${p.image ? `<img src="${p.image}" alt="">` : ''}</div>`; }
-  function planetState(p) { return save.completedPlanets.includes(p.id) ? 'CLEARED · REPLAY' : C.canPlayPlanet(save, p.id) ? 'READY TO PLAY' : 'LOCKED'; }
-  function renderPlanetCards() {
-    $('#planet-cards').innerHTML = D.planets.map((p, i) => `<button class="planet-card ${C.canPlayPlanet(save, p.id) ? '' : 'locked'}" data-planet="${p.id}" ${C.canPlayPlanet(save, p.id) ? '' : 'disabled'} aria-label="Level ${i + 1}: ${p.name}. ${planetState(p)}">${orb(p)}<span class="planet-info"><strong>${p.name}</strong><small>0${i + 1} / ${planetState(p)}</small></span><span class="mini-arrow">${save.completedPlanets.includes(p.id) ? '✓' : C.canPlayPlanet(save, p.id) ? '↗' : '⌁'}</span></button>`).join('');
-  }
-  function openPanel(kind, html, eyebrow = 'MISSION CONTROL') {
-    panelKind = kind; content.innerHTML = html; $('#panel-eyebrow').textContent = eyebrow;
-    if (!panel.open) panel.showModal();
-  }
-  function closePanel() { if (panelKind === 'pause' && run && !run.over) resume(); else panel.close(); }
-  $('.close-button').addEventListener('click', closePanel);
-  panel.addEventListener('cancel', e => { if (panelKind === 'pause') { e.preventDefault(); resume(); } });
-  panel.addEventListener('click', e => { if (e.target === panel) { const b = panel.getBoundingClientRect(); if (e.clientX < b.left || e.clientX > b.right || e.clientY < b.top || e.clientY > b.bottom) closePanel(); } });
-  $('#sound-toggle').addEventListener('click', () => { save.sound = !save.sound; persist(); });
-  $('#settings-button').addEventListener('click', showSettings);
-  function showSettings() {
-    openPanel('settings', `<h2 id="panel-title">Make yourself at home.</h2><p class="panel-description">A few little adjustments before your next adventure.</p><label class="settings-row"><span>Sound effects<small>Menu clicks, blaster shots, and cosmic collisions.</small></span><input id="setting-sound" type="checkbox" ${save.sound ? 'checked' : ''}></label><label class="settings-row"><span>Menu motion<small>Floating explorer and moving stars. Your device’s reduced motion preference is also respected.</small></span><input id="setting-motion" type="checkbox" ${save.motion ? 'checked' : ''}></label><p class="panel-description" style="margin-top:23px">Progress is saved automatically in this browser.</p>`);
-    $('#setting-sound').onchange = e => { save.sound = e.target.checked; persist(); };
-    $('#setting-motion').onchange = e => { save.motion = e.target.checked; persist(); };
-  }
-  $('#characters-button').addEventListener('click', showCharacters);
-  function showCharacters() {
-    openPanel('characters', `<h2 id="panel-title">Pick your little defender.</h2><p class="panel-description">Different personalities. The same fighting spirit. Choose your explorer.</p><div class="selection-grid">${D.characters.map(c => `<button class="selection-card ${save.character === c.id ? 'selected' : ''}" data-character="${c.id}" aria-pressed="${save.character === c.id}"><img src="${characterPath(c)}" style="filter:${characterFilter(c)}" alt="${c.name} placeholder"><small>${c.role}</small><h3>${c.name}</h3><p>${c.description}</p><span class="badge">${save.character === c.id ? 'EQUIPPED' : 'SELECT EXPLORER'}</span></button>`).join('')}</div><div class="dialog-footer"><span>All explorers share the same starting stats.</span><button class="action-button" id="character-done">READY TO GO</button></div>`, 'YOUR CREW');
-    content.querySelectorAll('[data-character]').forEach(b => b.onclick = () => { save.character = b.dataset.character; persist(); showCharacters(); });
-    $('#character-done').onclick = () => panel.close();
-  }
-  function gunArt(g) {
-    if (g.image) return `<div class="gun-art"><img src="${g.image}" alt="${g.name}"></div>`;
-    return `<div class="gun-art" style="--gun-color:${g.color}"><svg viewBox="0 0 150 90" role="img" aria-label="${g.name} placeholder"><g stroke="#101825" stroke-width="4" stroke-linejoin="round"><path d="M24 28h100l8 10-5 20H64L53 82H29l9-28H24Z" fill="#8195a0"/><path d="M16 23h108v24H16Z" fill="#c0c9c7"/><path d="M43 48h20l-9 28H33Z" fill="#4e626e"/><path d="M78 18h30v12H78Z" fill="#738892"/><path d="M122 29h18v15h-18Z" fill="#506573"/><path d="M30 31h53v8H30Z" fill="${g.color}"/><path d="M70 54v12H58" fill="none" stroke="#8195a0"/></g></svg></div>`;
-  }
-  $('#guns-button').addEventListener('click', () => { selectedGun = save.gun; showGuns(); });
-  function showGuns() {
-    const g = D.guns.find(g => g.id === selectedGun), unlocked = C.canEquip(save, g.id), rank = save.upgrades[g.id];
-    openPanel('guns', `<h2 id="panel-title">A little more firepower.</h2><p class="panel-description">Earn credits in battle. Upgrade your favorites. Give the monsters something to worry about.</p><div class="selection-grid">${D.guns.map(w => `<button class="selection-card ${selectedGun === w.id ? 'selected' : ''}" data-gun="${w.id}" aria-pressed="${selectedGun === w.id}" style="--gun-color:${w.color}">${gunArt(w)}<small>${w.type}</small><h3>${w.name}</h3><div class="stat"><span>DAMAGE</span><span>${w.damage + save.upgrades[w.id] * 6}</span></div><div class="stat-bar"><i style="width:${Math.min(100, w.damage + save.upgrades[w.id] * 6)}%"></i></div><div class="stat"><span>FIRE RATE</span><span>${(1 / w.interval).toFixed(1)}/s</span></div><div class="stat-bar"><i style="width:${Math.min(100, 11 / w.interval)}%"></i></div><p>${w.description}</p><span class="badge">${!C.canEquip(save, w.id) ? `UNLOCKS AT LEVEL ${w.level}` : save.gun === w.id ? 'EQUIPPED' : 'AVAILABLE'} · ${save.upgrades[w.id]}/5</span></button>`).join('')}</div><div class="dialog-footer"><span><b>${save.credits}</b> credits · Level ${save.level}</span><div class="action-row"><button class="action-button outline" id="upgrade-gun" ${!unlocked || rank >= 5 || save.credits < C.upgradeCost(save, g.id) ? 'disabled' : ''}>${rank >= 5 ? 'MAX UPGRADE' : `UPGRADE · ${C.upgradeCost(save, g.id)} CR`}</button><button class="action-button" id="equip-gun" ${!unlocked || save.gun === g.id ? 'disabled' : ''}>${!unlocked ? `LEVEL ${g.level} REQUIRED` : save.gun === g.id ? 'EQUIPPED' : 'EQUIP GUN'}</button></div></div>`, 'THE ARMORY');
-    content.querySelectorAll('[data-gun]').forEach(b => b.onclick = () => { selectedGun = b.dataset.gun; showGuns(); });
-    $('#equip-gun').onclick = () => { if (C.canEquip(save, g.id)) { save.gun = g.id; persist(); showGuns(); toast(`${g.name} equipped.`); } };
-    $('#upgrade-gun').onclick = () => { if (C.upgrade(save, g.id)) { persist(); showGuns(); toast(`${g.name} upgraded. +6 damage!`); } };
-  }
-  $('#play-button').addEventListener('click', () => showPlanets());
-  $('#planet-cards').addEventListener('click', e => { const button = e.target.closest('[data-planet]'); if (button) { selectedPlanet = button.dataset.planet; showPlanets(); } });
-  function showPlanets() {
-    if (!C.canPlayPlanet(save, selectedPlanet)) selectedPlanet = 'moon';
-    openPanel('planets', `<h2 id="panel-title">One planet at a time.</h2><p class="panel-description">Moon → Mars → Venus → Acid Planet. Clear ${D.wavesPerPlanet} waves and defeat the boss to unlock the next world.</p><div class="campaign-progress"><span>${save.completedPlanets.length} / ${D.planets.length} WORLDS CLEARED</span><div><i style="width:${save.completedPlanets.length / D.planets.length * 100}%"></i></div></div><div class="selection-grid level-path">${D.planets.map((p, i) => `<button class="selection-card level-card ${selectedPlanet === p.id ? 'selected' : ''} ${C.canPlayPlanet(save, p.id) ? '' : 'locked'}" data-destination="${p.id}" aria-pressed="${selectedPlanet === p.id}" ${C.canPlayPlanet(save, p.id) ? '' : 'disabled'}><span class="level-number">0${i + 1}</span>${orb(p)}<small>${p.label}</small><h3>${p.name}</h3><p>${C.canPlayPlanet(save, p.id) ? p.description : `Clear ${D.planets[i - 1].name} to unlock this world.`}</p><span class="level-state">${planetState(p)}</span></button>`).join('')}</div><div class="dialog-footer"><span>A / W / D aim · ← / → move · Space shoots</span><button class="action-button" id="launch-button">PLAY LEVEL ${D.planets.findIndex(p => p.id === selectedPlanet) + 1} · ${D.planets.find(p => p.id === selectedPlanet).name.toUpperCase()} ↗</button></div>`, 'YOUR JOURNEY / SELECT A LEVEL');
-    content.querySelectorAll('[data-destination]').forEach(b => b.onclick = () => { if (!C.canPlayPlanet(save, b.dataset.destination)) return; selectedPlanet = b.dataset.destination; showPlanets(); content.querySelector(`[data-destination="${selectedPlanet}"]`).focus(); });
-    $('#launch-button').onclick = startGame;
-  }
-  $('#how-button').addEventListener('click', () => openPanel('help', `<h2 id="panel-title">Small hero. Big fight.</h2><p class="panel-description">Start on the Moon. Clear each planet to unlock the next: Mars, Venus, then the Acid Planet.</p><ul class="instructions"><li><strong>01 / Turn your gun</strong><kbd>A</kbd> aims left, <kbd>W</kbd> aims up, and <kbd>D</kbd> aims right. Your gun keeps its last direction.</li><li><strong>02 / Move and shoot</strong>Use <kbd>←</kbd> and <kbd>→</kbd> to move. Hold <kbd>SPACE</kbd> to shoot. Touch devices have matching controls.</li><li><strong>03 / Grow stronger</strong>Defeat enemies for credits and XP. Every 200 XP earns a level. Upgrade guns in the armory; new guns unlock at levels 3 and 5.</li><li><strong>04 / Unlock the next world</strong>Clear ${D.wavesPerPlanet} waves, including the final boss, to complete a planet. Clearing a wave restores 15 health. Press <kbd>ESC</kbd> to pause.</li></ul><p class="panel-description">Artwork slots are ready for your character, planets, guns, and monsters.</p>`, 'FIELD GUIDE'));
-  // All runtime sprites use the same image slots as the menu.
-  function loadedImage(path) {
-    if (!path) return null;
-    if (!imageCache.has(path)) { const img = new Image(); img.src = path; imageCache.set(path, img); }
-    const img = imageCache.get(path); return img.complete && img.naturalWidth ? img : null;
-  }
-  if (D.background) {
-    const bg = new Image(); bg.onload = () => { $('#stars').style.background = `linear-gradient(#10182555,#10182555),url("${D.background}") center/cover`; }; bg.src = D.background;
-  }
-  const starCanvas = $('#stars'), sx = starCanvas.getContext('2d');
-  let stars = [], screenWidth = 0, screenHeight = 0;
-  function resizeStars() {
-    screenWidth = innerWidth; screenHeight = innerHeight;
-    const dpr = Math.min(devicePixelRatio || 1, 2);
-    starCanvas.width = screenWidth * dpr; starCanvas.height = screenHeight * dpr; sx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    stars = Array.from({ length: Math.min(190, Math.round(screenWidth * screenHeight / 6500)) }, () => ({ x: Math.random() * screenWidth, y: Math.random() * screenHeight, r: Math.random() * 1.05 + .25, a: Math.random() * .38 + .15, phase: Math.random() * 6 }));
-  }
-  function drawStars(time) {
-    sx.clearRect(0, 0, screenWidth, screenHeight);
-    const motion = save.motion && !matchMedia('(prefers-reduced-motion: reduce)').matches;
-    stars.forEach(s => { sx.globalAlpha = s.a + (motion ? Math.sin(time * .0006 + s.phase) * .12 : 0); sx.fillStyle = '#c6d3dc'; sx.beginPath(); sx.arc(s.x, s.y, s.r, 0, Math.PI * 2); sx.fill(); }); sx.globalAlpha = 1;
-  }
-  addEventListener('resize', resizeStars); resizeStars();
-  const canvas = $('#game'), ctx = canvas.getContext('2d'), W = 1200, H = 720, floor = 590;
-  canvas.width = W; canvas.height = H;
-  let lastTime = 0, announcementTimer = 0;
-  function announce(message, seconds = 2.2) { $('#wave-announcement').textContent = message; $('#wave-announcement').style.opacity = '1'; announcementTimer = seconds; }
-  function startGame() {
-    if (!C.canPlayPlanet(save, selectedPlanet)) { showPlanets(); return; }
-    panel.close(); panelKind = ''; keys.clear(); $('#menu').hidden = true; $('#game-screen').hidden = false;
-    run = { planet: D.planets.find(p => p.id === selectedPlanet), player: { x: W / 2, y: floor - 48, hp: 100, invincible: 0, aim: 'right' }, wave: 0, bullets: [], enemies: [], particles: [], toSpawn: 0, spawnTimer: 1, waveWait: 0, cooldown: 0, paused: false, over: false, credits: 0, kills: 0, bossSpawned: false };
-    $('#game-location').textContent = `LEVEL ${D.planets.findIndex(p => p.id === selectedPlanet) + 1} / ${run.planet.name.toUpperCase()}`; $('#health-bar').style.width = '100%'; $('#aim-label').textContent = 'AIM RIGHT'; nextWave(); canvas.focus();
-  }
-  function nextWave() {
-    run.wave++; run.spec = C.waveSpec(run.wave); run.toSpawn = run.spec.count; run.spawnTimer = 1.2; run.waveWait = 0; run.bossSpawned = false;
-    run.spec.healthScale += D.planets.findIndex(p => p.id === run.planet.id) * .2;
-    $('#wave-label').textContent = `WAVE ${run.wave} / ${D.wavesPerPlanet}`; announce(run.spec.boss ? `FINAL WAVE · BOSS INCOMING` : `WAVE ${run.wave} · STAY SHARP`);
-  }
-  function spawnEnemy(boss = false) {
-    const type = boss ? D.enemies[2] : D.enemies[Math.random() < .32 ? 1 : 0], flying = type.id === 'wisp', r = boss ? 60 : flying ? 21 : 25;
-    run.enemies.push({ ...type, x: Math.random() < .5 ? -70 : W + 70, y: flying ? 170 + Math.random() * 190 : floor - r, r, maxHp: type.health * run.spec.healthScale, hp: type.health * run.spec.healthScale, phase: Math.random() * 6 });
-  }
-  function shoot() {
-    const p = run.player, gun = D.guns.find(g => g.id === save.gun), dx = p.aim === 'left' ? -1 : p.aim === 'up' ? 0 : 1, dy = p.aim === 'up' ? -1 : 0;
-    run.bullets.push({ x: p.x + dx * 36, y: p.y - 8 + dy * 34, vx: dx * 700, vy: dy * 700, life: 2, damage: gun.damage + save.upgrades[gun.id] * 6, color: gun.color });
-    run.cooldown = gun.interval; sound(650, .07, .025);
-  }
-  function burst(x, y, color, count = 8) { for (let i = 0; i < count; i++) { const angle = Math.random() * Math.PI * 2, speed = 35 + Math.random() * 150; run.particles.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, life: .4 + Math.random() * .3, color }); } }
-  function updateGame(dt) {
-    const p = run.player;
-    p.x = Math.max(35, Math.min(W - 35, p.x + C.movement(keys) * 280 * dt));
-    p.invincible = Math.max(0, p.invincible - dt); run.cooldown -= dt;
-    if (keys.has('Space') && run.cooldown <= 0) shoot();
-    run.spawnTimer -= dt;
-    if (run.toSpawn > 0 && run.spawnTimer <= 0) { spawnEnemy(); run.toSpawn--; run.spawnTimer = Math.max(.4, 1.5 - run.wave * .06); }
-    if (!run.toSpawn && run.spec.boss && !run.bossSpawned) { spawnEnemy(true); run.bossSpawned = true; announce('THE DEVOURER HAS ARRIVED'); }
-    for (const b of run.bullets) { b.x += b.vx * dt; b.y += b.vy * dt; b.life -= dt; }
-    for (const enemy of run.enemies) {
-      enemy.phase += dt * 3;
-      const targetY = p.y, targetX = p.x, distance = Math.hypot(targetX - enemy.x, targetY - enemy.y) || 1;
-      enemy.x += (targetX - enemy.x) / distance * enemy.speed * dt;
-      if (enemy.id === 'wisp') enemy.y += (targetY - enemy.y) / distance * enemy.speed * dt;
-      for (const bullet of run.bullets) {
-        if (bullet.life > 0 && enemy.hp > 0 && Math.hypot(bullet.x - enemy.x, bullet.y - enemy.y) < enemy.r + 7) {
-          enemy.hp -= bullet.damage; bullet.life = 0; burst(bullet.x, bullet.y, bullet.color, 4);
-          if (enemy.hp <= 0) { C.reward(save, enemy.credits, enemy.xp); run.credits += enemy.credits; run.kills++; burst(enemy.x, enemy.y, enemy.id === 'boss' ? '#ff986e' : '#a8d4ae', 16); persist(); sound(130, .15, .04); }
-        }
-      }
-      if (enemy.hp > 0 && p.invincible <= 0 && Math.hypot(enemy.x - p.x, enemy.y - p.y) < enemy.r + 23) {
-        p.hp = Math.max(0, p.hp - enemy.damage); p.invincible = 1; enemy.x += enemy.x < p.x ? -40 : 40; burst(p.x, p.y, '#ff986e'); $('#health-bar').style.width = p.hp + '%'; sound(85, .18, .05);
-        if (!p.hp) { endGame(); return; }
-      }
-    }
-    run.bullets = run.bullets.filter(b => b.life > 0 && b.x > -30 && b.x < W + 30 && b.y > -30);
-    run.enemies = run.enemies.filter(e => e.hp > 0);
-    for (const p of run.particles) { p.x += p.vx * dt; p.y += p.vy * dt; p.life -= dt; }
-    run.particles = run.particles.filter(p => p.life > 0);
-    if (!run.toSpawn && !run.enemies.length) {
-      if (run.wave >= D.wavesPerPlanet) { completeLevel(); return; }
-      if (!run.waveWait) { run.waveWait = 3; p.hp = Math.min(100, p.hp + 15); $('#health-bar').style.width = p.hp + '%'; save.bestWave = Math.max(save.bestWave, run.wave); persist(); announce('WAVE CLEAR · +15 HEALTH'); }
-      run.waveWait -= dt; if (run.waveWait <= 0) nextWave();
-    }
-    announcementTimer -= dt; if (announcementTimer <= 0) $('#wave-announcement').style.opacity = '0';
-  }
-  function drawGame(time) {
-    const p = run.player, planet = run.planet;
-    const gradient = ctx.createLinearGradient(0, 0, 0, H); gradient.addColorStop(0, '#101825'); gradient.addColorStop(1, planet.sky); ctx.fillStyle = gradient; ctx.fillRect(0, 0, W, H);
-    const scenery = loadedImage(planet.background);
-    if (scenery) ctx.drawImage(scenery, 0, 0, W, H);
-    ctx.fillStyle = '#d7dfdd'; for (let i = 0; i < 90; i++) { ctx.globalAlpha = .2 + (i % 4) * .12; ctx.fillRect((i * 137.5) % W, (i * 77.3) % 520, i % 5 ? 1 : 2, i % 5 ? 1 : 2); } ctx.globalAlpha = 1;
-    ctx.fillStyle = planet.color; ctx.globalAlpha = .15; ctx.beginPath(); ctx.arc(960, 175, 95, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1;
-    ctx.fillStyle = planet.ground + '45'; ctx.beginPath(); ctx.moveTo(0, floor); for (let x = 0; x <= W; x += 60) ctx.lineTo(x, floor - 25 - Math.sin(x * .013) * 22 - Math.cos(x * .021) * 16); ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.fill();
-    ctx.fillStyle = planet.ground; ctx.fillRect(0, floor, W, H - floor); ctx.fillStyle = planet.color; ctx.fillRect(0, floor, W, 3);
-    ctx.globalAlpha = .2; ctx.fillStyle = '#101825'; for (let i = 0; i < 40; i++) { ctx.beginPath(); ctx.ellipse((i * 147) % W, floor + 18 + (i * 43) % 100, 9 + (i % 4) * 5, 3, 0, 0, Math.PI * 2); ctx.fill(); } ctx.globalAlpha = 1;
-    for (const enemy of run.enemies) drawEnemy(enemy, time);
-    if (p.invincible <= 0 || Math.floor(time / 80) % 2 === 0) {
-      const img = loadedImage(characterSprite(character()));
-      ctx.save(); ctx.translate(p.x, p.y); if (p.aim === 'left') ctx.scale(-1, 1); ctx.filter = characterFilter(character());
-      if (img) ctx.drawImage(img, -43, -55, 86, 103); else { ctx.fillStyle = character().color; ctx.fillRect(-18, -23, 36, 62); ctx.beginPath(); ctx.arc(0, -28, 28, 0, Math.PI * 2); ctx.fill(); }
-      ctx.filter = 'none'; ctx.restore();
-      const gun = D.guns.find(g => g.id === save.gun), gunImg = loadedImage(gun.image);
-      ctx.save(); ctx.translate(p.x, p.y - 8); ctx.rotate(p.aim === 'up' ? -Math.PI / 2 : p.aim === 'left' ? Math.PI : 0);
-      if (gunImg) ctx.drawImage(gunImg, 12, -12, 36, 24); else { ctx.fillStyle = '#aabcc4'; ctx.fillRect(12, -7, 29, 14); ctx.fillStyle = gun.color; ctx.fillRect(24, -4, 19, 5); } ctx.restore();
-    }
-    for (const b of run.bullets) { ctx.strokeStyle = b.color; ctx.lineWidth = 5; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(b.x, b.y); ctx.lineTo(b.x - b.vx * .018, b.y - b.vy * .018); ctx.stroke(); }
-    for (const p of run.particles) { ctx.globalAlpha = Math.min(1, p.life * 2); ctx.fillStyle = p.color; ctx.fillRect(p.x, p.y, 4, 4); } ctx.globalAlpha = 1;
-    ctx.fillStyle = '#d0d8d7'; ctx.font = '13px Consolas, monospace'; ctx.fillText(`+${run.credits} CREDITS  /  ${run.kills} DEFEATED`, 40, H - 55);
-  }
-  function drawEnemy(e, time) {
-    const img = loadedImage(e.image), bob = e.id === 'wisp' ? Math.sin(e.phase) * 5 : 0;
-    ctx.save(); ctx.translate(e.x, e.y + bob);
-    if (img) ctx.drawImage(img, -e.r, -e.r, e.r * 2, e.r * 2);
-    else {
-      const color = e.id === 'boss' ? '#b78294' : e.id === 'wisp' ? '#99cbd2' : '#a6bc86';
-      ctx.fillStyle = color; ctx.strokeStyle = '#172331'; ctx.lineWidth = 4;
-      ctx.beginPath(); ctx.ellipse(0, 0, e.r, e.r * .8, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-      if (e.id !== 'wisp') { ctx.beginPath(); ctx.moveTo(-e.r * .7, e.r * .4); ctx.lineTo(-e.r, e.r); ctx.moveTo(e.r * .7, e.r * .4); ctx.lineTo(e.r, e.r); ctx.stroke(); }
-      ctx.fillStyle = '#172331'; ctx.fillRect(-e.r * .48, -8, e.r * .25, 10); ctx.fillRect(e.r * .23, -8, e.r * .25, 10); ctx.fillStyle = '#ecf3d0'; ctx.fillRect(-e.r * .42, -8, 3, 4); ctx.fillRect(e.r * .29, -8, 3, 4);
-      if (e.id === 'boss') { ctx.fillStyle = color; ctx.beginPath(); ctx.moveTo(-40, -25); ctx.lineTo(-46, -65); ctx.lineTo(-15, -40); ctx.moveTo(40, -25); ctx.lineTo(46, -65); ctx.lineTo(15, -40); ctx.fill(); }
-    }
-    if (e.hp < e.maxHp || e.id === 'boss') { ctx.fillStyle = '#101825'; ctx.fillRect(-e.r, -e.r - 15, e.r * 2, 4); ctx.fillStyle = '#ff986e'; ctx.fillRect(-e.r, -e.r - 15, e.r * 2 * e.hp / e.maxHp, 4); }
-    ctx.restore();
-  }
-  function pause() {
-    if (!run || run.over || run.paused) return;
-    run.paused = true; keys.clear();
-    openPanel('pause', `<h2 id="panel-title">Take a breath, explorer.</h2><p class="panel-description">Your adventure will be right here.</p><div class="action-row"><button class="action-button" id="resume-button">KEEP FIGHTING</button><button class="action-button outline" id="return-menu">MAIN MENU</button></div>`, 'PAUSED / WAVE ' + run.wave);
-    $('#resume-button').onclick = resume; $('#return-menu').onclick = returnToMenu;
-  }
-  function resume() { panel.close(); panelKind = ''; if (run && !run.over) run.paused = false; keys.clear(); }
-  function returnToMenu() { panel.close(); panelKind = ''; run = null; keys.clear(); $('#game-screen').hidden = true; $('#menu').hidden = false; persist(); $('#play-button').focus(); }
-  function endGame() {
-    run.over = true; keys.clear(); persist();
-    openPanel('gameover', `<h2 id="panel-title">Every hero starts somewhere.</h2><p class="panel-description">The galaxy hasn’t seen the last of you. Your earned credits and XP are saved. Beat this planet’s boss to unlock the next world.</p><div class="run-stats"><div><strong>${run.wave}</strong><span>WAVE REACHED</span></div><div><strong>${run.kills}</strong><span>DEFEATED</span></div><div><strong>+${run.credits}</strong><span>CREDITS</span></div></div><div class="action-row"><button class="action-button" id="retry-button">RETRY THIS LEVEL ↗</button><button class="action-button outline" id="return-menu">MAIN MENU</button></div>`, 'MISSION FAILED / PILOT LEVEL ' + save.level);
-    $('#retry-button').onclick = startGame; $('#return-menu').onclick = returnToMenu;
-  }
-  function completeLevel() {
-    run.over = true; keys.clear();
-    C.completePlanet(save, run.planet.id); save.bestWave = Math.max(save.bestWave, run.wave); persist();
-    const next = D.planets[D.planets.findIndex(p => p.id === run.planet.id) + 1];
-    openPanel('victory', `<h2 id="panel-title">${run.planet.name} cleared!</h2><p class="panel-description">${next ? `Boss defeated. ${next.name} is now unlocked — your next mission is ready.` : 'Boss defeated. You made it from the Moon to the Acid Planet. Every world is now open to replay.'}</p><div class="run-stats"><div><strong>${run.wave}</strong><span>WAVES CLEARED</span></div><div><strong>${run.kills}</strong><span>DEFEATED</span></div><div><strong>+${run.credits}</strong><span>CREDITS</span></div></div><div class="action-row">${next ? `<button class="action-button" id="next-level">NEXT LEVEL · ${next.name.toUpperCase()} ↗</button>` : ''}<button class="action-button ${next ? 'outline' : ''}" id="level-select">LEVEL SELECT</button><button class="action-button outline" id="return-menu">MAIN MENU</button></div>`, next ? 'LEVEL COMPLETE / NEW WORLD UNLOCKED' : 'CAMPAIGN COMPLETE');
-    if (next) $('#next-level').onclick = () => { selectedPlanet = next.id; startGame(); };
-    $('#level-select').onclick = () => { selectedPlanet = (next || run.planet).id; returnToMenu(); showPlanets(); };
-    $('#return-menu').onclick = () => { selectedPlanet = (next || run.planet).id; returnToMenu(); };
-    sound(880, .3, .05);
-  }
-  // Closing a results dialog returns home; it cannot leave the player in a dead game.
-    panel.addEventListener('close', () => { if (run?.over && ['gameover', 'victory'].includes(panelKind)) returnToMenu(); });
-  $('#pause-button').onclick = pause;
-  function pressControl(key) {
-    if (!run || run.over || run.paused || panel.open) return;
-    keys.add(key);
-    const aim = C.aimForKey(key);
-    if (aim) { run.player.aim = aim; $('#aim-label').textContent = `AIM ${aim.toUpperCase()}`; }
-  }
-  document.addEventListener('keydown', e => {
-    const key = e.code === 'Space' ? 'Space' : e.key.length === 1 ? e.key.toLowerCase() : e.key;
-    if (e.key === 'Escape' && run && !panel.open) { e.preventDefault(); pause(); return; }
-    if (!run || panel.open || run.over) return;
-    if (['Space', 'ArrowLeft', 'ArrowRight', 'a', 'w', 'd'].includes(key)) { e.preventDefault(); pressControl(key); }
-  });
-  document.addEventListener('keyup', e => keys.delete(e.code === 'Space' ? 'Space' : e.key.length === 1 ? e.key.toLowerCase() : e.key));
-  document.querySelectorAll('[data-control]').forEach(b => {
-    b.addEventListener('pointerdown', e => { e.preventDefault(); b.setPointerCapture(e.pointerId); pressControl(b.dataset.control); });
-    for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) b.addEventListener(event, () => keys.delete(b.dataset.control));
-  });
-  addEventListener('blur', () => { keys.clear(); pause(); });
-  document.addEventListener('visibilitychange', () => { if (document.hidden) { keys.clear(); pause(); } });
-  function frame(time) {
-    const dt = Math.min(.04, (time - lastTime) / 1000 || 0); lastTime = time;
-    if (run) { if (!run.paused && !run.over) updateGame(dt); if (run) drawGame(time); }
-    else drawStars(time);
-    requestAnimationFrame(frame);
-  }
-  updateStatus(); requestAnimationFrame(frame);
+(()=>{'use strict';
+const D=window.TrazZData,C=window.TrazZCore,$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];let raw;try{raw=JSON.parse(localStorage.getItem('trazz-save'))}catch{}const save=C.normalizeSave(raw);let selectedGun=save.gun,selectedPlanet=D.planets[Math.min(save.completedPlanets.length,5)].id,filter='all',run=null,panelKind='',toastTimer;
+const panel=$('#panel'),content=$('#panel-content'),keys=new Set(),pointerKeys=new Map(),images=new Map(),rarityColors={common:'#bccbd4',uncommon:'#b9e787',rare:'#7bc3ff',epic:'#c39bff',legendary:'#ffce74',mythic:'#ff92bc'};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(s){$('#toast').textContent=s;$('#toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('visible'),3000)}
+function persist(){try{localStorage.setItem('trazz-save',JSON.stringify(save))}catch{toast('Storage unavailable: progress lasts for this visit.')}updateStatus()}
+function updateStatus(){$('#coin-count').textContent=save.coins;$('#gem-count').textContent=save.gems;$('#pilot-level').textContent=save.level;$('#equipped-name').textContent=D.guns.find(g=>g.id===save.gun).name.toUpperCase();document.body.classList.toggle('touch-on',save.touch&&(navigator.maxTouchPoints>0||matchMedia('(pointer:coarse)').matches||save.forceTouch));document.body.classList.toggle('touch-off',!save.touch)}
+let audio;function sound(freq=500,duration=.06){if(!save.sound)return;try{audio||=new(window.AudioContext||window.webkitAudioContext)();if(audio.state==='suspended')audio.resume();const o=audio.createOscillator(),a=audio.createGain();o.type='triangle';o.frequency.setValueAtTime(freq,audio.currentTime);o.frequency.exponentialRampToValueAtTime(freq*.5,audio.currentTime+duration);a.gain.setValueAtTime(.025,audio.currentTime);a.gain.exponentialRampToValueAtTime(.001,audio.currentTime+duration);o.connect(a);a.connect(audio.destination);o.start();o.stop(audio.currentTime+duration)}catch{}}
+function open(kind,title,description,html){panelKind=kind;$('#panel-eyebrow').textContent=kind==='tree'?'WEAPON ENGINEERING':kind==='planets'?'CHOOSE YOUR WORLD':'MISSION CONTROL';content.innerHTML=`<h2 id="panel-title">${title}</h2><p class="panel-description">${description}</p>${html}`;if(!panel.open)panel.showModal();panel.scrollTop=0}
+function clearInput(){keys.clear();pointerKeys.clear();$$('[data-control]').forEach(b=>b.classList.remove('held'))}
+function close(){if(panelKind==='pause'&&run&&!run.over){run.paused=false;clearInput()}else if(panelKind==='result'){goHome();return}panel.close()}
+$('#close-panel').onclick=close;panel.addEventListener('cancel',e=>{e.preventDefault();close()});
+const gunArt=g=>`<div class="gun-art"><img src="${window.TrazZAssets?.[g.image]||g.image}" alt="${esc(g.name)}"></div>`;
+function showGuns(){const g=D.guns.find(g=>g.id===selectedGun),owned=C.canEquip(save,g.id);open('guns','Choose your firepower.','Buy the gun you want with coins earned in battle. Every gun has its own ability. No rolls. No surprises.',`<div class="filter-row">${['all','common','uncommon','rare','epic','legendary','mythic'].map(r=>`<button data-filter="${r}" class="${filter===r?'active':''}">${r.toUpperCase()}</button>`).join('')}</div><div class="detail-strip">${gunArt(g)}<div><small class="rarity" style="--rarity:${rarityColors[g.rarity]}">${g.rarity.toUpperCase()}</small><h3>${esc(g.name)}</h3><p>${esc(g.description)} <b>${Math.round(g.damage)} DMG · ${(1/g.interval).toFixed(1)} shots/sec</b></p><p>✦ ${esc(g.ability.name)} · ${g.ability.cooldown}s cooldown. ${esc(g.ability.description)}</p></div></div><div class="selection-grid">${D.guns.filter(g=>filter==='all'||g.rarity===filter).map(w=>`<button data-gun="${w.id}" class="selection-card ${w.id===g.id?'selected':''}" style="--rarity:${rarityColors[w.rarity]}">${gunArt(w)}<small class="rarity">${w.rarity.toUpperCase()}</small><h3>${esc(w.name)}</h3><span class="badge">${save.gun===w.id?'EQUIPPED':C.canEquip(save,w.id)?'OWNED':'◈ '+w.cost+' COINS'}</span></button>`).join('')}</div><div class="dialog-footer"><span>◈ ${save.coins} coins · ◆ ${save.gems} gems</span><div class="action-row"><button id="gun-tree" class="action-button outline" ${owned?'':'disabled'}>UPGRADE TREE ↗</button><button id="gun-buy" class="action-button" ${owned?save.gun===g.id?'disabled':'':save.coins<g.cost?'disabled':''}>${owned?save.gun===g.id?'EQUIPPED':'EQUIP':'BUY · ◈ '+g.cost}</button></div></div>`);$$('[data-gun]').forEach(b=>b.onclick=()=>{selectedGun=b.dataset.gun;showGuns()});$$('[data-filter]').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;if(filter!=='all'&&D.guns.find(g=>g.id===selectedGun).rarity!==filter)selectedGun=D.guns.find(g=>g.rarity===filter).id;showGuns()});$('#gun-buy').onclick=()=>{if(!owned&&!C.buyGun(save,g.id))return;save.gun=g.id;persist();showGuns();toast(g.name+' equipped')};$('#gun-tree').onclick=()=>showTree(g.id)}
+function showTree(id=selectedGun){selectedGun=id;const g=D.guns.find(g=>g.id===id),b=save.trees[id],nodes=g.upgradeTree.nodes;open('tree',g.name+' / upgrade path.','A 3 × 3 build: buy all 3 in the first column → choose 2 in the middle → unlock 1 final upgrade matching that pair. All upgrades cost gems.',`<div class="upgrade-layout"><aside><select id="tree-gun" aria-label="Choose owned gun">${D.guns.filter(g=>C.canEquip(save,g.id)).map(w=>`<option value="${w.id}" ${w.id===id?'selected':''}>${esc(w.name)}</option>`).join('')}</select>${gunArt(g)}<p class="panel-description">${esc(g.ability.description)}</p><span class="badge">◆ ${save.gems} GEMS · ${b.length} / 6 NODES</span><p class="panel-description">Options are numbered top to bottom: 1, 2, 3. Your two middle choices determine your final option.</p><button id="reset-tree" class="action-button outline" ${b.length?'':'disabled'}>RESET · FULL GEM REFUND</button></aside><div><div class="upgrade-labels"><span>01 / BUY ALL THREE</span><span>02 / CHOOSE TWO</span><span>03 / YOUR FINAL UPGRADE</span></div><div class="upgrade-grid">${nodes.map(n=>`<button class="upgrade-node ${b.includes(n.id)?'bought':''}" data-node="${n.id}" style="grid-column:${n.tier};grid-row:${n.column+1}" ${C.canBuyNode(save,id,n.id)?'':'disabled'}><strong>${esc(n.name)}</strong><p>${esc(n.description)}</p>${n.requiresPair?`<p>PAIR ${n.requiresPair.map(k=>({left:1,middle:2,right:3})[k]).join(' + ')}</p>`:''}<small>${b.includes(n.id)?'✓ INSTALLED':'◆ '+n.cost+' GEMS'}</small></button>`).join('')}</div></div></div><div class="dialog-footer"><span>Build freely: resetting refunds every gem spent on this gun.</span><button id="tree-back" class="action-button outline">BACK TO GUNS</button></div>`);$('#tree-gun').onchange=e=>showTree(e.target.value);$$('[data-node]').forEach(b=>b.onclick=()=>{if(C.buyNode(save,id,b.dataset.node)){persist();showTree(id);sound(800)}});$('#reset-tree').onclick=()=>{C.resetTree(save,id);persist();showTree(id);toast('Build reset. All gems refunded.')};$('#tree-back').onclick=showGuns}
+function showUpgrades(){open('upgrades','Make every run count.','Permanent suit upgrades apply to every gun. Shoot purple crystals during battles to collect gems.',`<div class="global-grid">${D.globalUpgrades.map(u=>`<div class="global-card"><h3>${u.name} <small>${save.global[u.id]}/${u.max}</small></h3><p>${u.description}</p><button data-global="${u.id}" class="action-button" ${save.global[u.id]>=u.max||save.gems<C.globalCost(save,u.id)?'disabled':''}>${save.global[u.id]>=u.max?'MAXED':'◆ '+C.globalCost(save,u.id)+' GEMS'}</button></div>`).join('')}</div><h3>Weapon engineering</h3><p class="panel-description">Pick an owned gun to build its unique nine-option upgrade tree.</p><div class="selection-grid">${D.guns.filter(g=>C.canEquip(save,g.id)).map(g=>`<button class="selection-card" data-tree="${g.id}">${gunArt(g)}<h3>${g.name}</h3><span class="badge">${save.trees[g.id].length}/6 INSTALLED ↗</span></button>`).join('')}</div>`);$$('[data-global]').forEach(b=>b.onclick=()=>{if(C.buyGlobal(save,b.dataset.global)){persist();showUpgrades();toast('Permanent upgrade installed')}});$$('[data-tree]').forEach(b=>b.onclick=()=>showTree(b.dataset.tree))}
+function showArmour(){open('armour','A tougher little duck.','Buy armour with coins. Equipped armour adds health and reduces incoming damage.',`<div class="selection-grid">${D.armours.map(a=>`<button class="selection-card ${save.armour===a.id?'selected':''}" data-armour="${a.id}" style="--armour:${a.color}"><div class="armour-art">⬡</div><h3>${a.name}</h3><p>+${a.health} health<br>${Math.round(a.reduction*100)}% damage reduction</p><span class="badge">${save.armour===a.id?'EQUIPPED':save.ownedArmour.includes(a.id)?'EQUIP':'BUY · ◈ '+a.cost}</span></button>`).join('')}</div><div class="dialog-footer">◈ ${save.coins} coins available</div>`);$$('[data-armour]').forEach(b=>b.onclick=()=>{const a=D.armours.find(a=>a.id===b.dataset.armour);if(!save.ownedArmour.includes(a.id)){if(save.coins<a.cost){toast('Earn more coins in battle first.');return}save.coins-=a.cost;save.ownedArmour.push(a.id)}save.armour=a.id;persist();showArmour();toast(a.name+' equipped')})}
+function showSettings(){open('settings','Ready for your next mission.','Progress saves automatically in this browser. iPad: landscape gives the widest view.',`<label class="settings-row"><span>Sound effects<small>Blaster shots, crystals and menu feedback.</small></span><input id="setting-sound" type="checkbox" ${save.sound?'checked':''}></label><label class="settings-row"><span>Background motion<small>Turn off twinkling stars.</small></span><input id="setting-motion" type="checkbox" ${save.motion?'checked':''}></label><label class="settings-row"><span>Show touch controls<small>Multi-touch buttons for movement, aim, fire and abilities.</small></span><input id="setting-touch" type="checkbox" ${save.touch?'checked':''}></label><div class="dialog-footer"><button id="fullscreen" class="action-button outline">FULLSCREEN</button><span>Safari → Share → Add to Home Screen.</span></div>`);$('#setting-sound').onchange=e=>{save.sound=e.target.checked;persist()};$('#setting-motion').onchange=e=>{save.motion=e.target.checked;persist()};$('#setting-touch').onchange=e=>{save.touch=e.target.checked;save.forceTouch=e.target.checked;persist()};$('#fullscreen').onclick=()=>{if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(()=>toast('Use Add to Home Screen in Safari.'));else toast('Use Add to Home Screen in Safari.')}}
+const orb=p=>`<div class="planet-orb" style="--planet-color:${p.color}"></div>`;
+function showPlanets(){open('planets','Pick your next landing.','Six worlds from your paper. Clear five waves and defeat the boss to unlock the next destination.',`<div class="campaign-progress">${save.completedPlanets.length} / 6 WORLDS CLEARED<div><i style="width:${save.completedPlanets.length/6*100}%"></i></div></div><div class="selection-grid level-path">${D.planets.map((p,i)=>`<button class="selection-card level-card ${selectedPlanet===p.id?'selected':''} ${C.canPlayPlanet(save,p.id)?'':'locked'}" data-planet="${p.id}" ${C.canPlayPlanet(save,p.id)?'':'disabled'}><span class="level-number">0${i+1}</span>${orb(p)}<h3>${p.name}</h3><p>${p.description}</p><span class="level-state">${save.completedPlanets.includes(p.id)?'✓ CLEARED · REPLAY':C.canPlayPlanet(save,p.id)?'READY TO LAUNCH':'CLEAR '+D.planets[Math.max(0,i-1)].name.toUpperCase()}</span></button>`).join('')}</div><div class="dialog-footer"><span>Defeat monsters for coins. Shoot crystals for gems.</span><button id="launch" class="action-button">LAUNCH · ${D.planets.find(p=>p.id===selectedPlanet).name.toUpperCase()} ↗</button></div>`);$$('[data-planet]').forEach(b=>b.onclick=()=>{selectedPlanet=b.dataset.planet;showPlanets()});$('#launch').onclick=startGame}
+$('#guns-button').onclick=showGuns;$('#play-button').onclick=showPlanets;$('#upgrades-button').onclick=showUpgrades;$('#armour-button').onclick=showArmour;$('#settings-button').onclick=showSettings;$('#how-button').onclick=()=>open('help','Small duck. Big fight.','Grow your arsenal and travel from Moon Base to the Acid Planet.',`<ul class="instructions"><li><b>Move:</b> ← / → arrows. Touch: MOVE buttons.</li><li><b>Aim:</b> A = left, W = up, D = right. Aim stays where you pointed it.</li><li><b>Fire:</b> hold Space or FIRE. <b>Ability:</b> E or ✦.</li><li><b>Coins:</b> monsters reward coins automatically. Buy guns and armour directly.</li><li><b>Gems:</b> shoot glowing purple crystals. Spend gems on suit and gun upgrades.</li><li><b>Build:</b> buy all three first-column upgrades, choose two middle upgrades, then buy the matching final upgrade.</li><li><b>Pause:</b> Escape or Ⅱ. A boss awaits on wave 5.</li></ul>`);
+document.addEventListener('click',e=>{if(e.target.closest('button:not(:disabled)'))sound(560,.035)});
+function image(path){if(!images.has(path)){const i=new Image();i.src=window.TrazZAssets?.[path]||path;images.set(path,i)}const i=images.get(path);return i.complete&&i.naturalWidth?i:null}
+const starCanvas=$('#stars'),sx=starCanvas.getContext('2d');let stars=[];function resizeStars(){starCanvas.width=innerWidth;starCanvas.height=innerHeight;stars=Array.from({length:Math.min(160,innerWidth*innerHeight/6000)},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,a:.15+Math.random()*.4,r:.3+Math.random()*1.1,p:Math.random()*6}))}addEventListener('resize',resizeStars);resizeStars();
+const canvas=$('#game'),ctx=canvas.getContext('2d'),W=1200,H=720,floor=580;canvas.width=W;canvas.height=H;let announcement=0,time=0,last=0;
+function announce(s,d=2.3){$('#wave-announcement').textContent=s;announcement=d;$('#wave-announcement').style.opacity='1'}
+function startGame(){if(!C.canPlayPlanet(save,selectedPlanet))return;panel.close();clearInput();$('#menu').hidden=true;$('#game-screen').hidden=false;const armour=D.armours.find(a=>a.id===save.armour),stats=C.stats(save),maxHp=100+save.global.health*15+armour.health+stats.effects.health;run={planet:D.planets.find(p=>p.id===selectedPlanet),index:D.planets.findIndex(p=>p.id===selectedPlanet),player:{x:W/2,y:floor-87,hp:maxHp,maxHp,aim:'right',invincible:0,shield:Math.max(0,stats.effects.shield)},armour,gun:stats,wave:0,enemies:[],bullets:[],particles:[],crystals:[],fields:[],toSpawn:0,spawnTimer:0,crystalTimer:4,cooldown:0,abilityCd:0,abilityTime:0,abilityType:'',paused:false,over:false,coins:0,gems:0,kills:0,waveWait:0,bossSpawned:false,clock:0,uid:0};$('#game-location').textContent=run.planet.name.toUpperCase();nextWave();canvas.focus();updateHud()}
+function nextWave(){run.wave++;run.spec=C.waveSpec(run.wave);run.toSpawn=run.spec.count;run.spawnTimer=1;run.bossSpawned=false;run.waveWait=0;run.crystals.push({x:180+Math.random()*840,y:floor-115,r:21,hp:18,gems:3+run.index});$('#wave-label').textContent=`WAVE ${run.wave} / 5`;announce(run.wave===5?'BOSS WAVE · HOLD THE LINE':`WAVE ${run.wave} · SHOOT CRYSTALS FOR GEMS`)}
+function spawnEnemy(boss=false){const flying=!boss&&Math.random()<.33,r=boss?80:flying?22:60,health=(boss?650:flying?30:48)*run.spec.healthScale*(1+run.index*.3);run.enemies.push({id:++run.uid,boss,flying,x:Math.random()<.5?-60:W+60,y:flying?160+Math.random()*210:floor-r,r,hp:health,maxHp:health,speed:(boss?19:flying?49:34)+run.index*4,damage:boss?26:11,coins:boss?100+run.index*25:10+run.index*3,xp:boss?150:18,phase:Math.random()*6,freeze:0,slow:0,burn:0,burnPower:0,poison:0,poisonPower:0,dead:false})}
+function burst(x,y,color,count=9){for(let i=0;i<count;i++){const a=Math.random()*Math.PI*2,v=40+Math.random()*140;run.particles.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:.35+Math.random()*.4,color})}}
+function damage(e,amount){if(e.dead)return;e.hp-=amount;if(e.hp<=0){e.dead=true;C.reward(save,e.coins,e.xp);run.coins+=e.coins;run.kills++;burst(e.x,e.y,e.boss?'#ffbd7a':'#b4dfb1',e.boss?28:12);if(Math.random()<.17)run.crystals.push({x:Math.max(65,Math.min(W-65,e.x)),y:floor-115,r:19,hp:20,gems:2});sound(160,.09);persist()}}
+function area(x,y,r,amount,except=null){for(const e of run.enemies)if(e!==except&&!e.dead&&Math.hypot(e.x-x,e.y-y)<r+e.r)damage(e,amount)}
+function shoot(){const p=run.player,g=run.gun,ability=run.abilityTime>0,n=Math.min(18,g.pellets+(ability&&run.abilityType==='triple'?Math.ceil(g.abilityPower):0)),base=p.aim==='left'?Math.PI:p.aim==='up'?-Math.PI/2:0;for(let i=0;i<n;i++){const spread=g.mechanic==='burst'?.035:g.mechanic==='triple'?.075:n>1?.13:0,a=base+(i-(n-1)/2)*spread,v=g.projectileSpeed;run.bullets.push({x:p.x+Math.cos(base)*126,y:p.y-28+Math.sin(base)*126,vx:Math.cos(a)*v,vy:Math.sin(a)*v,damage:g.damage*(ability?1+g.abilityPower*.12:1),life:3.4,color:g.color,pierce:g.pierce+(ability&&run.abilityType==='pierce'?5:0),bounce:g.bounce+(ability&&run.abilityType==='bounce'?Math.ceil(g.abilityPower*2):0),hit:new Set(),r:g.mechanic==='heavy'?8:g.mechanic==='bow'?6:4})}run.cooldown=g.interval/(ability&&run.abilityType==='rapid'?1.5+g.abilityPower*.6:1);sound(g.mechanic==='heavy'?190:650,.045)}
+function abilityBullet(angle,power=1,extra={}){const p=run.player,g=run.gun;run.bullets.push({x:p.x,y:p.y-28,vx:Math.cos(angle)*g.projectileSpeed,vy:Math.sin(angle)*g.projectileSpeed,damage:g.damage*power,life:3.5,color:g.color,r:7,pierce:2,bounce:0,hit:new Set(),...extra})}
+function useAbility(){if(!run||run.over||run.paused||run.abilityCd>0)return;const g=run.gun,t=g.ability.type,power=g.abilityPower,p=run.player;run.abilityCd=g.cooldown;run.abilityTime=g.ability.duration;run.abilityType=t;announce(g.ability.name.toUpperCase(),1.3);sound(950,.22);
+switch(g.id){
+case 'pulse':p.invincible=Math.max(p.invincible,.8);break;
+case 'scatter':for(let i=0;i<18;i++)abilityBullet(Math.PI*2*i/18,power,{pierce:0});break;
+case 'burst':for(let i=-1;i<=1;i++)abilityBullet((p.aim==='left'?Math.PI:p.aim==='up'?-Math.PI/2:0)+i*.04,power*2,{pierce:4});break;
+case 'ricochet':for(let i=0;i<6;i++)abilityBullet(-Math.PI+i*Math.PI/5,power,{bounce:Math.ceil(power*2)});break;
+case 'ember':run.fields.push({x:p.x,y:p.y,life:5,r:220,power,kind:'burn'});break;
+case 'frost':for(const e of run.enemies)if(Math.hypot(e.x-p.x,e.y-p.y)<370){e.freeze=2+power;damage(e,g.damage*power)}break;
+case 'arc':area(p.x,p.y,1000,g.damage*power*2.5);burst(p.x,p.y,g.color,45);break;
+case 'venom':run.fields.push({x:p.x,y:p.y,life:7,r:290,power,kind:'poison'});break;
+case 'rail':abilityBullet(p.aim==='left'?Math.PI:p.aim==='up'?-Math.PI/2:0,power*3,{pierce:20,r:10});break;
+case 'gravity':run.fields.push({x:p.x,y:p.y-50,life:g.ability.duration,r:450,power,kind:'pull'});break;
+case 'solar':area(p.x,p.y,440,g.damage*power*2.5);for(const e of run.enemies){if(Math.hypot(e.x-p.x,e.y-p.y)<500){e.burn=4;e.burnPower=g.damage*power*.3}}burst(p.x,p.y,g.color,45);break;
+case 'meteor':for(let i=0;i<7;i++)run.bullets.push({x:Math.random()*W,y:31+Math.random()*60,vx:0,vy:700,life:3,damage:g.damage*power,color:g.color,r:12,pierce:1,bounce:0,hit:new Set(),meteor:true});break;
+case 'wrath':for(let i=0;i<14;i++)abilityBullet(i*Math.PI*2/14,power,{pierce:1});break;
+case 'freezepistol':for(const e of run.enemies){e.freeze=2+power;damage(e,g.damage*power*.65)}break;
+case 'laze':for(const e of run.enemies){e.burn=g.ability.duration+power;e.burnPower=g.damage*power*.8}break;
+case 'triangulox':for(let i=0;i<3;i++){const x=p.x+Math.cos(-Math.PI/2+i*Math.PI*2/3)*210,y=p.y+Math.sin(-Math.PI/2+i*Math.PI*2/3)*120;area(x,y,260,g.damage*power*1.4);burst(x,y,g.color,25)}break;
+case 'vstruk':for(let i=-1;i<=1;i++)abilityBullet((p.aim==='left'?Math.PI:p.aim==='up'?-Math.PI/2:0)+i*.22,power*2,{pierce:3});break;
+case 'curver':for(let i=0;i<9;i++)abilityBullet(i*Math.PI*2/9,power,{bounce:8,life:6});break;
+case 'glockbow':for(let i=-2;i<=2;i++)abilityBullet((p.aim==='left'?Math.PI:p.aim==='up'?-Math.PI/2:0)+i*.12,power,{pierce:8,r:6});break;
+case 'glacierar':for(let i=0;i<15;i++)abilityBullet(-Math.PI+i*Math.PI/14,power,{freeze:1.4,life:3});break;
+}}
+function hitEnemy(e,b){const g=run.gun,ef=g.effects;let d=b.damage;if(Math.random()<ef.crit)d*=2;damage(e,d);burst(b.x,b.y,b.color,4);if(g.mechanic==='freeze'||g.mechanic==='ice'||ef.freeze||b.freeze)e.freeze=Math.max(e.freeze,ef.freeze+(b.freeze||0)+(g.mechanic==='freeze'?1.3:g.mechanic==='ice'?.2:0));if(g.mechanic==='slow')e.slow=2;if(g.mechanic==='burn'||run.abilityTime>0&&run.abilityType==='burn'||ef.burn){e.burn=3;e.burnPower=Math.max(e.burnPower,g.damage*.35+ef.burn)}if(g.mechanic==='poison'){e.poison=4;e.poisonPower=g.damage*.65}if(g.mechanic==='explosive'||g.mechanic==='heavy'||b.meteor)area(e.x,e.y,b.meteor?170:90,d*.6,e);if(g.mechanic==='pull')run.fields.push({x:e.x,y:e.y,life:1.1,r:170,power:1,kind:'pull'});let jumps=(g.mechanic==='chain'?2:0)+Math.floor(ef.chain);if(jumps){const next=run.enemies.filter(o=>o!==e&&!o.dead&&Math.hypot(o.x-e.x,o.y-e.y)<250).slice(0,jumps);for(const o of next){damage(o,d*.6);for(let i=0;i<8;i++)run.particles.push({x:e.x+(o.x-e.x)*i/8,y:e.y+(o.y-e.y)*i/8,vx:0,vy:0,life:.15,color:'#cdb3ff'})}}if(ef.lifesteal)run.player.hp=Math.min(run.player.maxHp,run.player.hp+d*ef.lifesteal)}
+function update(dt){const p=run.player,g=run.gun;run.clock+=dt;p.x=Math.max(140,Math.min(W-140,p.x+C.movement(keys)*280*dt));p.invincible=Math.max(0,p.invincible-dt);run.cooldown-=dt;run.abilityCd=Math.max(0,run.abilityCd-dt);run.abilityTime=Math.max(0,run.abilityTime-dt);if(keys.has('Space')&&run.cooldown<=0)shoot();run.spawnTimer-=dt;if(run.toSpawn>0&&run.spawnTimer<=0){spawnEnemy();run.toSpawn--;run.spawnTimer=Math.max(.45,1.25-run.wave*.1)}if(!run.toSpawn&&run.spec.boss&&!run.bossSpawned){spawnEnemy(true);run.bossSpawned=true;announce('THE DEVOURER HAS LANDED',2)}run.crystalTimer-=dt;if(run.crystalTimer<=0&&run.crystals.length<4){run.crystalTimer=7;run.crystals.push({x:80+Math.random()*1040,y:Math.random()<.4?200+Math.random()*130:floor-115,r:20,hp:20,gems:2+run.index})}
+for(const f of run.fields){f.life-=dt;for(const e of run.enemies){const dx=f.x-e.x,dy=f.y-e.y,dist=Math.hypot(dx,dy)||1;if(dist<f.r&&!e.dead){if(f.kind==='pull'){e.x+=dx/dist*160*dt;if(e.flying)e.y+=dy/dist*160*dt;}else{e[f.kind]=Math.max(e[f.kind],1.5);e[f.kind+'Power']=g.damage*f.power*.4;}damage(e,g.damage*f.power*.5*dt)}}}run.fields=run.fields.filter(f=>f.life>0);
+for(const e of run.enemies){if(e.dead)continue;e.phase+=dt*3;e.freeze=Math.max(0,e.freeze-dt);e.slow=Math.max(0,e.slow-dt);if(e.burn>0){e.burn-=dt;damage(e,e.burnPower*dt)}if(e.poison>0){e.poison-=dt;damage(e,e.poisonPower*dt)}if(e.freeze<=0){const dx=p.x-e.x,dy=p.y-e.y,dist=Math.hypot(dx,dy)||1;e.x+=dx/dist*e.speed*dt*(e.slow>0?.4:1);if(e.flying)e.y+=dy/dist*e.speed*dt*(e.slow>0?.4:1)}if(!e.dead&&p.invincible<=0&&Math.hypot(e.x-p.x,e.y-p.y)<e.r+54){let amount=e.damage*(1-run.armour.reduction);if(p.shield>0){const absorbed=Math.min(p.shield,amount);p.shield-=absorbed;amount-=absorbed}p.hp-=amount;p.invincible=.85;burst(p.x,p.y,'#ff9a88',12);e.x+=e.x<p.x?-40:40;if(p.hp<=0){finish(false);return}}}
+for(const b of run.bullets){if(g.mechanic==='curve'){const target=run.enemies.filter(e=>!e.dead&&!b.hit.has(e.id)).sort((a,c)=>Math.hypot(a.x-b.x,a.y-b.y)-Math.hypot(c.x-b.x,c.y-b.y))[0];if(target){const a=Math.atan2(target.y-b.y,target.x-b.x),v=Math.hypot(b.vx,b.vy),turn=Math.min(1,dt*1.8);b.vx+=(Math.cos(a)*v-b.vx)*turn;b.vy+=(Math.sin(a)*v-b.vy)*turn}}
+const steps=Math.max(1,Math.ceil(Math.hypot(b.vx,b.vy)*dt/14));for(let step=0;step<steps&&b.life>0;step++){b.x+=b.vx*dt/steps;b.y+=b.vy*dt/steps;if(b.x<8||b.x>W-8||b.y<30||b.y>floor-5){if(b.bounce>0){if(b.x<8||b.x>W-8)b.vx*=-1;if(b.y<30||b.y>floor-5)b.vy*=-1;b.x=Math.max(8,Math.min(W-8,b.x));b.y=Math.max(30,Math.min(floor-5,b.y));b.bounce--}else if(b.y>floor&&b.meteor){area(b.x,floor,170,b.damage);burst(b.x,floor,b.color,20);b.life=0}else if(b.x<-20||b.x>W+20||b.y<-20||b.y>H+20)b.life=0}
+for(const crystal of run.crystals){if(crystal.hp>0&&Math.hypot(b.x-crystal.x,b.y-crystal.y)<crystal.r+b.r){crystal.hp-=b.damage;b.life=0;burst(crystal.x,crystal.y,'#d5aeff',5);if(crystal.hp<=0){save.gems+=crystal.gems;run.gems+=crystal.gems;burst(crystal.x,crystal.y,'#d5aeff',20);persist();sound(1200,.12)}break}}if(b.life<=0)break;for(const e of run.enemies){if(!e.dead&&!b.hit.has(e.id)&&Math.hypot(b.x-e.x,b.y-e.y)<e.r+b.r){b.hit.add(e.id);hitEnemy(e,b);if(b.pierce>0)b.pierce--;else b.life=0;break}}}b.life-=dt}
+run.bullets=run.bullets.filter(b=>b.life>0);run.crystals=run.crystals.filter(c=>c.hp>0);run.enemies=run.enemies.filter(e=>!e.dead);for(const p of run.particles){p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=160*dt;p.life-=dt}run.particles=run.particles.filter(p=>p.life>0);if(!run.toSpawn&&!run.enemies.length&&(!run.spec.boss||run.bossSpawned)){run.waveWait+=dt;if(run.waveWait>2){if(run.wave===5){finish(true);return}p.hp=Math.min(p.maxHp,p.hp+20);nextWave()}}updateHud()}
+function updateHud(){if(!run)return;const p=run.player;$('#health-bar').style.width=Math.max(0,p.hp/p.maxHp*100)+'%';$('#health-label').textContent=`HEALTH ${Math.ceil(Math.max(0,p.hp))} / ${p.maxHp}${p.shield>0?' · SHIELD '+Math.ceil(p.shield):''}`;$('#run-money').textContent=`◈ +${run.coins} COINS · ◆ +${run.gems} GEMS`;$('#aim-label').textContent='AIM '+p.aim.toUpperCase();$('#ability-status').textContent=`✦ ${run.gun.ability.name.toUpperCase()} · ${run.abilityCd>0?Math.ceil(run.abilityCd)+'s':'READY · E'}`;const btn=$('[data-control="E"]');if(btn)btn.style.opacity=run.abilityCd>0?'.5':'1'}
+function finish(won){if(run.over)return;run.over=true;clearInput();if(won){const fresh=!save.completedPlanets.includes(run.planet.id);C.completePlanet(save,run.planet.id);if(fresh){C.reward(save,150+run.index*50,100);save.gems+=15;run.coins+=150+run.index*50;run.gems+=15}}save.bestWave=Math.max(save.bestWave,run.wave);persist();open('result',won?'WORLD CLEARED.':'SUIT OFFLINE.',won?`${run.planet.name} is safe. ${run.index<5?'Your next destination is unlocked.':'You defended all six worlds. The galaxy owes you one.'}`:'Your earned coins, gems and experience are saved. Upgrade your loadout and take another shot.',`<div class="global-grid"><div class="global-card"><h3>◈ ${run.coins}</h3><p>COINS EARNED</p></div><div class="global-card"><h3>◆ ${run.gems}</h3><p>GEMS EARNED</p></div><div class="global-card"><h3>${run.kills}</h3><p>MONSTERS DEFEATED</p></div></div><div class="dialog-footer"><button id="return-home" class="action-button outline">MAIN MENU</button><button id="retry" class="action-button">${won&&run.index<5?'NEXT WORLD ↗':'PLAY AGAIN ↗'}</button></div>`);$('#return-home').onclick=goHome;$('#retry').onclick=()=>{if(won&&run.index<5)selectedPlanet=D.planets[run.index+1].id;startGame()}}
+function goHome(){run=null;clearInput();panel.close();$('#game-screen').hidden=true;$('#menu').hidden=false;updateStatus()}
+function pause(){if(!run||run.over||run.paused)return;run.paused=true;clearInput();open('pause','Take a breather.','Your mission is paused. Coins and gems already earned are saved.',`<div class="action-row"><button id="resume" class="action-button">RESUME ▶</button><button id="quit" class="action-button outline">RETURN TO MENU</button></div>`);$('#resume').onclick=close;$('#quit').onclick=goHome}$('#pause-button').onclick=pause;
+function input(code,down){if(!run||run.over||run.paused)return;const aim=C.aimForKey(code.toLowerCase());if(down&&aim)run.player.aim=aim;if(down&&code==='E')useAbility();if(down)keys.add(code);else keys.delete(code);updateHud()}
+addEventListener('keydown',e=>{if(!run)return;const code=e.code==='Space'?'Space':e.key.length===1?e.key.toLowerCase()==='e'?'E':e.key.toLowerCase():e.key;if(['Space','ArrowLeft','ArrowRight','a','w','d','E','Escape'].includes(code)){e.preventDefault();if(code==='Escape'){if(run.paused)close();else pause();return}input(code,true)}});addEventListener('keyup',e=>{const code=e.code==='Space'?'Space':e.key.length===1?e.key.toLowerCase()==='e'?'E':e.key.toLowerCase():e.key;input(code,false)});addEventListener('blur',pause);document.addEventListener('visibilitychange',()=>{if(document.hidden)pause()});
+$$('[data-control]').forEach(b=>{b.addEventListener('pointerdown',e=>{e.preventDefault();b.setPointerCapture(e.pointerId);pointerKeys.set(e.pointerId,b.dataset.control);b.classList.add('held');input(b.dataset.control,true)});const up=e=>{e.preventDefault();const code=pointerKeys.get(e.pointerId);pointerKeys.delete(e.pointerId);if(code&&![...pointerKeys.values()].includes(code))input(code,false);b.classList.remove('held')};b.addEventListener('pointerup',up);b.addEventListener('pointercancel',up);b.addEventListener('lostpointercapture',up);b.addEventListener('contextmenu',e=>e.preventDefault())});
+function polygon(points,fill,stroke){ctx.beginPath();points.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.closePath();ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.stroke()}}
+function drawWorld(){const p=run.planet;ctx.fillStyle=p.sky;ctx.fillRect(0,0,W,H);for(let i=0;i<75;i++){ctx.fillStyle=i%4?'#c9d4ed77':'#ffffffbb';ctx.fillRect((i*137.3)%W,(i*73.7)%440,i%4?1:2,i%4?1:2)}const halo=ctx.createRadialGradient(900,130,10,900,130,360);halo.addColorStop(0,p.color+'33');halo.addColorStop(1,p.color+'00');ctx.fillStyle=halo;ctx.fillRect(0,0,W,H);ctx.fillStyle=p.color+'55';ctx.beginPath();ctx.arc(970,130,58,0,Math.PI*2);ctx.fill();
+if(p.id==='moon'){polygon([[0,floor],[0,490],[120,440],[240,470],[360,405],[520,460],[680,420],[880,470],[1020,400],[1200,470],[1200,floor]],'#39475f');ctx.fillStyle='#455771';ctx.fillRect(90,432,150,148);ctx.fillStyle='#8da7bd';ctx.fillRect(110,450,40,25);ctx.fillRect(170,450,40,25);ctx.fillStyle='#c7f58c';ctx.fillRect(127,507,65,6);ctx.strokeStyle='#91adc2';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(1060,580);ctx.lineTo(1060,405);ctx.lineTo(1100,425);ctx.stroke()}
+else if(p.id==='mars'||p.id==='volcanic'){for(let i=0;i<8;i++){const x=i*180;polygon([[x-100,floor],[x+55,335-(i%3)*55],[x+220,floor]],p.id==='mars'?(i%2?'#713d46':'#553047'):(i%2?'#5e303c':'#442a3b'));if(p.id==='volcanic')polygon([[x+28,385-(i%3)*55],[x+55,335-(i%3)*55],[x+90,410-(i%3)*55]],'#ed845b')}}
+else if(p.id==='neptune'){for(let i=0;i<7;i++){const x=i*205;ctx.fillStyle=i%2?'#425786':'#354274';ctx.beginPath();ctx.ellipse(x+60,580,180,150+i%3*35,0,0,Math.PI*2);ctx.fill();polygon([[x+60,550],[x+90,400-i%2*40],[x+115,500],[x+100,565]],'#80d8e799','#b6f3ff66')}ctx.fillStyle='#63c6df22';ctx.fillRect(0,565,W,15)}
+else if(p.id==='asteroid'){for(let i=0;i<11;i++){const x=i*130,y=355+(i%3)*60;polygon([[x,y],[x+35,y-25],[x+85,y-15],[x+110,y+35],[x+60,y+75],[x+10,y+55]],'#574e61','#807484')}}
+else if(p.id==='acid'){for(let i=0;i<9;i++){const x=i*155;polygon([[x-60,580],[x+15,390+i%3*35],[x+60,410],[x+105,580]],i%2?'#355847':'#29493f');ctx.fillStyle='#c4f27555';ctx.beginPath();ctx.arc(x+25,440+i%3*35,7,0,Math.PI*2);ctx.fill()}}
+ctx.fillStyle=p.ground;ctx.fillRect(0,floor,W,H-floor);ctx.fillStyle=p.color+'66';ctx.fillRect(0,floor,W,3);for(let i=0;i<42;i++){ctx.fillStyle=i%3?'#00000015':'#ffffff12';ctx.beginPath();ctx.ellipse(i*37%W,floor+20+i*19%100,8+i%4*4,3+i%3,0,0,Math.PI*2);ctx.fill()}if(p.id==='acid'||p.id==='volcanic'){ctx.fillStyle=p.id==='acid'?'#c6ed7966':'#ff925c88';for(let i=0;i<5;i++){ctx.beginPath();ctx.ellipse(i*270+80,625,80,8,0,0,Math.PI*2);ctx.fill()}}}
+function draw(){drawWorld();for(const f of run.fields){ctx.strokeStyle='#c6a5ff77';ctx.lineWidth=2;for(let i=1;i<4;i++){ctx.beginPath();ctx.ellipse(f.x,f.y,40*i,15*i,time*.5,0,Math.PI*2);ctx.stroke()}}for(const c of run.crystals){ctx.save();ctx.translate(c.x,c.y);ctx.shadowBlur=22;ctx.shadowColor='#cfa2ff';polygon([[0,-c.r],[c.r*.65,-c.r*.2],[c.r*.4,c.r*.65],[0,c.r],[-c.r*.65,c.r*.4],[-c.r*.6,-c.r*.4]],'#bd89ed','#efd7ff');ctx.shadowBlur=0;polygon([[0,-c.r],[c.r*.4,c.r*.65],[0,c.r]],'#e6b8ff');ctx.font='10px system-ui';ctx.fillStyle='#e5cdff';ctx.textAlign='center';ctx.fillText('◆ '+c.gems,0,c.r+18);ctx.restore()}
+for(const e of run.enemies){ctx.save();ctx.translate(e.x,e.y);if(e.freeze>0){ctx.shadowBlur=15;ctx.shadowColor='#a7edff'}const color=e.freeze>0?'#8dd5ea':e.burn>0?'#dc916f':e.poison>0?'#9cc66d':e.boss?'#a68db9':e.flying?'#a7bde3':'#a7bc91';ctx.fillStyle=color;ctx.beginPath();ctx.ellipse(0,0,e.r,e.r*(e.flying?.65:1),0,0,Math.PI*2);ctx.fill();if(e.boss){polygon([[-45,-35],[-55,-74],[-15,-48]],color);polygon([[45,-35],[55,-74],[15,-48]],color)}ctx.fillStyle='#202938';ctx.beginPath();ctx.arc(-e.r*.3,-e.r*.13,e.boss?9:5,0,Math.PI*2);ctx.arc(e.r*.3,-e.r*.13,e.boss?9:5,0,Math.PI*2);ctx.fill();ctx.fillStyle=e.boss?'#ffb5a8':'#d8f2af';ctx.fillRect(-e.r*.35,-e.r*.19,e.r*.15,3);ctx.fillRect(e.r*.2,-e.r*.19,e.r*.15,3);ctx.shadowBlur=0;ctx.fillStyle='#0006';ctx.fillRect(-e.r,-e.r-15,e.r*2,4);ctx.fillStyle=e.boss?'#ffb68f':'#c5e8ac';ctx.fillRect(-e.r,-e.r-15,e.r*2*Math.max(0,e.hp/e.maxHp),4);ctx.restore()}
+const p=run.player;ctx.save();ctx.translate(p.x,p.y);if(p.invincible>0&&Math.floor(time*18)%2)ctx.globalAlpha=.4;const duck=image('assets/characters/duck-body.svg');if(duck){ctx.save();if(p.aim==='left')ctx.scale(-1,1);ctx.drawImage(duck,-80,-136,160,224);ctx.restore()}else{ctx.fillStyle='#b5c4c9';ctx.fillRect(-21,-12,42,50);ctx.fillStyle='#b0df77';ctx.beginPath();ctx.arc(0,-35,26,0,Math.PI*2);ctx.fill();ctx.fillStyle='#ffc873';ctx.fillRect(13,-32,25,10)}if(p.shield>0){ctx.strokeStyle='#add5fa99';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(0,-20,92,130,0,0,Math.PI*2);ctx.stroke()}ctx.translate(0,-28);const angle=p.aim==='left'?Math.PI:p.aim==='up'?-Math.PI/2:0;ctx.rotate(angle);const gun=image(run.gun.image);if(gun){if(p.aim==='left')ctx.scale(1,-1);ctx.drawImage(gun,10,-34,128,66)}else{ctx.fillStyle=run.gun.color;ctx.fillRect(5,-8,50,16);ctx.fillStyle='#6d8197';ctx.fillRect(12,6,12,14)}ctx.restore();for(const b of run.bullets){const art=image('assets/bullets/'+run.gun.id+'.svg');if(art){ctx.save();ctx.translate(b.x,b.y);ctx.rotate(Math.atan2(b.vy,b.vx));ctx.drawImage(art,-16,-12,32,24);ctx.restore();continue;}ctx.strokeStyle=b.color;ctx.lineWidth=b.r*1.5;ctx.lineCap='round';ctx.beginPath();const v=Math.hypot(b.vx,b.vy)||1;ctx.moveTo(b.x-b.vx/v*14,b.y-b.vy/v*14);ctx.lineTo(b.x,b.y);ctx.stroke()}for(const q of run.particles){ctx.globalAlpha=Math.min(1,q.life*2);ctx.fillStyle=q.color;ctx.fillRect(q.x,q.y,3,3)}ctx.globalAlpha=1;ctx.textAlign='left'}
+function loop(ms){const dt=Math.min(.035,(ms-last)/1000||.016);last=ms;time=ms/1000;if(!run){sx.clearRect(0,0,starCanvas.width,starCanvas.height);for(const s of stars){sx.fillStyle=`rgba(204,221,244,${s.a+(save.motion?Math.sin(time*.7+s.p)*.1:0)})`;sx.beginPath();sx.arc(s.x,s.y,s.r,0,Math.PI*2);sx.fill()}}else{if(!run.paused&&!run.over)update(dt);if(run)draw();if(announcement>0){announcement-=dt;if(announcement<=0)$('#wave-announcement').style.opacity='0'}}requestAnimationFrame(loop)}
+updateStatus();requestAnimationFrame(loop);
 })();
+
+
+
+
+
+
+

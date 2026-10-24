@@ -1,0 +1,14 @@
+{
+  "gunId": "glacierar",
+  "nodes": [
+    {"id":"t1-left","tier":1,"column":0,"name":"Ice-Tipped Rounds","description":"Each cold bullet deals 4 more damage.","cost":45,"effect":{"damage":4}},
+    {"id":"t1-middle","tier":1,"column":1,"name":"Snowflake Magazine","description":"Fire 12% faster.","cost":45,"effect":{"fireRate":0.12}},
+    {"id":"t1-right","tier":1,"column":2,"name":"Lingering Frost","description":"Cold bullets freeze enemies for 0.25 seconds longer.","cost":50,"effect":{"freeze":0.25}},
+    {"id":"t2-left","tier":2,"column":0,"name":"Rapid Ice","description":"Fire 18% faster and send bullets 80 units per second faster.","cost":100,"effect":{"fireRate":0.18,"projectileSpeed":80}},
+    {"id":"t2-middle","tier":2,"column":1,"name":"Deep Freeze","description":"Bullets freeze enemies for 0.4 seconds longer and pierce one extra enemy.","cost":110,"effect":{"freeze":0.4,"pierce":1}},
+    {"id":"t2-right","tier":2,"column":2,"name":"Glacier Core","description":"Glacier Barrage gains 25% ability power and its cooldown is reduced by 15%.","cost":110,"effect":{"abilityPower":0.25,"abilityCooldown":0.15}},
+    {"id":"t3-lm","tier":3,"column":0,"name":"Whiteout Stream","description":"Rapid Ice + Deep Freeze: fire 20% faster, freeze enemies for 0.4 seconds longer, and deal 3 more bullet damage.","cost":225,"effect":{"fireRate":0.2,"freeze":0.4,"damage":3},"requiresPair":["left","middle"]},
+    {"id":"t3-lr","tier":3,"column":1,"name":"Barrage Blizzard","description":"Rapid Ice + Glacier Core: fire 20% faster and empower Glacier Barrage by 40%, with a 15% shorter ability cooldown.","cost":235,"effect":{"fireRate":0.2,"abilityPower":0.4,"abilityCooldown":0.15},"requiresPair":["left","right"]},
+    {"id":"t3-mr","tier":3,"column":2,"name":"Eternal Glacier","description":"Deep Freeze + Glacier Core: freeze enemies for 0.5 seconds longer, pierce one extra enemy, and increase Glacier Barrage power by 40%.","cost":240,"effect":{"freeze":0.5,"pierce":1,"abilityPower":0.4},"requiresPair":["middle","right"]}
+  ]
+}

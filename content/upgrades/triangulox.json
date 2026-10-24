@@ -1,0 +1,14 @@
+{
+  "gunId": "triangulox",
+  "nodes": [
+    {"id":"t1-left","tier":1,"column":0,"name":"Dense Frame","description":"Add 12 bullet damage.","cost":50,"effect":{"damage":12}},
+    {"id":"t1-middle","tier":1,"column":1,"name":"Straight Edges","description":"Increase projectile speed by 100.","cost":45,"effect":{"projectileSpeed":100}},
+    {"id":"t1-right","tier":1,"column":2,"name":"Collapse Primer","description":"Increase Triangle Collapse power by 15%.","cost":55,"effect":{"abilityPower":0.15}},
+    {"id":"t2-left","tier":2,"column":0,"name":"Heavy Vertex","description":"Add 20 bullet damage and 5% critical-hit chance.","cost":115,"effect":{"damage":20,"crit":0.05}},
+    {"id":"t2-middle","tier":2,"column":1,"name":"Piercing Geometry","description":"Bullets pierce 2 additional enemies.","cost":110,"effect":{"pierce":2}},
+    {"id":"t2-right","tier":2,"column":2,"name":"Triangle Engine","description":"Reduce ability cooldown by 15% and increase ability power by 20%.","cost":120,"effect":{"abilityCooldown":0.15,"abilityPower":0.2}},
+    {"id":"t3-lm","tier":3,"column":0,"name":"Crushing Geometry","description":"Add 20 bullet damage and pierce 3 additional enemies.","cost":250,"requiresPair":["left","middle"],"effect":{"damage":20,"pierce":3}},
+    {"id":"t3-lr","tier":3,"column":1,"name":"Cataclysm Vertex","description":"Add 18 bullet damage and increase Triangle Collapse power by 60%.","cost":260,"requiresPair":["left","right"],"effect":{"damage":18,"abilityPower":0.6}},
+    {"id":"t3-mr","tier":3,"column":2,"name":"Perfect Collapse","description":"Pierce 2 additional enemies, reduce ability cooldown by 20%, and increase ability power by 35%.","cost":255,"requiresPair":["middle","right"],"effect":{"pierce":2,"abilityCooldown":0.2,"abilityPower":0.35}}
+  ]
+}

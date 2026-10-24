@@ -1,0 +1,14 @@
+{
+  "gunId": "laze",
+  "nodes": [
+    {"id":"t1-left","tier":1,"column":0,"name":"Hot Pink","description":"Adds 5 burn damage per second.","cost":36,"effect":{"burn":5}},
+    {"id":"t1-middle","tier":1,"column":1,"name":"Fine Focus","description":"Adds 2 damage and 100 projectile speed.","cost":40,"effect":{"damage":2,"projectileSpeed":100}},
+    {"id":"t1-right","tier":1,"column":2,"name":"Star Capacitor","description":"Reduces ability cooldown by 8% and adds 10% ability power.","cost":44,"effect":{"abilityCooldown":0.08,"abilityPower":0.1}},
+    {"id":"t2-left","tier":2,"column":0,"name":"Afterglow","description":"Adds 9 burn damage per second and 2 direct damage.","cost":80,"effect":{"burn":9,"damage":2}},
+    {"id":"t2-middle","tier":2,"column":1,"name":"Needle Beam","description":"Pierces 2 additional enemies and adds 3 damage.","cost":90,"effect":{"pierce":2,"damage":3}},
+    {"id":"t2-right","tier":2,"column":2,"name":"Laser Lock Amplifier","description":"Adds 35% ability power and reduces ability cooldown by 12%.","cost":100,"effect":{"abilityPower":0.35,"abilityCooldown":0.12}},
+    {"id":"t3-lm","tier":3,"column":0,"name":"Burning Starlance","description":"Adds 12 burn damage per second, pierces 3 additional enemies, and adds 4 damage.","cost":190,"requiresPair":["left","middle"],"effect":{"burn":12,"pierce":3,"damage":4}},
+    {"id":"t3-lr","tier":3,"column":1,"name":"Locked Supernova","description":"Adds 12 burn damage per second, 50% ability power, and reduces ability cooldown by 15%.","cost":210,"requiresPair":["left","right"],"effect":{"burn":12,"abilityPower":0.5,"abilityCooldown":0.15}},
+    {"id":"t3-mr","tier":3,"column":2,"name":"Prismatic Lock","description":"Pierces 4 additional enemies, adds 45% ability power, and adds 6 damage.","cost":220,"requiresPair":["middle","right"],"effect":{"pierce":4,"abilityPower":0.45,"damage":6}}
+  ]
+}

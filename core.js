@@ -1,36 +1,20 @@
-(function (root) {
-  const data = typeof module !== 'undefined' && module.exports ? require('./data.js') : root.TrazZData;
-  const number = (value, fallback, max = Number.MAX_SAFE_INTEGER) => Number.isFinite(value) ? Math.min(max, Math.max(0, Math.floor(value))) : fallback;
-  function normalizeSave(raw) {
-    raw = raw && typeof raw === 'object' ? raw : {};
-    const xp = number(raw.xp, 0);
-    const save = { xp, level: 1 + Math.floor(xp / 200), credits: number(raw.credits, 0), character: data.characters.some(c => c.id === raw.character) ? raw.character : 'scout', gun: 'pulse', upgrades: {}, sound: raw.sound !== false, motion: raw.motion !== false, bestWave: number(raw.bestWave, 0) };
-    for (const gun of data.guns) save.upgrades[gun.id] = number(raw.upgrades?.[gun.id], 0, 5);
-    save.completedPlanets = [];
-    for (const planet of data.planets) {
-      if (!Array.isArray(raw.completedPlanets) || !raw.completedPlanets.includes(planet.id)) break;
-      save.completedPlanets.push(planet.id);
-    }
-    if (canEquip(save, raw.gun)) save.gun = raw.gun;
-    return save;
-  }
-  function canEquip(save, id) { const gun = data.guns.find(g => g.id === id); return !!gun && save.level >= gun.level; }
-  function upgradeCost(save, id) { return 60 * ((save.upgrades[id] || 0) + 1); }
-  function upgrade(save, id) {
-    if (!canEquip(save, id) || save.upgrades[id] >= 5 || save.credits < upgradeCost(save, id)) return false;
-    save.credits -= upgradeCost(save, id); save.upgrades[id]++; return true;
-  }
-  function reward(save, credits, xp) { save.credits += number(credits, 0); save.xp += number(xp, 0); save.level = 1 + Math.floor(save.xp / 200); }
-  function waveSpec(wave) { return { count: 4 + wave * 2, boss: wave % 5 === 0, healthScale: 1 + (wave - 1) * 0.12 }; }
-  function canPlayPlanet(save, id) { const index = data.planets.findIndex(p => p.id === id); return index >= 0 && index <= save.completedPlanets.length; }
-  function completePlanet(save, id) {
-    if (!canPlayPlanet(save, id)) return false;
-    if (!save.completedPlanets.includes(id)) save.completedPlanets.push(id);
-    return true;
-  }
-  function aimForKey(key) { return ({ a: 'left', w: 'up', d: 'right' })[key] || null; }
-  function movement(keys) { return (keys.has('ArrowRight') ? 1 : 0) - (keys.has('ArrowLeft') ? 1 : 0); }
-  const api = { normalizeSave, canEquip, upgradeCost, upgrade, reward, waveSpec, canPlayPlanet, completePlanet, aimForKey, movement };
-  root.TrazZCore = api;
-  if (typeof module !== 'undefined') module.exports = api;
-})(typeof globalThis !== 'undefined' ? globalThis : this);
+(function(root){
+const D=typeof module!=='undefined'&&module.exports?require('./data.js'):root.TrazZData;
+const num=(v,d=0,max=1e9)=>Number.isFinite(v)?Math.min(max,Math.max(0,Math.floor(v))):d;
+function normalizeSave(raw){raw=raw&&typeof raw==='object'?raw:{};const xp=num(raw.xp), owned=Array.isArray(raw.ownedGuns)?raw.ownedGuns.filter(id=>D.guns.some(g=>g.id===id)):['pulse',...(raw.gun==='nova'?['burst']:raw.gun==='meteor'?['meteor']:[])];if(!owned.includes('pulse'))owned.unshift('pulse');const s={version:2,xp,level:1+Math.floor(xp/200),coins:num(raw.coins,num(raw.credits)),gems:num(raw.gems),ownedGuns:[...new Set(owned)],gun:'pulse',trees:{},global:{},armour:'basic',ownedArmour:['basic'],sound:raw.sound!==false,motion:raw.motion!==false,touch:raw.touch!==false,forceTouch:raw.forceTouch===true,bestWave:num(raw.bestWave),completedPlanets:[]};s.gun=s.ownedGuns.includes(raw.gun)?raw.gun:raw.gun==='nova'?'burst':'pulse';for(const g of D.guns){const input=Array.isArray(raw.trees?.[g.id])?raw.trees[g.id]:[];s.trees[g.id]=[];for(const n of g.upgradeTree.nodes){if(input.includes(n.id)&&canBuyNode({...s,gems:1e9},g.id,n.id))s.trees[g.id].push(n.id);}}for(const u of D.globalUpgrades)s.global[u.id]=num(raw.global?.[u.id],0,u.max);s.ownedArmour=[...new Set(['basic',...(Array.isArray(raw.ownedArmour)?raw.ownedArmour:[]).filter(id=>D.armours.some(a=>a.id===id))])];if(s.ownedArmour.includes(raw.armour))s.armour=raw.armour;for(const p of D.planets){if(!Array.isArray(raw.completedPlanets)||!raw.completedPlanets.includes(p.id))break;s.completedPlanets.push(p.id);}if(raw.version!==2){for(const rank of Object.values(raw.upgrades||{})){const n=num(rank,0,5);s.coins+=30*n*(n+1);}}return s;}
+const gun=id=>D.guns.find(g=>g.id===id);
+function canEquip(s,id){return s.ownedGuns.includes(id);}
+function buyGun(s,id){const g=gun(id);if(!g||canEquip(s,id)||s.coins<g.cost)return false;s.coins-=g.cost;s.ownedGuns.push(id);return true;}
+function canBuyNode(s,id,nodeId){const g=gun(id),n=g?.upgradeTree.nodes.find(n=>n.id===nodeId),b=s.trees[id]||[];if(!n||!canEquip(s,id)||b.includes(nodeId)||s.gems<n.cost)return false;if(n.tier===1)return true;const first=g.upgradeTree.nodes.filter(n=>n.tier===1),second=g.upgradeTree.nodes.filter(n=>n.tier===2&&b.includes(n.id));if(!first.every(n=>b.includes(n.id)))return false;if(n.tier===2)return second.length<2;if(n.tier===3)return second.length===2&&!g.upgradeTree.nodes.some(n=>n.tier===3&&b.includes(n.id))&&n.requiresPair.every(p=>b.includes('t2-'+p));return false;}
+function buyNode(s,id,nid){if(!canBuyNode(s,id,nid))return false;const n=gun(id).upgradeTree.nodes.find(n=>n.id===nid);s.gems-=n.cost;s.trees[id].push(nid);return true;}
+function resetTree(s,id){const g=gun(id);for(const nid of s.trees[id])s.gems+=g.upgradeTree.nodes.find(n=>n.id===nid)?.cost||0;s.trees[id]=[];}
+function stats(s,id=s.gun){const g=gun(id),e={damage:0,fireRate:0,projectileSpeed:0,pierce:0,bounce:0,pellets:0,freeze:0,burn:0,chain:0,crit:0,lifesteal:0,abilityCooldown:0,abilityPower:0,health:0,shield:0};for(const n of g.upgradeTree.nodes){if(s.trees[id]?.includes(n.id))for(const[k,v]of Object.entries(n.effect||{}))if(Number.isFinite(v))e[k]=(e[k]||0)+v;}return{...g,damage:(g.damage+e.damage)*(1+s.global.damage*.08),interval:Math.max(.035,g.interval/(1+e.fireRate)),projectileSpeed:Math.min(3000,g.projectileSpeed+e.projectileSpeed),pellets:Math.min(14,g.pellets+e.pellets),pierce:g.pierce+e.pierce,bounce:g.bounce+e.bounce,effects:e,cooldown:Math.max(4,g.ability.cooldown*(1-Math.min(.75,s.global.cooldown*.06+e.abilityCooldown))),abilityPower:g.ability.power*(1+e.abilityPower)};}
+function globalCost(s,id){const u=D.globalUpgrades.find(u=>u.id===id);return u.base*(s.global[id]+1);}
+function buyGlobal(s,id){const u=D.globalUpgrades.find(u=>u.id===id),cost=globalCost(s,id);if(s.global[id]>=u.max||s.gems<cost)return false;s.gems-=cost;s.global[id]++;return true;}
+function reward(s,coins,xp){s.coins+=num(coins);s.xp+=num(xp);s.level=1+Math.floor(s.xp/200);}
+function canPlayPlanet(s,id){const i=D.planets.findIndex(p=>p.id===id);return i>=0&&i<=s.completedPlanets.length;}
+function completePlanet(s,id){if(!canPlayPlanet(s,id))return false;if(!s.completedPlanets.includes(id))s.completedPlanets.push(id);return true;}
+const api={normalizeSave,canEquip,buyGun,canBuyNode,buyNode,resetTree,stats,globalCost,buyGlobal,reward,canPlayPlanet,completePlanet,waveSpec:w=>({count:4+w*2,boss:w===5,healthScale:1+(w-1)*.16}),aimForKey:k=>({a:'left',w:'up',d:'right'})[k]||null,movement:k=>(k.has('ArrowRight')?1:0)-(k.has('ArrowLeft')?1:0)};root.TrazZCore=api;if(typeof module!=='undefined')module.exports=api;
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+

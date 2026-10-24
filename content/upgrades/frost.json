@@ -1,0 +1,124 @@
+{
+  "gunId": "frost",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Cold Snap",
+      "description": "Freeze lasts 0.2 seconds longer.",
+      "cost": 22,
+      "effect": {
+        "freeze": 0.2
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Ice Shards",
+      "description": "Add 3 bullet damage.",
+      "cost": 24,
+      "effect": {
+        "damage": 3
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Winter Recharge",
+      "description": "Reduce Cold Snap cooldown by 8%.",
+      "cost": 26,
+      "effect": {
+        "abilityCooldown": 0.08
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Deep Freeze",
+      "description": "Freeze lasts 0.4 seconds longer.",
+      "cost": 44,
+      "effect": {
+        "freeze": 0.4
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Shattering Frost",
+      "description": "Add 5 bullet damage and 8% critical-hit chance.",
+      "cost": 50,
+      "effect": {
+        "damage": 5,
+        "crit": 0.08
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Blizzard Core",
+      "description": "Increase Cold Snap power by 30% and reduce its cooldown by 10%.",
+      "cost": 52,
+      "effect": {
+        "abilityPower": 0.3,
+        "abilityCooldown": 0.1
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Glacial Fracture",
+      "description": "Freeze lasts 0.5 seconds longer; add 7 bullet damage and pierce 1 extra enemy.",
+      "cost": 105,
+      "requiresPair": [
+        "left",
+        "middle"
+      ],
+      "effect": {
+        "freeze": 0.5,
+        "damage": 7,
+        "pierce": 1
+      }
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Polar Vortex",
+      "description": "Freeze lasts 0.5 seconds longer; increase Cold Snap power by 45% and reduce its cooldown by 12%.",
+      "cost": 108,
+      "requiresPair": [
+        "left",
+        "right"
+      ],
+      "effect": {
+        "freeze": 0.5,
+        "abilityPower": 0.45,
+        "abilityCooldown": 0.12
+      }
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Hailstorm Barrage",
+      "description": "Add 7 bullet damage and 10% critical-hit chance; increase Cold Snap power by 40%.",
+      "cost": 110,
+      "requiresPair": [
+        "middle",
+        "right"
+      ],
+      "effect": {
+        "damage": 7,
+        "crit": 0.1,
+        "abilityPower": 0.4
+      }
+    }
+  ]
+}

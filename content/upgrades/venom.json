@@ -1,0 +1,14 @@
+{
+  "gunId": "venom",
+  "nodes": [
+    {"id":"t1-left","tier":1,"column":0,"name":"Sharp Fangs","description":"Adds 3 damage to every venom shot.","cost":25,"effect":{"damage":3}},
+    {"id":"t1-middle","tier":1,"column":1,"name":"Quick Glands","description":"Increases firing rate by 10%.","cost":30,"effect":{"fireRate":0.1}},
+    {"id":"t1-right","tier":1,"column":2,"name":"Potent Spores","description":"Increases Toxic Cloud power by 15%.","cost":35,"effect":{"abilityPower":0.15}},
+    {"id":"t2-left","tier":2,"column":0,"name":"Corrosive Venom","description":"Shots inflict 6 toxic damage per second over time.","cost":55,"effect":{"burn":6}},
+    {"id":"t2-middle","tier":2,"column":1,"name":"Venom Leech","description":"Adds a 3% chance to steal life on hit.","cost":60,"effect":{"lifesteal":0.03}},
+    {"id":"t2-right","tier":2,"column":2,"name":"Toxic Bloom","description":"Increases Toxic Cloud power by 25% and reduces its cooldown by 10%.","cost":65,"effect":{"abilityPower":0.25,"abilityCooldown":0.1}},
+    {"id":"t3-lm","tier":3,"column":0,"name":"Vampiric Acid","description":"Adds 8 toxic damage per second and a further 2% life-steal chance.","cost":125,"requiresPair":["left","middle"],"effect":{"burn":8,"lifesteal":0.02}},
+    {"id":"t3-lr","tier":3,"column":1,"name":"Meltdown Cloud","description":"Adds 10 toxic damage per second and increases Toxic Cloud power by 35%.","cost":140,"requiresPair":["left","right"],"effect":{"burn":10,"abilityPower":0.35}},
+    {"id":"t3-mr","tier":3,"column":2,"name":"Living Plague","description":"Adds a further 3% life-steal chance, increases Toxic Cloud power by 25%, and reduces its cooldown by 10%.","cost":135,"requiresPair":["middle","right"],"effect":{"lifesteal":0.03,"abilityPower":0.25,"abilityCooldown":0.1}}
+  ]
+}

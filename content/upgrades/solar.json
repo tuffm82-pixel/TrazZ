@@ -1,0 +1,14 @@
+{
+  "gunId": "solar",
+  "nodes": [
+    {"id":"t1-left","tier":1,"column":0,"name":"Sunlit Fuel","description":"Adds 4 burn damage per second.","cost":30,"effect":{"burn":4}},
+    {"id":"t1-middle","tier":1,"column":1,"name":"Dense Core","description":"Adds 6 bullet damage.","cost":36,"effect":{"damage":6}},
+    {"id":"t1-right","tier":1,"column":2,"name":"Nova Capacitor","description":"Reduces Solar Nova cooldown by 8%.","cost":42,"effect":{"abilityCooldown":0.08}},
+    {"id":"t2-left","tier":2,"column":0,"name":"Solar Burn","description":"Adds 8 burn damage per second and 3 bullet damage.","cost":65,"effect":{"burn":8,"damage":3}},
+    {"id":"t2-middle","tier":2,"column":1,"name":"Corona Impact","description":"Adds 13 bullet damage and 5% critical hit chance.","cost":78,"effect":{"damage":13,"crit":0.05}},
+    {"id":"t2-right","tier":2,"column":2,"name":"Nova Recovery","description":"Reduces Solar Nova cooldown by 15% and adds 20% ability power.","cost":90,"effect":{"abilityCooldown":0.15,"abilityPower":0.20}},
+    {"id":"t3-lm","tier":3,"column":0,"name":"Starbreaker","description":"Adds 16 bullet damage and 12 burn damage per second.","cost":145,"effect":{"damage":16,"burn":12},"requiresPair":["left","middle"]},
+    {"id":"t3-lr","tier":3,"column":1,"name":"Eternal Sunrise","description":"Adds 10 burn damage per second, 40% Solar Nova ability power, and 10% cooldown reduction.","cost":165,"effect":{"burn":10,"abilityPower":0.40,"abilityCooldown":0.10},"requiresPair":["left","right"]},
+    {"id":"t3-mr","tier":3,"column":2,"name":"Supernova Engine","description":"Adds 18 bullet damage, 35% Solar Nova ability power, and 12% cooldown reduction.","cost":185,"effect":{"damage":18,"abilityPower":0.35,"abilityCooldown":0.12},"requiresPair":["middle","right"]}
+  ]
+}

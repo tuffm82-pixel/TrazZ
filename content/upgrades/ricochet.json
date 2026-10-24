@@ -1,0 +1,124 @@
+{
+  "gunId": "ricochet",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Copper Jackets",
+      "description": "Adds 4 damage to each round.",
+      "cost": 18,
+      "effect": {
+        "damage": 4
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Fast Cylinder",
+      "description": "Fires 8% faster.",
+      "cost": 22,
+      "effect": {
+        "fireRate": 0.08
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Orbit Battery",
+      "description": "Pinball gains 15% ability power.",
+      "cost": 26,
+      "effect": {
+        "abilityPower": 0.15
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Bank Shot",
+      "description": "Rounds bounce one extra time and gain 80 projectile speed.",
+      "cost": 40,
+      "effect": {
+        "bounce": 1,
+        "projectileSpeed": 80
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Punch Through",
+      "description": "Rounds pierce one extra enemy and deal 4 more damage.",
+      "cost": 44,
+      "effect": {
+        "pierce": 1,
+        "damage": 4
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Orbital Tuning",
+      "description": "Pinball gains 25% ability power and 10% shorter cooldown.",
+      "cost": 48,
+      "effect": {
+        "abilityPower": 0.25,
+        "abilityCooldown": 0.1
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Pinball Punch",
+      "description": "Rounds bounce one extra time, pierce one extra enemy, and deal 4 more damage.",
+      "cost": 90,
+      "effect": {
+        "bounce": 1,
+        "pierce": 1,
+        "damage": 4
+      },
+      "requiresPair": [
+        "left",
+        "middle"
+      ]
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Copper Satellite",
+      "description": "Adds one extra bounce and gives Pinball 30% more ability power.",
+      "cost": 96,
+      "effect": {
+        "bounce": 1,
+        "abilityPower": 0.3
+      },
+      "requiresPair": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Orbital Drill",
+      "description": "Rounds pierce one extra enemy; Pinball gains 25% ability power and 12% shorter cooldown.",
+      "cost": 100,
+      "effect": {
+        "pierce": 1,
+        "abilityPower": 0.25,
+        "abilityCooldown": 0.12
+      },
+      "requiresPair": [
+        "middle",
+        "right"
+      ]
+    }
+  ]
+}

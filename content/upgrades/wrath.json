@@ -1,0 +1,14 @@
+{
+  "gunId": "wrath",
+  "nodes": [
+    {"id":"t1-left","tier":1,"column":0,"name":"Balanced Barrels","description":"Fires 6% faster.","cost":45,"effect":{"fireRate":0.06}},
+    {"id":"t1-middle","tier":1,"column":1,"name":"Dense Rounds","description":"Adds 2 damage per bullet.","cost":48,"effect":{"damage":2}},
+    {"id":"t1-right","tier":1,"column":2,"name":"Wrath Reserve","description":"Wrath Unleashed gains 12% ability power.","cost":50,"effect":{"abilityPower":0.12}},
+    {"id":"t2-left","tier":2,"column":0,"name":"Rotary Rhythm","description":"Fires 10% faster and adds 80 projectile speed.","cost":100,"effect":{"fireRate":0.10,"projectileSpeed":80}},
+    {"id":"t2-middle","tier":2,"column":1,"name":"Penetrating Rounds","description":"Bullets pierce one extra enemy and deal 2 more damage.","cost":110,"effect":{"pierce":1,"damage":2}},
+    {"id":"t2-right","tier":2,"column":2,"name":"Wrath Accelerator","description":"Wrath Unleashed gains 20% ability power and 10% shorter cooldown.","cost":115,"effect":{"abilityPower":0.20,"abilityCooldown":0.10}},
+    {"id":"t3-lm","tier":3,"column":0,"name":"Blue Drillstorm","description":"Fires 12% faster, adds 3 damage per bullet, and pierces one extra enemy.","cost":225,"effect":{"fireRate":0.12,"damage":3,"pierce":1},"requiresPair":["left","middle"]},
+    {"id":"t3-lr","tier":3,"column":1,"name":"Unchained Rotor","description":"Fires 12% faster and gives Wrath Unleashed 25% ability power and 10% shorter cooldown.","cost":235,"effect":{"fireRate":0.12,"abilityPower":0.25,"abilityCooldown":0.10},"requiresPair":["left","right"]},
+    {"id":"t3-mr","tier":3,"column":2,"name":"Wrathbreaker","description":"Adds 4 damage per bullet, pierces one extra enemy, and gives Wrath Unleashed 25% ability power.","cost":245,"effect":{"damage":4,"pierce":1,"abilityPower":0.25},"requiresPair":["middle","right"]}
+  ]
+}

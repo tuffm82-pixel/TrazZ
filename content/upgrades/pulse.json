@@ -1,0 +1,124 @@
+{
+  "gunId": "pulse",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Clean Circuit",
+      "description": "Adds 3 damage to every pulse.",
+      "cost": 12,
+      "effect": {
+        "damage": 3
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Quick Capacitor",
+      "description": "Fires 8% faster.",
+      "cost": 15,
+      "effect": {
+        "fireRate": 0.08
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Surge Cell",
+      "description": "Overdrive gains 15% ability power.",
+      "cost": 18,
+      "effect": {
+        "abilityPower": 0.15
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Precision Lens",
+      "description": "Adds 10% critical-hit chance and 120 projectile speed.",
+      "cost": 28,
+      "effect": {
+        "crit": 0.1,
+        "projectileSpeed": 120
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Rapid Discharge",
+      "description": "Fires 18% faster.",
+      "cost": 30,
+      "effect": {
+        "fireRate": 0.18
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Charged Reserve",
+      "description": "Overdrive gains 30% ability power and 10% shorter cooldown.",
+      "cost": 32,
+      "effect": {
+        "abilityPower": 0.3,
+        "abilityCooldown": 0.1
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Needle Stream",
+      "description": "Fires 12% faster, adds 8% critical-hit chance, and pierces one extra enemy.",
+      "cost": 60,
+      "effect": {
+        "fireRate": 0.12,
+        "crit": 0.08,
+        "pierce": 1
+      },
+      "requiresPair": [
+        "left",
+        "middle"
+      ]
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Surge Sight",
+      "description": "Adds 12% critical-hit chance, 6 damage, and 25% Overdrive ability power.",
+      "cost": 62,
+      "effect": {
+        "crit": 0.12,
+        "damage": 6,
+        "abilityPower": 0.25
+      },
+      "requiresPair": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Surge Repeater",
+      "description": "Fires 15% faster and gives Overdrive 25% ability power and 12% shorter cooldown.",
+      "cost": 64,
+      "effect": {
+        "fireRate": 0.15,
+        "abilityPower": 0.25,
+        "abilityCooldown": 0.12
+      },
+      "requiresPair": [
+        "middle",
+        "right"
+      ]
+    }
+  ]
+}

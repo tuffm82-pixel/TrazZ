@@ -1,0 +1,14 @@
+{
+  "gunId": "meteor",
+  "nodes": [
+    {"id":"t1-left","tier":1,"column":0,"name":"Dense Core","description":"Adds 12 damage to each cannon shot.","cost":40,"effect":{"damage":12}},
+    {"id":"t1-middle","tier":1,"column":1,"name":"Molten Crust","description":"Shots apply 5 extra burn damage per second.","cost":38,"effect":{"burn":5}},
+    {"id":"t1-right","tier":1,"column":2,"name":"Orbital Beacon","description":"Meteor Shower gains 15% ability power.","cost":42,"effect":{"abilityPower":0.15}},
+    {"id":"t2-left","tier":2,"column":0,"name":"Planet Breaker","description":"Adds 18 shot damage and 5% critical-hit chance.","cost":90,"effect":{"damage":18,"crit":0.05}},
+    {"id":"t2-middle","tier":2,"column":1,"name":"Incendiary Meteor","description":"Adds 10 burn damage per second and 8 shot damage.","cost":85,"effect":{"burn":10,"damage":8}},
+    {"id":"t2-right","tier":2,"column":2,"name":"Orbital Alignment","description":"Meteor Shower gains 25% ability power and 12% cooldown reduction.","cost":95,"effect":{"abilityPower":0.25,"abilityCooldown":0.12}},
+    {"id":"t3-lm","tier":3,"column":0,"name":"Extinction Impact","description":"Adds 20 shot damage, 14 burn damage per second, and 5% critical-hit chance.","cost":195,"effect":{"damage":20,"burn":14,"crit":0.05},"requiresPair":["left","middle"]},
+    {"id":"t3-lr","tier":3,"column":1,"name":"Worldfall","description":"Adds 24 shot damage and gives Meteor Shower 40% ability power.","cost":205,"effect":{"damage":24,"abilityPower":0.40},"requiresPair":["left","right"]},
+    {"id":"t3-mr","tier":3,"column":2,"name":"Burning Sky","description":"Adds 16 burn damage per second and gives Meteor Shower 30% ability power and 15% cooldown reduction.","cost":200,"effect":{"burn":16,"abilityPower":0.30,"abilityCooldown":0.15},"requiresPair":["middle","right"]}
+  ]
+}

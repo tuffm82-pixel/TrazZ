@@ -1,0 +1,124 @@
+{
+  "gunId": "burst",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Hardened Rounds",
+      "description": "Adds 2 damage to each burst round.",
+      "cost": 15,
+      "effect": {
+        "damage": 2
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Smooth Cycle",
+      "description": "Fires 7% faster.",
+      "cost": 18,
+      "effect": {
+        "fireRate": 0.07
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Barrage Reserve",
+      "description": "Focused Burst gains 15% ability power.",
+      "cost": 20,
+      "effect": {
+        "abilityPower": 0.15
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Impact Trio",
+      "description": "Adds 4 damage per round and 5% critical-hit chance.",
+      "cost": 34,
+      "effect": {
+        "damage": 4,
+        "crit": 0.05
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Rapid Reset",
+      "description": "Fires 15% faster and adds 100 projectile speed.",
+      "cost": 36,
+      "effect": {
+        "fireRate": 0.15,
+        "projectileSpeed": 100
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Tactical Barrage",
+      "description": "Focused Burst gains 25% ability power and 12% shorter cooldown.",
+      "cost": 38,
+      "effect": {
+        "abilityPower": 0.25,
+        "abilityCooldown": 0.12
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Hammer Rhythm",
+      "description": "Adds 4 damage per round, fires 12% faster, and pierces one extra enemy.",
+      "cost": 78,
+      "effect": {
+        "damage": 4,
+        "fireRate": 0.12,
+        "pierce": 1
+      },
+      "requiresPair": [
+        "left",
+        "middle"
+      ]
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Siege Barrage",
+      "description": "Adds 5 damage per round and 35% Focused Burst ability power.",
+      "cost": 80,
+      "effect": {
+        "damage": 5,
+        "abilityPower": 0.35
+      },
+      "requiresPair": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Rolling Barrage",
+      "description": "Fires 15% faster and gives Focused Burst 20% ability power and 15% shorter cooldown.",
+      "cost": 82,
+      "effect": {
+        "fireRate": 0.15,
+        "abilityPower": 0.2,
+        "abilityCooldown": 0.15
+      },
+      "requiresPair": [
+        "middle",
+        "right"
+      ]
+    }
+  ]
+}

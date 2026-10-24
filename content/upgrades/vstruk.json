@@ -1,0 +1,14 @@
+{
+  "gunId": "vstruk",
+  "nodes": [
+    {"id":"t1-left","tier":1,"column":0,"name":"Three-Point Sights","description":"Adds 5% critical-hit chance to each round.","cost":42,"effect":{"crit":0.05}},
+    {"id":"t1-middle","tier":1,"column":1,"name":"Linked Rounds","description":"Each round pierces one extra enemy.","cost":48,"effect":{"pierce":1}},
+    {"id":"t1-right","tier":1,"column":2,"name":"Strike Capacitor","description":"Triple Strike gains 15% ability power.","cost":44,"effect":{"abilityPower":0.15}},
+    {"id":"t2-left","tier":2,"column":0,"name":"Triple Precision","description":"Adds 8% critical-hit chance and 3 damage to each round.","cost":100,"effect":{"crit":0.08,"damage":3}},
+    {"id":"t2-middle","tier":2,"column":1,"name":"Linked Penetration","description":"Each round pierces one extra enemy and gains 90 projectile speed.","cost":108,"effect":{"pierce":1,"projectileSpeed":90}},
+    {"id":"t2-right","tier":2,"column":2,"name":"Strike Relay","description":"Triple Strike gains 25% ability power and 12% shorter cooldown.","cost":104,"effect":{"abilityPower":0.25,"abilityCooldown":0.12}},
+    {"id":"t3-lm","tier":3,"column":0,"name":"Three-Line Verdict","description":"Adds 5 damage and 8% critical-hit chance to each round, and pierces one extra enemy.","cost":225,"effect":{"damage":5,"crit":0.08,"pierce":1},"requiresPair":["left","middle"]},
+    {"id":"t3-lr","tier":3,"column":1,"name":"Perfect Triple Strike","description":"Adds 10% critical-hit chance to each round and 40% Triple Strike ability power.","cost":230,"effect":{"crit":0.10,"abilityPower":0.40},"requiresPair":["left","right"]},
+    {"id":"t3-mr","tier":3,"column":2,"name":"Linked Strike Network","description":"Each round pierces one extra enemy. Triple Strike gains 30% ability power and 15% shorter cooldown.","cost":235,"effect":{"pierce":1,"abilityPower":0.30,"abilityCooldown":0.15},"requiresPair":["middle","right"]}
+  ]
+}

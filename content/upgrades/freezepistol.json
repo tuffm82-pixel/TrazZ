@@ -1,0 +1,14 @@
+{
+  "gunId": "freezepistol",
+  "nodes": [
+    {"id":"t1-left","tier":1,"column":0,"name":"Cryogenic Core","description":"Freeze enemies for 0.4 seconds longer.","cost":45,"effect":{"freeze":0.4}},
+    {"id":"t1-middle","tier":1,"column":1,"name":"Crystal Rounds","description":"Add 5 damage to each icy bullet.","cost":40,"effect":{"damage":5}},
+    {"id":"t1-right","tier":1,"column":2,"name":"Cold Capacitor","description":"Reduce Absolute Zero's cooldown by 10%.","cost":45,"effect":{"abilityCooldown":0.1}},
+    {"id":"t2-left","tier":2,"column":0,"name":"Deep Freeze","description":"Freeze lasts 0.6 seconds longer; bullets pierce one more enemy.","cost":100,"effect":{"freeze":0.6,"pierce":1}},
+    {"id":"t2-middle","tier":2,"column":1,"name":"Shatter Point","description":"Gain 15% critical chance and 6 bullet damage.","cost":105,"effect":{"crit":0.15,"damage":6}},
+    {"id":"t2-right","tier":2,"column":2,"name":"Absolute Zero Engine","description":"Boost Absolute Zero's power by 35% and reduce its cooldown by 12%.","cost":110,"effect":{"abilityPower":0.35,"abilityCooldown":0.12}},
+    {"id":"t3-lm","tier":3,"column":0,"name":"Glacial Execution","description":"Deep Freeze + Shatter Point: add 0.5 seconds of freeze, 8 damage, and 10% critical chance.","cost":215,"requiresPair":["left","middle"],"effect":{"freeze":0.5,"damage":8,"crit":0.1}},
+    {"id":"t3-lr","tier":3,"column":1,"name":"Endless Winter","description":"Deep Freeze + Absolute Zero Engine: add 0.6 seconds of freeze and boost Absolute Zero's power by 60%.","cost":225,"requiresPair":["left","right"],"effect":{"freeze":0.6,"abilityPower":0.6,"abilityCooldown":0.1}},
+    {"id":"t3-mr","tier":3,"column":2,"name":"Zero-Point Rupture","description":"Shatter Point + Absolute Zero Engine: gain 15% critical chance, 8 damage, and 50% stronger Absolute Zero.","cost":230,"requiresPair":["middle","right"],"effect":{"crit":0.15,"damage":8,"abilityPower":0.5}}
+  ]
+}

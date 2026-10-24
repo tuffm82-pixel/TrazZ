@@ -1,0 +1,14 @@
+{
+  "gunId": "scatter",
+  "nodes": [
+    {"id":"t1-left","tier":1,"column":0,"name":"Extra Scrap","description":"Adds one pellet to each shot.","cost":18,"effect":{"pellets":1}},
+    {"id":"t1-middle","tier":1,"column":1,"name":"Packed Shells","description":"Adds 2 damage to every pellet.","cost":20,"effect":{"damage":2}},
+    {"id":"t1-right","tier":1,"column":2,"name":"Oiled Action","description":"Fires 8% faster.","cost":16,"effect":{"fireRate":0.08}},
+    {"id":"t2-left","tier":2,"column":0,"name":"Wide Payload","description":"Adds two pellets to each shot.","cost":36,"effect":{"pellets":2}},
+    {"id":"t2-middle","tier":2,"column":1,"name":"Heavy Scrap","description":"Adds 3 damage to every pellet and lets pellets pierce one extra enemy.","cost":42,"effect":{"damage":3,"pierce":1}},
+    {"id":"t2-right","tier":2,"column":2,"name":"Quick Cycling","description":"Fires 16% faster and reduces ability cooldown by 8%.","cost":35,"effect":{"fireRate":0.16,"abilityCooldown":0.08}},
+    {"id":"t3-lm","tier":3,"column":0,"name":"Scrap Avalanche","description":"Adds two pellets per shot and 3 damage to every pellet.","cost":80,"effect":{"pellets":2,"damage":3},"requiresPair":["left","middle"]},
+    {"id":"t3-lr","tier":3,"column":1,"name":"Scrapstorm","description":"Adds two pellets per shot and fires 14% faster.","cost":74,"effect":{"pellets":2,"fireRate":0.14},"requiresPair":["left","right"]},
+    {"id":"t3-mr","tier":3,"column":2,"name":"Slamfire Slugs","description":"Adds 3 damage to every pellet, fires 12% faster, and reduces ability cooldown by 10%.","cost":78,"effect":{"damage":3,"fireRate":0.12,"abilityCooldown":0.10},"requiresPair":["middle","right"]}
+  ]
+}

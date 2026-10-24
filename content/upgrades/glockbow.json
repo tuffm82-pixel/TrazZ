@@ -1,0 +1,14 @@
+{
+  "gunId": "glockbow",
+  "nodes": [
+    {"id":"t1-left","tier":1,"column":0,"name":"Honed Prism","description":"Adds 7 bolt damage.","cost":42,"effect":{"damage":7}},
+    {"id":"t1-middle","tier":1,"column":1,"name":"Taut Lightstring","description":"Adds 15% fire rate and 70 projectile speed.","cost":45,"effect":{"fireRate":0.15,"projectileSpeed":70}},
+    {"id":"t1-right","tier":1,"column":2,"name":"Arrow Capacitor","description":"Reduces ability cooldown by 12% and adds 15% ability power.","cost":48,"effect":{"abilityCooldown":0.12,"abilityPower":0.15}},
+    {"id":"t2-left","tier":2,"column":0,"name":"Prism Penetration","description":"Bolts pierce 2 additional enemies and gain 5 damage.","cost":95,"effect":{"pierce":2,"damage":5}},
+    {"id":"t2-middle","tier":2,"column":1,"name":"Critical Focus","description":"Adds 18 percentage points of critical chance and 90 projectile speed.","cost":100,"effect":{"crit":0.18,"projectileSpeed":90}},
+    {"id":"t2-right","tier":2,"column":2,"name":"Prism Arrow Core","description":"Adds 35% ability power and reduces ability cooldown by 15%.","cost":108,"effect":{"abilityPower":0.35,"abilityCooldown":0.15}},
+    {"id":"t3-lm","tier":3,"column":0,"name":"Perfect Penetration","description":"Adds 2 pierce, 15 percentage points of critical chance, and 8 damage.","cost":220,"requiresPair":["left","middle"],"effect":{"pierce":2,"crit":0.15,"damage":8}},
+    {"id":"t3-lr","tier":3,"column":1,"name":"Prismatic Lance","description":"Adds 3 pierce and 60% ability power; reduces ability cooldown by 10%.","cost":230,"requiresPair":["left","right"],"effect":{"pierce":3,"abilityPower":0.6,"abilityCooldown":0.1}},
+    {"id":"t3-mr","tier":3,"column":2,"name":"Spectrum Bullseye","description":"Adds 20 percentage points of critical chance, 50% ability power, and 20% fire rate.","cost":235,"requiresPair":["middle","right"],"effect":{"crit":0.2,"abilityPower":0.5,"fireRate":0.2}}
+  ]
+}

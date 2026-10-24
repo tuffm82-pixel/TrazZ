@@ -1,6 +1,6 @@
 # TrazZ
 
-A playable 2D space shooter with a green duck defender, 20 directly purchasable guns, six campaign worlds, bosses, armour and permanent upgrades. Artwork is redrawn from the supplied paper references with transparent SVG backgrounds.
+A playable 2D space shooter with TrazZ, your green duck defender, 20 directly purchasable guns, six campaign worlds, bosses, armour and permanent upgrades. Artwork is redrawn from the supplied paper references with transparent SVG backgrounds.
 
 ## Play
 
@@ -27,3 +27,4 @@ Progress is saved locally in this browser. Existing saves retain XP, coins and v
 - `npm run build`: validate the 20 independent upgrade trees and generate the embedded offline HTML.
 
 Base gun stats, ability metadata, armour and worlds live in `data.js`; upgrade content is in `content/upgrades/<gun-id>.json`, aggregated into `upgrade-catalog.js`. Combat and UI are in `app.js`, economy/progression rules in `core.js`. Gun/bullet SVGs are in `assets/guns` and `assets/bullets`, character in `assets/characters/duck.svg` and `duck-body.svg`. No photographs of the paper are displayed in the game.
+

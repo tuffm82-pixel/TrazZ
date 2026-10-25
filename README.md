@@ -26,6 +26,6 @@ Progress is saved locally in this browser. Existing saves retain XP, coins and v
 - `npm run check`: JavaScript syntax checks.
 - `npm run build`: validate the 20 independent upgrade trees and generate the embedded offline HTML.
 
-Base gun stats, ability metadata, armour and worlds live in `data.js`; upgrade content is in `content/upgrades/<gun-id>.json`, aggregated into `upgrade-catalog.js`. Combat and UI are in `app.js`, economy/progression rules in `core.js`. Gun/bullet SVGs are in `assets/guns` and `assets/bullets`, character in `assets/characters/trazz-v5.svg` and `trazz-body-v5.svg`. No photographs of the paper are displayed in the game.
+Base gun stats, ability metadata, armour and worlds live in `data.js`; upgrade content is in `content/upgrades/<gun-id>.json`, aggregated into `upgrade-catalog.js`. Combat and UI are in `app.js`, economy/progression rules in `core.js`. Gun/bullet SVGs are in `assets/guns` and `assets/bullets`, character in `assets/characters/trazz-v6.svg` and `trazz-body-v6.svg`. No photographs of the paper are displayed in the game.
 
 

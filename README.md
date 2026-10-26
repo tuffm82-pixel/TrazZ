@@ -31,3 +31,5 @@ Base gun stats, ability metadata, armour and worlds live in `data.js`; upgrade c
 
 
 Enemy artwork and bosses are drawn in campaign-art.js from the paper references. Amber lines and floor markers telegraph attacks. Bosses use sword charges, armour slams, trident volleys, twin crossfire, firestorms and a two-phase final sentinel. During alternating firestorm sections, the fire boss takes only 20% damage. Levels 3–5 also introduce warned ground hazards. There is no automatic healing between waves.
+
+Combat improvements: shots hit nearby targets in all three directions. Incoming arrows indicate enemy entry sides; the boss display shows remaining health/targets and phase changes. Floor hazards outline their danger area before striking. Bonus crystals have a finite per-level budget, and the menu recommends the next uncleared mission.

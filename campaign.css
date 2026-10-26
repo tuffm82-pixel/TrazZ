@@ -3,3 +3,5 @@
 
 
 .mission-levels{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:18px 0}.mission-choice{background:#ffffff08;border:1px solid #ffffff26;border-radius:12px;padding:17px 8px;font-size:22px}.mission-choice small{display:block;font-size:8px;margin-top:8px}.mission-choice.selected{border-color:#c7f584;background:#c7f58418}.mission-choice:disabled{opacity:.3}.escape-finale{text-align:center;font-size:60px;animation:escapeFlight 3s ease-in-out infinite}.escape-finale p{font-size:14px}@keyframes escapeFlight{50%{transform:translate(25px,-12px)}}
+
+#boss-status{position:absolute;top:max(87px,calc(env(safe-area-inset-top) + 70px));left:25%;right:25%;padding:10px 8px 14px;text-align:center;font-size:10px;font-weight:700;letter-spacing:1px;color:#ffe0c0;background:#141928df;border:1px solid #ffc18e66;border-radius:8px;pointer-events:none}#boss-status:after{content:"";position:absolute;bottom:4px;left:4px;height:4px;width:calc(var(--boss-health,100%) - 8px);background:#ffb58a;border-radius:4px}#boss-status[hidden]{display:none}@media(max-width:650px){#boss-status{left:12px;right:12px;top:82px;font-size:8px}}

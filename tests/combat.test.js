@@ -77,3 +77,18 @@ test('returning to the menu recommends the next uncleared mission',()=>{
  h.save.clearedLevels=D.planets.flatMap(p=>[1,2,3,4,5].map(l=>p.id+'-'+l));h.goHome();
  assert.equal(h.selection.planet,'acid');assert.equal(h.selection.level,5);
 });
+
+test('red winged skulls appear on all worlds and grow in later levels',()=>{
+ for(let p=0;p<6;p++){
+  const h=harness(),r=start(h,p,2);for(let i=0;i<5;i++)h.spawnEnemy(false);
+  const red=r.enemies.find(e=>e.kind==='skull');assert.ok(red,'red skull on planet '+p);assert.equal(red.flying,true);assert.ok(red.y<580-red.r);
+ }
+ const h=harness(),r=start(h,0,5);for(let i=0;i<2;i++)h.spawnEnemy(false);const red=r.enemies.find(e=>e.kind==='skull');assert.equal(red.variant,2);assert.equal(red.r,42);
+});
+test('red skull swoops are warned, freeze pauses them, and recovery stays airborne',()=>{
+ const h=harness(),r=start(h,0,2);h.spawnEnemy(false);h.spawnEnemy(false);const e=r.enemies.find(e=>e.kind==='skull');
+ e.x=850;e.y=360;e.attackTimer=0;h.updateEnemies(.1);assert.ok(e.attackWindup>.7);assert.equal(e.swoopTime,0);
+ h.updateEnemies(.86);assert.ok(e.swoopTime>0);assert.equal(r.hostiles.length,0);
+ e.freeze=.5;const x=e.x,y=e.y,phase=e.phase;h.updateEnemies(.1);assert.equal(e.x,x);assert.equal(e.y,y);assert.equal(e.phase,phase);
+ e.freeze=0;for(let i=0;i<10;i++)h.updateEnemies(.1);assert.equal(e.swoopTime,0);assert.ok(e.recover>0);assert.ok(e.y>=190&&e.y<=510);
+});

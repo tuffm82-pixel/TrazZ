@@ -17,3 +17,7 @@
 - Added incoming-side arrows, a persistent boss health/phase display, and outlined/countdown floor warnings.
 - Gem spawns now have a per-run budget; freezing the last enemy cannot create unlimited crystals.
 - Added regression checks for close targets, finite gem spawning, total Twin Asteroid health, and recommended next mission.
+
+## Red flying enemies
+- Browser tested Moon Base level3: red skulls visible airborne with yellow-green flapping wings; tested movement, upward fire, warning and swoop encounters. No console errors/warnings. This test did not complete the level.
+- Automated checks confirm red skulls appear on every planet, scale into larger variants, wind up before swooping, recover airborne and stop flight/animation under freeze.

@@ -1,0 +1,126 @@
+{
+  "gunId": "raygun",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Ray Crystal",
+      "description": "+6 shot damage.",
+      "cost": 38,
+      "effect": {
+        "damage": 6
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Light Conduit",
+      "description": "+5% critical chance; +100 projectile speed.",
+      "cost": 45,
+      "effect": {
+        "crit": 0.05,
+        "projectileSpeed": 100
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Sweep Cell",
+      "description": "+15% ability power.",
+      "cost": 54,
+      "effect": {
+        "abilityPower": 0.15
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Refraction Lens",
+      "description": "+8 shot damage; +1 penetration.",
+      "cost": 83,
+      "effect": {
+        "damage": 8,
+        "pierce": 1
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Energy Aperture",
+      "description": "+12% critical chance; +150 projectile speed.",
+      "cost": 98,
+      "effect": {
+        "crit": 0.12,
+        "projectileSpeed": 150
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Phase Core",
+      "description": "+30% ability power; 15% shorter ability cooldown.",
+      "cost": 113,
+      "effect": {
+        "abilityPower": 0.3,
+        "abilityCooldown": 0.15
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Spectrum Drive",
+      "description": "+15 shot damage; +10% critical chance; +1 penetration.",
+      "cost": 203,
+      "effect": {
+        "damage": 15,
+        "crit": 0.1,
+        "pierce": 1
+      },
+      "requiresPair": [
+        "left",
+        "middle"
+      ]
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Photon Lance",
+      "description": "+12 shot damage; +1 penetration; +40% ability power.",
+      "cost": 218,
+      "effect": {
+        "damage": 12,
+        "pierce": 1,
+        "abilityPower": 0.4
+      },
+      "requiresPair": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Infinite Beam",
+      "description": "+15% critical chance; +35% ability power; 15% shorter ability cooldown.",
+      "cost": 233,
+      "effect": {
+        "crit": 0.15,
+        "abilityPower": 0.35,
+        "abilityCooldown": 0.15
+      },
+      "requiresPair": [
+        "middle",
+        "right"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "gunId": "flamegun",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Fuel Nozzle",
+      "description": "+3 burn power.",
+      "cost": 30,
+      "effect": {
+        "burn": 3
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Pilot Flame",
+      "description": "+8% fire rate.",
+      "cost": 33,
+      "effect": {
+        "fireRate": 0.08
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Inferno Coil",
+      "description": "+15% ability power.",
+      "cost": 36,
+      "effect": {
+        "abilityPower": 0.15
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Heat Chamber",
+      "description": "+5 burn power; +2 shot damage.",
+      "cost": 63,
+      "effect": {
+        "burn": 5,
+        "damage": 2
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Oxygen Feed",
+      "description": "+16% fire rate; +80 projectile speed.",
+      "cost": 66,
+      "effect": {
+        "fireRate": 0.16,
+        "projectileSpeed": 80
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Scorch Valve",
+      "description": "+25% ability power; 10% shorter ability cooldown.",
+      "cost": 72,
+      "effect": {
+        "abilityPower": 0.25,
+        "abilityCooldown": 0.1
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Dragon Breath",
+      "description": "+12% fire rate; +6 burn power; +1 penetration.",
+      "cost": 135,
+      "effect": {
+        "fireRate": 0.12,
+        "burn": 6,
+        "pierce": 1
+      },
+      "requiresPair": [
+        "left",
+        "middle"
+      ]
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Wildfire Heart",
+      "description": "+8 burn power; +35% ability power.",
+      "cost": 144,
+      "effect": {
+        "burn": 8,
+        "abilityPower": 0.35
+      },
+      "requiresPair": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Molten Cyclone",
+      "description": "+14% fire rate; +25% ability power; 15% shorter ability cooldown.",
+      "cost": 147,
+      "effect": {
+        "fireRate": 0.14,
+        "abilityPower": 0.25,
+        "abilityCooldown": 0.15
+      },
+      "requiresPair": [
+        "middle",
+        "right"
+      ]
+    }
+  ]
+}

@@ -1,5 +1,12 @@
 {
-  "name":"trazz","version":"2.0.0","private":true,
-  "description":"TrazZ — a duck, twenty guns, six worlds. Playable on keyboard and iPad.",
-  "scripts":{"start":"node server.js","build":"node scripts/build-upgrades.js && node scripts/build-standalone.js","test":"node --test tests/*.test.js","check":"node --check app.js && node --check data.js && node --check core.js && node --check server.js && node --check scripts/build-standalone.js"}
+  "name": "trazz",
+  "version": "3.0.0",
+  "private": true,
+  "description": "TrazZ: 26 guns, 30 campaign levels, six unique bosses, keyboard and iPad controls.",
+  "scripts": {
+    "start": "node server.js",
+    "build": "node scripts/build-upgrades.js && node scripts/build-standalone.js",
+    "test": "node --test tests/*.test.js",
+    "check": "node --check app.js && node --check data.js && node --check core.js && node --check server.js && node --check scripts/build-standalone.js && node --check campaign-art.js"
+  }
 }

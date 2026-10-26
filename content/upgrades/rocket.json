@@ -1,0 +1,124 @@
+{
+  "gunId": "rocket",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Blast Warhead",
+      "description": "+12 shot damage.",
+      "cost": 60,
+      "effect": {
+        "damage": 12
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Launch Tube",
+      "description": "+5 burn power.",
+      "cost": 57,
+      "effect": {
+        "burn": 5
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Orbital Cell",
+      "description": "+15% ability power.",
+      "cost": 63,
+      "effect": {
+        "abilityPower": 0.15
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Impact Fuse",
+      "description": "+18 shot damage; +5% critical chance.",
+      "cost": 135,
+      "effect": {
+        "damage": 18,
+        "crit": 0.05
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Fuel Mixer",
+      "description": "+10 burn power; +8 shot damage.",
+      "cost": 128,
+      "effect": {
+        "burn": 10,
+        "damage": 8
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Guidance Core",
+      "description": "+25% ability power; 12% shorter ability cooldown.",
+      "cost": 143,
+      "effect": {
+        "abilityPower": 0.25,
+        "abilityCooldown": 0.12
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Siege Engine",
+      "description": "+20 shot damage; +14 burn power; +5% critical chance.",
+      "cost": 293,
+      "effect": {
+        "damage": 20,
+        "burn": 14,
+        "crit": 0.05
+      },
+      "requiresPair": [
+        "left",
+        "middle"
+      ]
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Meteor Battery",
+      "description": "+24 shot damage; +40% ability power.",
+      "cost": 308,
+      "effect": {
+        "damage": 24,
+        "abilityPower": 0.4
+      },
+      "requiresPair": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Orbital Fury",
+      "description": "+16 burn power; +30% ability power; 15% shorter ability cooldown.",
+      "cost": 300,
+      "effect": {
+        "burn": 16,
+        "abilityPower": 0.3,
+        "abilityCooldown": 0.15
+      },
+      "requiresPair": [
+        "middle",
+        "right"
+      ]
+    }
+  ]
+}

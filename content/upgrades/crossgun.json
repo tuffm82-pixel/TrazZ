@@ -1,0 +1,127 @@
+{
+  "gunId": "crossgun",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Cross Limbs",
+      "description": "+7 shot damage.",
+      "cost": 63,
+      "effect": {
+        "damage": 7
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Tension Wire",
+      "description": "+15% fire rate; +70 projectile speed.",
+      "cost": 68,
+      "effect": {
+        "fireRate": 0.15,
+        "projectileSpeed": 70
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Crossfire Cell",
+      "description": "12% shorter ability cooldown; +15% ability power.",
+      "cost": 72,
+      "effect": {
+        "abilityCooldown": 0.12,
+        "abilityPower": 0.15
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Prism Guide",
+      "description": "+2 penetration; +5 shot damage.",
+      "cost": 143,
+      "effect": {
+        "pierce": 2,
+        "damage": 5
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Split Nock",
+      "description": "+18% critical chance; +90 projectile speed.",
+      "cost": 150,
+      "effect": {
+        "crit": 0.18,
+        "projectileSpeed": 90
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Rapid Winch",
+      "description": "+35% ability power; 15% shorter ability cooldown.",
+      "cost": 162,
+      "effect": {
+        "abilityPower": 0.35,
+        "abilityCooldown": 0.15
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Double Cross",
+      "description": "+2 penetration; +15% critical chance; +8 shot damage.",
+      "cost": 330,
+      "requiresPair": [
+        "left",
+        "middle"
+      ],
+      "effect": {
+        "pierce": 2,
+        "crit": 0.15,
+        "damage": 8
+      }
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Crossbow Heart",
+      "description": "+3 penetration; +60% ability power; 10% shorter ability cooldown.",
+      "cost": 345,
+      "requiresPair": [
+        "left",
+        "right"
+      ],
+      "effect": {
+        "pierce": 3,
+        "abilityPower": 0.6,
+        "abilityCooldown": 0.1
+      }
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Prism Tempest",
+      "description": "+20% critical chance; +50% ability power; +20% fire rate.",
+      "cost": 353,
+      "requiresPair": [
+        "middle",
+        "right"
+      ],
+      "effect": {
+        "crit": 0.2,
+        "abilityPower": 0.5,
+        "fireRate": 0.2
+      }
+    }
+  ]
+}

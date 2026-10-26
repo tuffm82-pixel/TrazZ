@@ -1,8 +1,8 @@
-// Merge the twenty independently authored gun trees into one offline-safe catalog.
+// Merge the original twenty and six milestone gun trees into one offline-safe catalog.
 const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
-const ids = ['pulse', 'scatter', 'burst', 'ricochet', 'ember', 'frost', 'arc', 'venom', 'rail', 'gravity', 'solar', 'meteor', 'wrath', 'freezepistol', 'laze', 'triangulox', 'vstruk', 'curver', 'glockbow', 'glacierar'];
+const ids = ['pulse', 'scatter', 'burst', 'ricochet', 'ember', 'frost', 'arc', 'venom', 'rail', 'gravity', 'solar', 'meteor', 'wrath', 'freezepistol', 'laze', 'triangulox', 'vstruk', 'curver', 'glockbow', 'glacierar', 'longshot', 'raygun', 'flamegun', 'spikegun', 'crossgun', 'rocket'];
 const expected = ['t1-left', 't1-middle', 't1-right', 't2-left', 't2-middle', 't2-right', 't3-lm', 't3-lr', 't3-mr'];
 const effects = new Set(['damage', 'fireRate', 'projectileSpeed', 'pierce', 'bounce', 'pellets', 'freeze', 'burn', 'chain', 'crit', 'lifesteal', 'abilityCooldown', 'abilityPower', 'health', 'shield']);
 const trees = {};

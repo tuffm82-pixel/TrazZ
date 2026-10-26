@@ -1,0 +1,124 @@
+{
+  "gunId": "longshot",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Long Barrel",
+      "description": "+3 shot damage.",
+      "cost": 18,
+      "effect": {
+        "damage": 3
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Hair Trigger",
+      "description": "+8% fire rate.",
+      "cost": 23,
+      "effect": {
+        "fireRate": 0.08
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Deadeye Core",
+      "description": "+15% ability power.",
+      "cost": 27,
+      "effect": {
+        "abilityPower": 0.15
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Stabilised Chamber",
+      "description": "+10% critical chance; +120 projectile speed.",
+      "cost": 42,
+      "effect": {
+        "crit": 0.1,
+        "projectileSpeed": 120
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Range Finder",
+      "description": "+18% fire rate.",
+      "cost": 45,
+      "effect": {
+        "fireRate": 0.18
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Focus Cell",
+      "description": "+30% ability power; 10% shorter ability cooldown.",
+      "cost": 48,
+      "effect": {
+        "abilityPower": 0.3,
+        "abilityCooldown": 0.1
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Marksman Engine",
+      "description": "+12% fire rate; +8% critical chance; +1 penetration.",
+      "cost": 90,
+      "effect": {
+        "fireRate": 0.12,
+        "crit": 0.08,
+        "pierce": 1
+      },
+      "requiresPair": [
+        "left",
+        "middle"
+      ]
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Perfect Shot",
+      "description": "+12% critical chance; +6 shot damage; +25% ability power.",
+      "cost": 93,
+      "effect": {
+        "crit": 0.12,
+        "damage": 6,
+        "abilityPower": 0.25
+      },
+      "requiresPair": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Deadeye Relay",
+      "description": "+15% fire rate; +25% ability power; 12% shorter ability cooldown.",
+      "cost": 96,
+      "effect": {
+        "fireRate": 0.15,
+        "abilityPower": 0.25,
+        "abilityCooldown": 0.12
+      },
+      "requiresPair": [
+        "middle",
+        "right"
+      ]
+    }
+  ]
+}

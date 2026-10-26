@@ -6,9 +6,9 @@ require('../upgrade-catalog.js');
 const D = require('../data.js');
 const C = require('../core.js');
 
-test('all twenty purchasable guns have artwork, projectiles, and complete upgrade trees', () => {
-  assert.equal(D.guns.length, 20);
-  assert.equal(new Set(D.guns.map(g => g.id)).size, 20);
+test('all twenty-six purchasable guns have artwork, projectiles, and complete upgrade trees', () => {
+  assert.equal(D.guns.length, 26);
+  assert.equal(new Set(D.guns.map(g => g.id)).size, 26);
   for (const gun of D.guns) {
     assert.ok(fs.existsSync(path.join(__dirname, '..', gun.image)), gun.id + ' gun art');
     assert.ok(fs.existsSync(path.join(__dirname, '..', 'assets', 'bullets', gun.id + '.svg')), gun.id + ' bullet art');

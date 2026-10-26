@@ -2487,5 +2487,756 @@
         ]
       }
     ]
+  },
+  "longshot": {
+    "gunId": "longshot",
+    "nodes": [
+      {
+        "id": "t1-left",
+        "tier": 1,
+        "column": 0,
+        "name": "Long Barrel",
+        "description": "+3 shot damage.",
+        "cost": 18,
+        "effect": {
+          "damage": 3
+        }
+      },
+      {
+        "id": "t1-middle",
+        "tier": 1,
+        "column": 1,
+        "name": "Hair Trigger",
+        "description": "+8% fire rate.",
+        "cost": 23,
+        "effect": {
+          "fireRate": 0.08
+        }
+      },
+      {
+        "id": "t1-right",
+        "tier": 1,
+        "column": 2,
+        "name": "Deadeye Core",
+        "description": "+15% ability power.",
+        "cost": 27,
+        "effect": {
+          "abilityPower": 0.15
+        }
+      },
+      {
+        "id": "t2-left",
+        "tier": 2,
+        "column": 0,
+        "name": "Stabilised Chamber",
+        "description": "+10% critical chance; +120 projectile speed.",
+        "cost": 42,
+        "effect": {
+          "crit": 0.1,
+          "projectileSpeed": 120
+        }
+      },
+      {
+        "id": "t2-middle",
+        "tier": 2,
+        "column": 1,
+        "name": "Range Finder",
+        "description": "+18% fire rate.",
+        "cost": 45,
+        "effect": {
+          "fireRate": 0.18
+        }
+      },
+      {
+        "id": "t2-right",
+        "tier": 2,
+        "column": 2,
+        "name": "Focus Cell",
+        "description": "+30% ability power; 10% shorter ability cooldown.",
+        "cost": 48,
+        "effect": {
+          "abilityPower": 0.3,
+          "abilityCooldown": 0.1
+        }
+      },
+      {
+        "id": "t3-lm",
+        "tier": 3,
+        "column": 0,
+        "name": "Marksman Engine",
+        "description": "+12% fire rate; +8% critical chance; +1 penetration.",
+        "cost": 90,
+        "effect": {
+          "fireRate": 0.12,
+          "crit": 0.08,
+          "pierce": 1
+        },
+        "requiresPair": [
+          "left",
+          "middle"
+        ]
+      },
+      {
+        "id": "t3-lr",
+        "tier": 3,
+        "column": 1,
+        "name": "Perfect Shot",
+        "description": "+12% critical chance; +6 shot damage; +25% ability power.",
+        "cost": 93,
+        "effect": {
+          "crit": 0.12,
+          "damage": 6,
+          "abilityPower": 0.25
+        },
+        "requiresPair": [
+          "left",
+          "right"
+        ]
+      },
+      {
+        "id": "t3-mr",
+        "tier": 3,
+        "column": 2,
+        "name": "Deadeye Relay",
+        "description": "+15% fire rate; +25% ability power; 12% shorter ability cooldown.",
+        "cost": 96,
+        "effect": {
+          "fireRate": 0.15,
+          "abilityPower": 0.25,
+          "abilityCooldown": 0.12
+        },
+        "requiresPair": [
+          "middle",
+          "right"
+        ]
+      }
+    ]
+  },
+  "raygun": {
+    "gunId": "raygun",
+    "nodes": [
+      {
+        "id": "t1-left",
+        "tier": 1,
+        "column": 0,
+        "name": "Ray Crystal",
+        "description": "+6 shot damage.",
+        "cost": 38,
+        "effect": {
+          "damage": 6
+        }
+      },
+      {
+        "id": "t1-middle",
+        "tier": 1,
+        "column": 1,
+        "name": "Light Conduit",
+        "description": "+5% critical chance; +100 projectile speed.",
+        "cost": 45,
+        "effect": {
+          "crit": 0.05,
+          "projectileSpeed": 100
+        }
+      },
+      {
+        "id": "t1-right",
+        "tier": 1,
+        "column": 2,
+        "name": "Sweep Cell",
+        "description": "+15% ability power.",
+        "cost": 54,
+        "effect": {
+          "abilityPower": 0.15
+        }
+      },
+      {
+        "id": "t2-left",
+        "tier": 2,
+        "column": 0,
+        "name": "Refraction Lens",
+        "description": "+8 shot damage; +1 penetration.",
+        "cost": 83,
+        "effect": {
+          "damage": 8,
+          "pierce": 1
+        }
+      },
+      {
+        "id": "t2-middle",
+        "tier": 2,
+        "column": 1,
+        "name": "Energy Aperture",
+        "description": "+12% critical chance; +150 projectile speed.",
+        "cost": 98,
+        "effect": {
+          "crit": 0.12,
+          "projectileSpeed": 150
+        }
+      },
+      {
+        "id": "t2-right",
+        "tier": 2,
+        "column": 2,
+        "name": "Phase Core",
+        "description": "+30% ability power; 15% shorter ability cooldown.",
+        "cost": 113,
+        "effect": {
+          "abilityPower": 0.3,
+          "abilityCooldown": 0.15
+        }
+      },
+      {
+        "id": "t3-lm",
+        "tier": 3,
+        "column": 0,
+        "name": "Spectrum Drive",
+        "description": "+15 shot damage; +10% critical chance; +1 penetration.",
+        "cost": 203,
+        "effect": {
+          "damage": 15,
+          "crit": 0.1,
+          "pierce": 1
+        },
+        "requiresPair": [
+          "left",
+          "middle"
+        ]
+      },
+      {
+        "id": "t3-lr",
+        "tier": 3,
+        "column": 1,
+        "name": "Photon Lance",
+        "description": "+12 shot damage; +1 penetration; +40% ability power.",
+        "cost": 218,
+        "effect": {
+          "damage": 12,
+          "pierce": 1,
+          "abilityPower": 0.4
+        },
+        "requiresPair": [
+          "left",
+          "right"
+        ]
+      },
+      {
+        "id": "t3-mr",
+        "tier": 3,
+        "column": 2,
+        "name": "Infinite Beam",
+        "description": "+15% critical chance; +35% ability power; 15% shorter ability cooldown.",
+        "cost": 233,
+        "effect": {
+          "crit": 0.15,
+          "abilityPower": 0.35,
+          "abilityCooldown": 0.15
+        },
+        "requiresPair": [
+          "middle",
+          "right"
+        ]
+      }
+    ]
+  },
+  "flamegun": {
+    "gunId": "flamegun",
+    "nodes": [
+      {
+        "id": "t1-left",
+        "tier": 1,
+        "column": 0,
+        "name": "Fuel Nozzle",
+        "description": "+3 burn power.",
+        "cost": 30,
+        "effect": {
+          "burn": 3
+        }
+      },
+      {
+        "id": "t1-middle",
+        "tier": 1,
+        "column": 1,
+        "name": "Pilot Flame",
+        "description": "+8% fire rate.",
+        "cost": 33,
+        "effect": {
+          "fireRate": 0.08
+        }
+      },
+      {
+        "id": "t1-right",
+        "tier": 1,
+        "column": 2,
+        "name": "Inferno Coil",
+        "description": "+15% ability power.",
+        "cost": 36,
+        "effect": {
+          "abilityPower": 0.15
+        }
+      },
+      {
+        "id": "t2-left",
+        "tier": 2,
+        "column": 0,
+        "name": "Heat Chamber",
+        "description": "+5 burn power; +2 shot damage.",
+        "cost": 63,
+        "effect": {
+          "burn": 5,
+          "damage": 2
+        }
+      },
+      {
+        "id": "t2-middle",
+        "tier": 2,
+        "column": 1,
+        "name": "Oxygen Feed",
+        "description": "+16% fire rate; +80 projectile speed.",
+        "cost": 66,
+        "effect": {
+          "fireRate": 0.16,
+          "projectileSpeed": 80
+        }
+      },
+      {
+        "id": "t2-right",
+        "tier": 2,
+        "column": 2,
+        "name": "Scorch Valve",
+        "description": "+25% ability power; 10% shorter ability cooldown.",
+        "cost": 72,
+        "effect": {
+          "abilityPower": 0.25,
+          "abilityCooldown": 0.1
+        }
+      },
+      {
+        "id": "t3-lm",
+        "tier": 3,
+        "column": 0,
+        "name": "Dragon Breath",
+        "description": "+12% fire rate; +6 burn power; +1 penetration.",
+        "cost": 135,
+        "effect": {
+          "fireRate": 0.12,
+          "burn": 6,
+          "pierce": 1
+        },
+        "requiresPair": [
+          "left",
+          "middle"
+        ]
+      },
+      {
+        "id": "t3-lr",
+        "tier": 3,
+        "column": 1,
+        "name": "Wildfire Heart",
+        "description": "+8 burn power; +35% ability power.",
+        "cost": 144,
+        "effect": {
+          "burn": 8,
+          "abilityPower": 0.35
+        },
+        "requiresPair": [
+          "left",
+          "right"
+        ]
+      },
+      {
+        "id": "t3-mr",
+        "tier": 3,
+        "column": 2,
+        "name": "Molten Cyclone",
+        "description": "+14% fire rate; +25% ability power; 15% shorter ability cooldown.",
+        "cost": 147,
+        "effect": {
+          "fireRate": 0.14,
+          "abilityPower": 0.25,
+          "abilityCooldown": 0.15
+        },
+        "requiresPair": [
+          "middle",
+          "right"
+        ]
+      }
+    ]
+  },
+  "spikegun": {
+    "gunId": "spikegun",
+    "nodes": [
+      {
+        "id": "t1-left",
+        "tier": 1,
+        "column": 0,
+        "name": "Hardened Spikes",
+        "description": "+6 shot damage.",
+        "cost": 38,
+        "effect": {
+          "damage": 6
+        }
+      },
+      {
+        "id": "t1-middle",
+        "tier": 1,
+        "column": 1,
+        "name": "Feed Rail",
+        "description": "+5% critical chance; +100 projectile speed.",
+        "cost": 45,
+        "effect": {
+          "crit": 0.05,
+          "projectileSpeed": 100
+        }
+      },
+      {
+        "id": "t1-right",
+        "tier": 1,
+        "column": 2,
+        "name": "Rain Chamber",
+        "description": "+15% ability power.",
+        "cost": 54,
+        "effect": {
+          "abilityPower": 0.15
+        }
+      },
+      {
+        "id": "t2-left",
+        "tier": 2,
+        "column": 0,
+        "name": "Barbed Core",
+        "description": "+8 shot damage; +1 penetration.",
+        "cost": 83,
+        "effect": {
+          "damage": 8,
+          "pierce": 1
+        }
+      },
+      {
+        "id": "t2-middle",
+        "tier": 2,
+        "column": 1,
+        "name": "Fast Loader",
+        "description": "+12% critical chance; +150 projectile speed.",
+        "cost": 98,
+        "effect": {
+          "crit": 0.12,
+          "projectileSpeed": 150
+        }
+      },
+      {
+        "id": "t2-right",
+        "tier": 2,
+        "column": 2,
+        "name": "Needle Cell",
+        "description": "+30% ability power; 15% shorter ability cooldown.",
+        "cost": 113,
+        "effect": {
+          "abilityPower": 0.3,
+          "abilityCooldown": 0.15
+        }
+      },
+      {
+        "id": "t3-lm",
+        "tier": 3,
+        "column": 0,
+        "name": "Impaler Drive",
+        "description": "+15 shot damage; +10% critical chance; +1 penetration.",
+        "cost": 203,
+        "effect": {
+          "damage": 15,
+          "crit": 0.1,
+          "pierce": 1
+        },
+        "requiresPair": [
+          "left",
+          "middle"
+        ]
+      },
+      {
+        "id": "t3-lr",
+        "tier": 3,
+        "column": 1,
+        "name": "Spike Storm",
+        "description": "+12 shot damage; +1 penetration; +40% ability power.",
+        "cost": 218,
+        "effect": {
+          "damage": 12,
+          "pierce": 1,
+          "abilityPower": 0.4
+        },
+        "requiresPair": [
+          "left",
+          "right"
+        ]
+      },
+      {
+        "id": "t3-mr",
+        "tier": 3,
+        "column": 2,
+        "name": "Hail Engine",
+        "description": "+15% critical chance; +35% ability power; 15% shorter ability cooldown.",
+        "cost": 233,
+        "effect": {
+          "crit": 0.15,
+          "abilityPower": 0.35,
+          "abilityCooldown": 0.15
+        },
+        "requiresPair": [
+          "middle",
+          "right"
+        ]
+      }
+    ]
+  },
+  "crossgun": {
+    "gunId": "crossgun",
+    "nodes": [
+      {
+        "id": "t1-left",
+        "tier": 1,
+        "column": 0,
+        "name": "Cross Limbs",
+        "description": "+7 shot damage.",
+        "cost": 63,
+        "effect": {
+          "damage": 7
+        }
+      },
+      {
+        "id": "t1-middle",
+        "tier": 1,
+        "column": 1,
+        "name": "Tension Wire",
+        "description": "+15% fire rate; +70 projectile speed.",
+        "cost": 68,
+        "effect": {
+          "fireRate": 0.15,
+          "projectileSpeed": 70
+        }
+      },
+      {
+        "id": "t1-right",
+        "tier": 1,
+        "column": 2,
+        "name": "Crossfire Cell",
+        "description": "12% shorter ability cooldown; +15% ability power.",
+        "cost": 72,
+        "effect": {
+          "abilityCooldown": 0.12,
+          "abilityPower": 0.15
+        }
+      },
+      {
+        "id": "t2-left",
+        "tier": 2,
+        "column": 0,
+        "name": "Prism Guide",
+        "description": "+2 penetration; +5 shot damage.",
+        "cost": 143,
+        "effect": {
+          "pierce": 2,
+          "damage": 5
+        }
+      },
+      {
+        "id": "t2-middle",
+        "tier": 2,
+        "column": 1,
+        "name": "Split Nock",
+        "description": "+18% critical chance; +90 projectile speed.",
+        "cost": 150,
+        "effect": {
+          "crit": 0.18,
+          "projectileSpeed": 90
+        }
+      },
+      {
+        "id": "t2-right",
+        "tier": 2,
+        "column": 2,
+        "name": "Rapid Winch",
+        "description": "+35% ability power; 15% shorter ability cooldown.",
+        "cost": 162,
+        "effect": {
+          "abilityPower": 0.35,
+          "abilityCooldown": 0.15
+        }
+      },
+      {
+        "id": "t3-lm",
+        "tier": 3,
+        "column": 0,
+        "name": "Double Cross",
+        "description": "+2 penetration; +15% critical chance; +8 shot damage.",
+        "cost": 330,
+        "requiresPair": [
+          "left",
+          "middle"
+        ],
+        "effect": {
+          "pierce": 2,
+          "crit": 0.15,
+          "damage": 8
+        }
+      },
+      {
+        "id": "t3-lr",
+        "tier": 3,
+        "column": 1,
+        "name": "Crossbow Heart",
+        "description": "+3 penetration; +60% ability power; 10% shorter ability cooldown.",
+        "cost": 345,
+        "requiresPair": [
+          "left",
+          "right"
+        ],
+        "effect": {
+          "pierce": 3,
+          "abilityPower": 0.6,
+          "abilityCooldown": 0.1
+        }
+      },
+      {
+        "id": "t3-mr",
+        "tier": 3,
+        "column": 2,
+        "name": "Prism Tempest",
+        "description": "+20% critical chance; +50% ability power; +20% fire rate.",
+        "cost": 353,
+        "requiresPair": [
+          "middle",
+          "right"
+        ],
+        "effect": {
+          "crit": 0.2,
+          "abilityPower": 0.5,
+          "fireRate": 0.2
+        }
+      }
+    ]
+  },
+  "rocket": {
+    "gunId": "rocket",
+    "nodes": [
+      {
+        "id": "t1-left",
+        "tier": 1,
+        "column": 0,
+        "name": "Blast Warhead",
+        "description": "+12 shot damage.",
+        "cost": 60,
+        "effect": {
+          "damage": 12
+        }
+      },
+      {
+        "id": "t1-middle",
+        "tier": 1,
+        "column": 1,
+        "name": "Launch Tube",
+        "description": "+5 burn power.",
+        "cost": 57,
+        "effect": {
+          "burn": 5
+        }
+      },
+      {
+        "id": "t1-right",
+        "tier": 1,
+        "column": 2,
+        "name": "Orbital Cell",
+        "description": "+15% ability power.",
+        "cost": 63,
+        "effect": {
+          "abilityPower": 0.15
+        }
+      },
+      {
+        "id": "t2-left",
+        "tier": 2,
+        "column": 0,
+        "name": "Impact Fuse",
+        "description": "+18 shot damage; +5% critical chance.",
+        "cost": 135,
+        "effect": {
+          "damage": 18,
+          "crit": 0.05
+        }
+      },
+      {
+        "id": "t2-middle",
+        "tier": 2,
+        "column": 1,
+        "name": "Fuel Mixer",
+        "description": "+10 burn power; +8 shot damage.",
+        "cost": 128,
+        "effect": {
+          "burn": 10,
+          "damage": 8
+        }
+      },
+      {
+        "id": "t2-right",
+        "tier": 2,
+        "column": 2,
+        "name": "Guidance Core",
+        "description": "+25% ability power; 12% shorter ability cooldown.",
+        "cost": 143,
+        "effect": {
+          "abilityPower": 0.25,
+          "abilityCooldown": 0.12
+        }
+      },
+      {
+        "id": "t3-lm",
+        "tier": 3,
+        "column": 0,
+        "name": "Siege Engine",
+        "description": "+20 shot damage; +14 burn power; +5% critical chance.",
+        "cost": 293,
+        "effect": {
+          "damage": 20,
+          "burn": 14,
+          "crit": 0.05
+        },
+        "requiresPair": [
+          "left",
+          "middle"
+        ]
+      },
+      {
+        "id": "t3-lr",
+        "tier": 3,
+        "column": 1,
+        "name": "Meteor Battery",
+        "description": "+24 shot damage; +40% ability power.",
+        "cost": 308,
+        "effect": {
+          "damage": 24,
+          "abilityPower": 0.4
+        },
+        "requiresPair": [
+          "left",
+          "right"
+        ]
+      },
+      {
+        "id": "t3-mr",
+        "tier": 3,
+        "column": 2,
+        "name": "Orbital Fury",
+        "description": "+16 burn power; +30% ability power; 15% shorter ability cooldown.",
+        "cost": 300,
+        "effect": {
+          "burn": 16,
+          "abilityPower": 0.3,
+          "abilityCooldown": 0.15
+        },
+        "requiresPair": [
+          "middle",
+          "right"
+        ]
+      }
+    ]
   }
 }; root.TrazZUpgradeTrees = trees; if(typeof module!=="undefined" && module.exports) module.exports=trees; })(globalThis);

@@ -3,17 +3,17 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const D=require('../data.js'),C=require('../core.js');
 function harness(){
- const elements=new Map(),noop=()=>{},classes={toggle:noop,add:noop,remove:noop};
+ const events=new Map(),elements=new Map(),noop=()=>{},classes={toggle:noop,add:noop,remove:noop};
  const element=selector=>{if(!elements.has(selector))elements.set(selector,{style:{setProperty(k,v){this[k]=v}},classList:classes,dataset:{},addEventListener:noop,close(){this.open=false},showModal(){this.open=true},focus:noop,getContext:()=>({}),textContent:'',hidden:false});return elements.get(selector);};
  const all=D.planets.flatMap(p=>[1,2,3,4,5].map(l=>p.id+'-'+l));
  const raw={version:3,sound:false,clearedLevels:all};
- const context={window:{TrazZData:D,TrazZCore:C},document:{querySelector:element,querySelectorAll:()=>[],body:{classList:classes},addEventListener:noop},localStorage:{getItem:()=>JSON.stringify(raw),setItem:noop},navigator:{maxTouchPoints:0},matchMedia:()=>({matches:false}),innerWidth:1200,innerHeight:720,addEventListener:noop,requestAnimationFrame:noop,setTimeout:()=>0,clearTimeout:noop,console};
+ const context={window:{TrazZData:D,TrazZCore:C},document:{querySelector:element,querySelectorAll:()=>[],body:{classList:classes},addEventListener:noop},localStorage:{getItem:()=>JSON.stringify(raw),setItem:noop},navigator:{maxTouchPoints:0},matchMedia:()=>({matches:false}),innerWidth:1200,innerHeight:720,addEventListener:(name,fn)=>events.set(name,fn),requestAnimationFrame:noop,setTimeout:()=>0,clearTimeout:noop,console};
  let source=fs.readFileSync(path.join(__dirname,'..','app.js'),'utf8');
  const marker='updateStatus();requestAnimationFrame(loop);';
  assert.ok(source.includes(marker),'app boot marker exists for test-only exposure');
  source=source.replace(marker,'window.combatTest={startGame,update,spawnEnemy,enemyAttack,updateEnemies,damage,shoot,nextWave,goHome,save,uiText(selector){return $(selector).textContent},uiStyle(selector,key){return $(selector).style[key]},get selection(){return {planet:selectedPlanet,level:selectedLevel}},get run(){return run},select(planet,level){selectedPlanet=planet;selectedLevel=level}};'+marker);
  vm.runInNewContext(source,context,{filename:'app.js'});
- return context.window.combatTest;
+ return Object.assign(context.window.combatTest,{key(key,repeat=false){events.get('keydown')({key,code:key,repeat,preventDefault:noop})},click(selector){element(selector).onclick()},panelOpen(){return element('#panel').open}});
 }
 function start(h,index=0,level=1){h.select(D.planets[index].id,level);h.startGame();h.run.crystals=[];h.run.toSpawn=0;return h.run;}
 test('horizontal starter shots hit full-size ground enemies at barrel height',()=>{
@@ -91,4 +91,20 @@ test('red skull swoops are warned, freeze pauses them, and recovery stays airbor
  h.updateEnemies(.86);assert.ok(e.swoopTime>0);assert.equal(r.hostiles.length,0);
  e.freeze=.5;const x=e.x,y=e.y,phase=e.phase;h.updateEnemies(.1);assert.equal(e.x,x);assert.equal(e.y,y);assert.equal(e.phase,phase);
  e.freeze=0;for(let i=0;i<10;i++)h.updateEnemies(.1);assert.equal(e.swoopTime,0);assert.ok(e.recover>0);assert.ok(e.y>=190&&e.y<=510);
+});
+
+ test('expired enemy shots cannot damage TrazZ',()=>{
+ const h=harness(),r=start(h);r.hostiles.push({x:r.player.x,y:r.player.y-15,vx:0,vy:0,r:8,damage:20,life:.005});
+ h.update(.016);assert.equal(r.player.hp,r.player.maxHp);assert.equal(r.hostiles.length,0);
+});
+
+test('holding Escape cannot repeatedly unpause a mission',()=>{
+ const h=harness(),r=start(h);h.key('Escape');assert.equal(r.paused,true);
+ h.key('Escape',true);assert.equal(r.paused,true);assert.equal(h.panelOpen(),true);
+ h.key('Escape');assert.equal(r.paused,false);
+});
+
+test('Escape closes the result screen and returns to the menu',()=>{
+ const h=harness(),r=start(h);r.wave=3;r.waveWait=2;h.update(.01);assert.equal(r.over,true);assert.equal(h.panelOpen(),true);
+ h.key('Escape');assert.equal(h.panelOpen(),false);assert.equal(h.run,null);
 });

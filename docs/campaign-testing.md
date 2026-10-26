@@ -21,3 +21,9 @@
 ## Red flying enemies
 - Browser tested Moon Base level3: red skulls visible airborne with yellow-green flapping wings; tested movement, upward fire, warning and swoop encounters. No console errors/warnings. This test did not complete the level.
 - Automated checks confirm red skulls appear on every planet, scale into larger variants, wind up before swooping, recover airborne and stop flight/animation under freeze.
+
+## Bug recheck — 27 October 2026
+- Reproduced and fixed expired enemy projectiles still colliding on their final update.
+- Reproduced and fixed repeated Escape keydown events toggling pause, and Escape failing to dismiss mission results.
+- All 30 automated checks pass; JavaScript syntax checks and standalone build pass.
+- Browser checked level locks, gun shop artwork, held Escape, keyboard fire, touch aim/fire/ability, and return from defeat with Escape. No console warnings or errors. This pass did not complete a full level or run on physical iPad hardware.

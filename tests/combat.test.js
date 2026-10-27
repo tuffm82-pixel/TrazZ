@@ -28,7 +28,7 @@ test('six planet bosses have different attack patterns and final phase adds a be
   if(i===1){assert.equal(e.charge,1.1);assert.equal(r.hazards[0].kind,'impact');}
   if(i===2)assert.ok(r.hostiles.every(b=>b.kind==='trident'));
   if(i===3){assert.equal(r.enemies.length,2);assert.ok(r.hostiles.every(b=>b.kind==='rock'));}
-  if(i===4){assert.equal(r.hostiles.length,4);assert.equal(r.hazards[0].kind,'fire');assert.ok(r.hostiles.every(b=>b.gravity===70));}
+  if(i===4){assert.equal(r.hostiles.length,4);assert.equal(r.hazards[0].kind,'fire');assert.ok(r.hostiles.every(b=>b.gravity===420&&b.y>e.y&&b.vy<0));}
   if(i===5){assert.equal(r.hostiles.length,5);assert.equal(r.hazards.length,0);e.hp=e.maxHp*.4;h.enemyAttack(e);assert.equal(r.hazards[0].kind,'beam');assert.equal(r.hostiles.at(-1).damage,20);assert.ok(Math.hypot(r.hostiles.at(-1).vx,r.hostiles.at(-1).vy)>299);}
   signatures.add(JSON.stringify([e.charge,r.hostiles.length,r.hostiles[0]?.kind||'',r.hazards[0]?.kind||'']));
  }
@@ -107,4 +107,25 @@ test('holding Escape cannot repeatedly unpause a mission',()=>{
 test('Escape closes the result screen and returns to the menu',()=>{
  const h=harness(),r=start(h);r.wave=3;r.waveWait=2;h.update(.01);assert.equal(r.over,true);assert.equal(h.panelOpen(),true);
  h.key('Escape');assert.equal(h.panelOpen(),false);assert.equal(h.run,null);
+});
+
+test('fire boss is a timed survival encounter and pays its reward once',()=>{
+ const h=harness(),r=start(h,4,5);r.wave=3;r.spec=C.levelSpec(4,5,3);r.bossSpawned=true;h.spawnEnemy(true);const e=r.enemies[0];e.x=950;const hp=e.hp,coins=h.save.coins;
+ h.damage(e,hp*100);assert.equal(e.hp,hp);assert.equal(r.fireSurvival,45);
+ r.player.invincible=1000;h.update(.1);assert.match(h.uiText('#boss-status'),/SURVIVE: 45s/);
+ for(let i=0;i<448;i++)h.update(.1);assert.equal(e.dead,false);assert.equal(r.over,false);
+ h.update(.11);assert.equal(e.dead,true);assert.equal(r.fireSurvival,0);assert.equal(r.hostiles.length,0);assert.equal(r.hazards.length,0);
+ assert.equal(h.save.coins,coins+e.coins);h.damage(e,hp*100);assert.equal(h.save.coins,coins+e.coins);
+ h.update(2.1);assert.equal(r.over,true);
+});
+test('final boss changes phase and announces its armour break once',()=>{
+ const h=harness(),r=start(h,5,5);h.spawnEnemy(true);const e=r.enemies[0];e.x=950;e.hp=e.maxHp*.49;h.update(.01);assert.equal(e.enraged,true);assert.match(h.uiText('#wave-announcement'),/ARMOUR BREAK/);assert.match(h.uiText('#boss-status'),/ENRAGED/);
+});
+test('new gun rewards appear on results without charging currency',()=>{
+ const h=harness();h.save.clearedLevels=[];h.save.completedPlanets=[];h.save.ownedGuns=['pulse'];const r=start(h);r.wave=3;r.waveWait=2;const coins=h.save.coins;h.update(.01);assert.ok(h.save.ownedGuns.includes('scatter'));assert.equal(h.save.coins,coins+68);assert.equal(r.over,true);
+});
+
+test('surviving the fire countdown cannot create a fatal ground hazard during victory delay',()=>{
+ const h=harness(),r=start(h,4,5);r.wave=3;r.spec=C.levelSpec(4,5,3);r.bossSpawned=true;h.spawnEnemy(true);r.enemies[0].x=950;r.fireSurvival=.001;r.hazardTimer=.001;r.player.hp=1;
+ h.update(.016);assert.equal(r.hazards.length,0);for(let i=0;i<140;i++)h.update(.016);assert.equal(r.over,true);assert.equal(r.player.hp,1);
 });

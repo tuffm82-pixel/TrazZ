@@ -27,3 +27,10 @@
 - Reproduced and fixed repeated Escape keydown events toggling pause, and Escape failing to dismiss mission results.
 - All 30 automated checks pass; JavaScript syntax checks and standalone build pass.
 - Browser checked level locks, gun shop artwork, held Escape, keyboard fire, touch aim/fire/ability, and return from defeat with Escape. No console warnings or errors. This pass did not complete a full level or run on physical iPad hardware.
+
+## Drawing alignment — 27 October 2026
+- Re-read all four Game Concept Summary drawings. Paper gun milestones are 5/10/15/20/25/30 campaign clears, not pilot XP. All guns now arrive automatically at their required milestones; coins remain for armour and gems for upgrades. Existing purchases and balances are retained.
+- Fire boss now requires 45 seconds of survival; final sentinel has an armour-break appearance. Added enemy colour/growth variations and the purple planetary escape scene.
+- Automated checks cover all 26 level grants, six paper milestones, old saves, free rewards, survival countdown/reward-once and final phase. Browser checked migrated early gun unlocks, equip without payment, locked later rewards and gameplay. Physical iPad and complete late-game playthrough remain untested.
+
+- Two independent subagents audited drawing fidelity and progression/combat. Corrected friendly Berg being used as an enemy, changed fireballs to hand-origin throws, and reproduced/fixed a ground hazard spawning after the survival countdown. All 35 tests pass.

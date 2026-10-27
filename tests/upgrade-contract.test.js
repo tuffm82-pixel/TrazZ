@@ -6,7 +6,7 @@ require('../upgrade-catalog.js');
 const D = require('../data.js');
 const C = require('../core.js');
 
-test('all twenty-six purchasable guns have artwork, projectiles, and complete upgrade trees', () => {
+test('all twenty-six campaign guns have artwork, projectiles, and complete upgrade trees', () => {
   assert.equal(D.guns.length, 26);
   assert.equal(new Set(D.guns.map(g => g.id)).size, 26);
   for (const gun of D.guns) {
@@ -40,14 +40,4 @@ test('every gun enforces three first choices, two middle choices, and the matchi
   }
 });
 
-test('gun purchases use coins while tree upgrades use gems', () => {
-  const target = D.guns.find(g => g.cost > 0);
-  const save = C.normalizeSave({ version: 2, coins: target.cost, gems: 10000 });
-  assert.equal(C.buyGun(save, target.id), true);
-  assert.equal(save.coins, 0);
-  assert.equal(save.gems, 10000);
-  const node = target.upgradeTree.nodes.find(n => n.tier === 1);
-  assert.equal(C.buyNode(save, target.id, node.id), true);
-  assert.equal(save.gems, 10000 - node.cost);
-  assert.equal(save.coins, 0);
-});
+test('level rewards are free while tree upgrades use gems',()=>{const save=C.normalizeSave({version:3,coins:50,gems:100});C.completeLevel(save,'moon',1);assert.equal(C.canEquip(save,'scatter'),true);assert.equal(save.coins,50);assert.equal(save.gems,100);const node=D.guns.find(g=>g.id==='scatter').upgradeTree.nodes[0];assert.equal(C.buyNode(save,'scatter',node.id),true);assert.equal(save.gems,100-node.cost);assert.equal(save.coins,50);});

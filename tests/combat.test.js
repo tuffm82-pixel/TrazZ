@@ -7,13 +7,13 @@ function harness(){
  const element=selector=>{if(!elements.has(selector))elements.set(selector,{style:{setProperty(k,v){this[k]=v}},classList:classes,dataset:{},addEventListener:noop,close(){this.open=false},showModal(){this.open=true},focus:noop,getContext:()=>({}),textContent:'',hidden:false});return elements.get(selector);};
  const all=D.planets.flatMap(p=>[1,2,3,4,5].map(l=>p.id+'-'+l));
  const raw={version:3,sound:false,clearedLevels:all};
- const context={window:{TrazZData:D,TrazZCore:C},document:{querySelector:element,querySelectorAll:()=>[],body:{classList:classes},addEventListener:noop},localStorage:{getItem:()=>JSON.stringify(raw),setItem:noop},navigator:{maxTouchPoints:0},matchMedia:()=>({matches:false}),innerWidth:1200,innerHeight:720,addEventListener:(name,fn)=>events.set(name,fn),requestAnimationFrame:noop,setTimeout:()=>0,clearTimeout:noop,console};
+ const context={window:{TrazZData:D,TrazZCore:C,TrazZMotion:require('../character-motion.js')},Image:class{constructor(){this.complete=true;this.naturalWidth=300}},document:{querySelector:element,querySelectorAll:()=>[],body:{classList:classes},addEventListener:noop},localStorage:{getItem:()=>JSON.stringify(raw),setItem:noop},navigator:{maxTouchPoints:0},matchMedia:()=>({matches:false}),innerWidth:1200,innerHeight:720,addEventListener:(name,fn)=>events.set(name,fn),requestAnimationFrame:noop,setTimeout:()=>0,clearTimeout:noop,console};
  let source=fs.readFileSync(path.join(__dirname,'..','app.js'),'utf8');
  const marker='updateStatus();requestAnimationFrame(loop);';
  assert.ok(source.includes(marker),'app boot marker exists for test-only exposure');
  source=source.replace(marker,'window.combatTest={startGame,update,spawnEnemy,enemyAttack,updateEnemies,damage,shoot,nextWave,goHome,save,uiText(selector){return $(selector).textContent},uiStyle(selector,key){return $(selector).style[key]},get selection(){return {planet:selectedPlanet,level:selectedLevel}},get run(){return run},select(planet,level){selectedPlanet=planet;selectedLevel=level}};'+marker);
  vm.runInNewContext(source,context,{filename:'app.js'});
- return Object.assign(context.window.combatTest,{key(key,repeat=false){events.get('keydown')({key,code:key,repeat,preventDefault:noop})},click(selector){element(selector).onclick()},panelOpen(){return element('#panel').open}});
+ return Object.assign(context.window.combatTest,{key(key,repeat=false){events.get('keydown')({key,code:key,repeat,preventDefault:noop})},release(key){events.get('keyup')({key,code:key})},click(selector){element(selector).onclick()},panelOpen(){return element('#panel').open}});
 }
 function start(h,index=0,level=1){h.select(D.planets[index].id,level);h.startGame();h.run.crystals=[];h.run.toSpawn=0;return h.run;}
 test('horizontal starter shots hit full-size ground enemies at barrel height',()=>{
@@ -129,3 +129,5 @@ test('surviving the fire countdown cannot create a fatal ground hazard during vi
  const h=harness(),r=start(h,4,5);r.wave=3;r.spec=C.levelSpec(4,5,3);r.bossSpawned=true;h.spawnEnemy(true);r.enemies[0].x=950;r.fireSurvival=.001;r.hazardTimer=.001;r.player.hp=1;
  h.update(.016);assert.equal(r.hazards.length,0);for(let i=0;i<140;i++)h.update(.016);assert.equal(r.over,true);assert.equal(r.player.hp,1);
 });
+
+test('walking animates only while position changes and stopping restores idle',()=>{const M=require('../character-motion.js'),h=harness(),r=start(h);h.key('ArrowRight');h.update(.1);assert.equal(r.player.walking,true);assert.match(M.pose(r.player).path,/walk-side/);h.release('ArrowRight');h.update(.1);assert.equal(r.player.walking,false);assert.equal(M.pose(r.player).bob,0);h.key('w');h.key('ArrowLeft');h.update(.1);assert.match(M.pose(r.player).path,/walk-up/);r.player.x=140;h.update(.1);assert.equal(r.player.walking,false);});

@@ -4,7 +4,7 @@ const read=f=>fs.readFileSync(path.join(root,f),'utf8').replace(/^\uFEFF/,'');
 let html=read('index.html').replace('href="./"','href="#"');
 const assets={};function walk(dir){for(const entry of fs.readdirSync(path.join(root,dir),{withFileTypes:true})){const file=dir+'/'+entry.name;if(entry.isDirectory())walk(file);else if(file.endsWith('.svg'))assets[file]='data:image/svg+xml;base64,'+fs.readFileSync(path.join(root,file)).toString('base64')}}walk('assets');
 for(const f of ['style.css','campaign.css'])html=html.replace(new RegExp('<link rel="stylesheet" href="'+f.replace(/\./g,'\\.')+'(?:\\?[^"]*)?">'),()=>`<style>${read(f)}</style>`);
-for(const f of ['upgrade-catalog.js','data.js','core.js','campaign-art.js','app.js']){
+for(const f of ['upgrade-catalog.js','data.js','core.js','campaign-art.js','music.js','character-motion.js','app.js']){
   const tag=new RegExp('<script src="'+f.replace(/\./g,'\\.')+'(?:\\?[^\"]*)?"></script>');
   html=html.replace(tag,()=>`<script>${f==='upgrade-catalog.js'?'window.TrazZAssets='+JSON.stringify(assets)+';':''}\n${read(f).replace(/<\/script/gi,'<\\/script')}\n</script>`);
 }

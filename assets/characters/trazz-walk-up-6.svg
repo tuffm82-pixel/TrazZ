@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 420" role="img" aria-label="TrazZ, the green duck in a robot space suit with a medium upward-facing head and sturdy arms">
+<defs>
+<linearGradient id="plate" x2="1" y2="1"><stop stop-color="#f3f5ed"/><stop offset=".7" stop-color="#d7ded8"/><stop offset="1" stop-color="#adbcb9"/></linearGradient>
+<linearGradient id="green" x2=".9" y2="1"><stop stop-color="#9bbd67"/><stop offset="1" stop-color="#56854f"/></linearGradient>
+<linearGradient id="glass" x2="1" y2="1"><stop stop-color="#d0e9e7" stop-opacity=".18"/><stop offset=".6" stop-color="#c6e5e9" stop-opacity=".03"/><stop offset="1" stop-color="#a8c8ce" stop-opacity=".15"/></linearGradient>
+<pattern id="vent" width="9" height="9" patternUnits="userSpaceOnUse"><rect width="9" height="9" fill="#a1aaa0"/><path d="M-2 9 7 0M4 11 13 2" stroke="#354d48" stroke-width="2"/></pattern>
+<pattern id="mesh" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#cbd3c7"/><path d="m-8 0 24 24M0-8 24 16M-8 16 16-8M0 24 24 0" stroke="#5d7068" stroke-width="1.5"/></pattern>
+</defs>
+<g stroke="#2a3937" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+<g transform="rotate(-19.00 134 295) translate(0 0)"><path d="m123 290-17 36-10 35 7 12 12-10 7-29 20-37Z" fill="url(#green)"/><path d="m97 357-1 16 13 12-37-2-5 7h57l-8-12-4-19Z" fill="url(#plate)"/></g>
+<g transform="rotate(19.00 161 295) translate(0 -5)"><path d="m168 294 14 31 5 36-10 13-8-14-4-31-14-31Z" fill="url(#green)"/><path d="m177 359-8 20-5 10h61l-4-7-33 1 8-16-3-10Z" fill="url(#plate)"/></g>
+<path d="M81 180 65 211 55 240 75 248 91 215 103 183Z" fill="url(#plate)"/>
+<path d="M197 183 209 216 217 251 239 245 231 208 221 178Z" fill="url(#plate)"/>
+<g transform="rotate(5.70 66 244)"><path d="M56 245 48 267 36 282 48 295 70 276 78 249Z" fill="url(#plate)"/></g>
+<path d="M221 238 192 253 163 272 176 291 206 275 239 256Z" fill="url(#plate)"/>
+<circle cx="66" cy="244" r="12" fill="#46534d"/><circle cx="228" cy="248" r="12" fill="#46534d"/>
+<path d="m62 247 8-7M224 251l8-7" stroke="#839389" stroke-width="2"/>
+<path d="m106 221 86 1-11 43-15 33-45-1-10-31Z" fill="url(#plate)"/>
+<path d="m107 225 84 0-41 44Z" fill="url(#mesh)"/>
+<path d="m112 253 38 16 30-14-15 42-44-1Z" fill="url(#mesh)"/>
+<path d="m121 296 29-27 15 28M112 253l68 2" fill="none" stroke="#6c7a70" stroke-width="2"/>
+<path d="m106 145 88 0-14 33-58-1Z" fill="url(#vent)"/>
+<path d="m113 149 10 25M186 149l-11 25" stroke="#d7ded1" stroke-width="2"/>
+<path d="m101 177 94 2 6 44-52 4-52-6Z" fill="url(#plate)"/>
+<path d="m149 179 0 45" stroke="#8b9990" stroke-width="2"/>
+<path d="M63 184q15-17 39-8l5 8-17 2Z" fill="url(#green)"/>
+<path d="M193 181q23-16 47 1l-37 6Z" fill="url(#green)"/>
+<path d="m72 181 23-2M204 181l24-1" stroke="#c2d29a" stroke-width="1.5"/>
+<g aria-label="Medium green head looking upward, following the paper drawing" stroke-width="2.8">
+<path d="M128 142 137 118Q141 108 149 104Q146 94 148 83Q149 76 155 71L166 54Q169 50 171 53L170 68Q171 75 181 83Q191 90 191 99Q192 112 180 116Q168 120 157 115L151 142Z" fill="url(#green)"/>
+<path d="M155 72 166 55Q169 51 171 53L164 77" fill="#8eaf62"/>
+<path d="M159 74 167 59" fill="none" stroke="#466943" stroke-width="1.8"/>
+<path d="M174 88q7-1 10 5-5 4-10 0Z" fill="#cad5aa" stroke-width="1.6"/>
+<path d="m174 87 9 5" fill="none" stroke-width="2.5"/>
+<path d="m179 91-1 3" stroke-width="2.5"/>
+<path d="M183 103q-6 5-12 3M138 132l10-17" fill="none" stroke="#52724a" stroke-width="1.5"/>
+</g>
+<path d="M66 141Q64 92 91 61q22-29 65-34 43-1 61 36 15 33 13 77Z" fill="url(#glass)" stroke="#687f7c" stroke-width="3"/>
+<path d="M78 103q9-36 34-49M77 115l-1 8" stroke="#e4f4ed" stroke-width="4" opacity=".7" fill="none"/>
+<path d="M63 139 232 139 232 150 64 150Z" fill="url(#plate)"/><path d="M69 143H226" stroke="#f4f8ec" stroke-width="2"/>
+</g><text x="158" y="201" font-family="Arial,sans-serif" font-weight="700" font-size="11" letter-spacing=".5" fill="#3d4b40">TRAZZ</text></svg>

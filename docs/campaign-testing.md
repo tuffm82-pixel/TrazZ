@@ -34,3 +34,8 @@
 - Automated checks cover all 26 level grants, six paper milestones, old saves, free rewards, survival countdown/reward-once and final phase. Browser checked migrated early gun unlocks, equip without payment, locked later rewards and gameplay. Physical iPad and complete late-game playthrough remain untested.
 
 - Two independent subagents audited drawing fidelity and progression/combat. Corrected friendly Berg being used as an enemy, changed fireballs to hand-origin throws, and reproduced/fixed a ground hazard spawning after the survival countdown. All 35 tests pass.
+
+## Music and walking — 28 October 2026
+- All 39 automated checks pass, including walk/idle/upward aim/edge transitions, audio waiting for interaction, a single scheduler, mute/pause and saved music preferences.
+- Browser checked Music toggling and persistence after reload, movement with the walking frames and pause. No console warnings/errors. Audio scheduling is tested; no physical iPad listening test was performed.
+- Both walking views and the original synthesized soundtrack are embedded in the standalone game.

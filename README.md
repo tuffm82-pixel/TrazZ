@@ -41,3 +41,8 @@ Red winged skulls keep their red heads and jagged yellow-green wings across all 
 Enemy colour variants and growing horned monsters follow the paper progression. Blue and green flying pods flap their wings. The campaign finale sends TrazZ through a purple sky with colourful planets.
 
 Berg, the crowned swordsman marked as friendly in the drawings, now appears in Berg's Guide. The Moon enemy is a separate helmeted Lunar Sentinel inspired by the unlabelled helmet sketch. Fireballs arc from the fire boss's hands.
+
+## Music and walking — 28 October 2026
+An original synthesized space theme plays after the first tap or key press, with a faster arrangement during missions. Settings has separate Music and Sound effects switches; the music choice is saved. Music stops on pause, defeat, or leaving the game tab. No external audio service or downloaded soundtrack is required.
+
+TrazZ has eight walking poses for side aim and eight for upward aim, including alternating steps, free-arm swing and subtle body bob. Walking follows actual distance travelled and returns to the original idle pose when stopped or blocked at an arena edge. The same animation supports keyboard and touch movement. Build the poses with `node scripts/build-walk.js` before building the offline HTML.

@@ -2,9 +2,9 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
-const ids = ['pulse', 'scatter', 'burst', 'ricochet', 'ember', 'frost', 'arc', 'venom', 'rail', 'gravity', 'solar', 'meteor', 'wrath', 'freezepistol', 'laze', 'triangulox', 'vstruk', 'curver', 'glockbow', 'glacierar', 'longshot', 'raygun', 'flamegun', 'spikegun', 'crossgun', 'rocket', 'shard', 'prism', 'tempest', 'thunder', 'voidneedle', 'eclipse'];
+const ids = ['pulse', 'scatter', 'burst', 'ricochet', 'ember', 'frost', 'arc', 'venom', 'rail', 'gravity', 'solar', 'meteor', 'wrath', 'freezepistol', 'laze', 'triangulox', 'vstruk', 'curver', 'glockbow', 'glacierar', 'longshot', 'raygun', 'flamegun', 'spikegun', 'crossgun', 'rocket', 'shard', 'prism', 'tempest', 'thunder', 'voidneedle', 'eclipse', 'thorn', 'swarm', 'drill', 'magnet', 'chrono', 'paradox'];
 const expected = ['t1-left', 't1-middle', 't1-right', 't2-left', 't2-middle', 't2-right', 't3-lm', 't3-lr', 't3-mr'];
-const effects = new Set(['damage', 'fireRate', 'projectileSpeed', 'pierce', 'bounce', 'pellets', 'freeze', 'burn', 'chain', 'crit', 'lifesteal', 'abilityCooldown', 'abilityPower', 'health', 'shield']);
+const effects = new Set(['damage', 'fireRate', 'projectileSpeed', 'pierce', 'bounce', 'pellets', 'freeze', 'burn', 'chain', 'crit', 'lifesteal', 'abilityCooldown', 'abilityPower', 'health', 'shield', 'regen', 'moveSpeed', 'blastRadius']);
 const trees = {};
 for (const id of ids) {
   const tree = JSON.parse(fs.readFileSync(path.join(root, 'content', 'upgrades', id + '.json'), 'utf8').replace(/^\uFEFF/, ''));

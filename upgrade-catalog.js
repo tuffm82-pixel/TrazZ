@@ -3956,5 +3956,721 @@
         ]
       }
     ]
+  },
+  "thorn": {
+    "gunId": "thorn",
+    "nodes": [
+      {
+        "id": "t1-left",
+        "tier": 1,
+        "column": 0,
+        "name": "Venom bud",
+        "description": "+8 shot damage.",
+        "cost": 65,
+        "effect": {
+          "damage": 8
+        }
+      },
+      {
+        "id": "t1-middle",
+        "tier": 1,
+        "column": 1,
+        "name": "Quick vines",
+        "description": "+10% fire rate.",
+        "cost": 70,
+        "effect": {
+          "fireRate": 0.1
+        }
+      },
+      {
+        "id": "t1-right",
+        "tier": 1,
+        "column": 2,
+        "name": "Living armour",
+        "description": "+0.5 health/sec after 5 seconds unharmed.",
+        "cost": 75,
+        "effect": {
+          "regen": 0.5
+        }
+      },
+      {
+        "id": "t2-left",
+        "tier": 2,
+        "column": 0,
+        "name": "Thorn tips",
+        "description": "+10% critical chance.",
+        "cost": 135,
+        "effect": {
+          "crit": 0.1
+        }
+      },
+      {
+        "id": "t2-middle",
+        "tier": 2,
+        "column": 1,
+        "name": "Root needles",
+        "description": "+2 piercing.",
+        "cost": 145,
+        "effect": {
+          "pierce": 2
+        }
+      },
+      {
+        "id": "t2-right",
+        "tier": 2,
+        "column": 2,
+        "name": "Renewal cell",
+        "description": "+0.8 health/sec after 5 seconds unharmed; +10% shorter cooldown.",
+        "cost": 155,
+        "effect": {
+          "regen": 0.8,
+          "abilityCooldown": 0.1
+        }
+      },
+      {
+        "id": "t3-lm",
+        "tier": 3,
+        "column": 0,
+        "name": "Briar storm",
+        "description": "+16 shot damage; +10% critical chance.",
+        "cost": 300,
+        "effect": {
+          "damage": 16,
+          "crit": 0.1
+        },
+        "requiresPair": [
+          "left",
+          "middle"
+        ]
+      },
+      {
+        "id": "t3-lr",
+        "tier": 3,
+        "column": 1,
+        "name": "Wild renewal",
+        "description": "+1.2 health/sec after 5 seconds unharmed; +30% ability power.",
+        "cost": 320,
+        "effect": {
+          "regen": 1.2,
+          "abilityPower": 0.3
+        },
+        "requiresPair": [
+          "left",
+          "right"
+        ]
+      },
+      {
+        "id": "t3-mr",
+        "tier": 3,
+        "column": 2,
+        "name": "Evergreen heart",
+        "description": "+20% fire rate; +1.5 health/sec after 5 seconds unharmed.",
+        "cost": 340,
+        "effect": {
+          "fireRate": 0.2,
+          "regen": 1.5
+        },
+        "requiresPair": [
+          "middle",
+          "right"
+        ]
+      }
+    ]
+  },
+  "swarm": {
+    "gunId": "swarm",
+    "nodes": [
+      {
+        "id": "t1-left",
+        "tier": 1,
+        "column": 0,
+        "name": "Hive node",
+        "description": "+1 chain targets.",
+        "cost": 65,
+        "effect": {
+          "chain": 1
+        }
+      },
+      {
+        "id": "t1-middle",
+        "tier": 1,
+        "column": 1,
+        "name": "Golden stinger",
+        "description": "+8 shot damage.",
+        "cost": 70,
+        "effect": {
+          "damage": 8
+        }
+      },
+      {
+        "id": "t1-right",
+        "tier": 1,
+        "column": 2,
+        "name": "Wing motor",
+        "description": "+6% movement speed.",
+        "cost": 75,
+        "effect": {
+          "moveSpeed": 0.06
+        }
+      },
+      {
+        "id": "t2-left",
+        "tier": 2,
+        "column": 0,
+        "name": "Swarm link",
+        "description": "+1 chain targets; +10% critical chance.",
+        "cost": 135,
+        "effect": {
+          "chain": 1,
+          "crit": 0.1
+        }
+      },
+      {
+        "id": "t2-middle",
+        "tier": 2,
+        "column": 1,
+        "name": "Fast hatch",
+        "description": "+20% fire rate.",
+        "cost": 145,
+        "effect": {
+          "fireRate": 0.2
+        }
+      },
+      {
+        "id": "t2-right",
+        "tier": 2,
+        "column": 2,
+        "name": "Hive radius",
+        "description": "+15% area-effect radius.",
+        "cost": 155,
+        "effect": {
+          "blastRadius": 0.15
+        }
+      },
+      {
+        "id": "t3-lm",
+        "tier": 3,
+        "column": 0,
+        "name": "Endless swarm",
+        "description": "+2 chain targets; +12 shot damage.",
+        "cost": 300,
+        "effect": {
+          "chain": 2,
+          "damage": 12
+        },
+        "requiresPair": [
+          "left",
+          "middle"
+        ]
+      },
+      {
+        "id": "t3-lr",
+        "tier": 3,
+        "column": 1,
+        "name": "Royal hive",
+        "description": "+2 chain targets; +30% area-effect radius.",
+        "cost": 320,
+        "effect": {
+          "chain": 2,
+          "blastRadius": 0.3
+        },
+        "requiresPair": [
+          "left",
+          "right"
+        ]
+      },
+      {
+        "id": "t3-mr",
+        "tier": 3,
+        "column": 2,
+        "name": "Hornet drive",
+        "description": "+25% fire rate; +10% movement speed.",
+        "cost": 340,
+        "effect": {
+          "fireRate": 0.25,
+          "moveSpeed": 0.1
+        },
+        "requiresPair": [
+          "middle",
+          "right"
+        ]
+      }
+    ]
+  },
+  "drill": {
+    "gunId": "drill",
+    "nodes": [
+      {
+        "id": "t1-left",
+        "tier": 1,
+        "column": 0,
+        "name": "Hard tip",
+        "description": "+20 shot damage.",
+        "cost": 65,
+        "effect": {
+          "damage": 20
+        }
+      },
+      {
+        "id": "t1-middle",
+        "tier": 1,
+        "column": 1,
+        "name": "Rail accelerator",
+        "description": "+250 projectile speed.",
+        "cost": 70,
+        "effect": {
+          "projectileSpeed": 250
+        }
+      },
+      {
+        "id": "t1-right",
+        "tier": 1,
+        "column": 2,
+        "name": "Steel guard",
+        "description": "+25 starting shield.",
+        "cost": 75,
+        "effect": {
+          "shield": 25
+        }
+      },
+      {
+        "id": "t2-left",
+        "tier": 2,
+        "column": 0,
+        "name": "Breach teeth",
+        "description": "+3 piercing.",
+        "cost": 135,
+        "effect": {
+          "pierce": 3
+        }
+      },
+      {
+        "id": "t2-middle",
+        "tier": 2,
+        "column": 1,
+        "name": "Precision drill",
+        "description": "+15% critical chance.",
+        "cost": 145,
+        "effect": {
+          "crit": 0.15
+        }
+      },
+      {
+        "id": "t2-right",
+        "tier": 2,
+        "column": 2,
+        "name": "Coolant loop",
+        "description": "+15% shorter cooldown.",
+        "cost": 155,
+        "effect": {
+          "abilityCooldown": 0.15
+        }
+      },
+      {
+        "id": "t3-lm",
+        "tier": 3,
+        "column": 0,
+        "name": "Adamant line",
+        "description": "+30 shot damage; +3 piercing.",
+        "cost": 300,
+        "effect": {
+          "damage": 30,
+          "pierce": 3
+        },
+        "requiresPair": [
+          "left",
+          "middle"
+        ]
+      },
+      {
+        "id": "t3-lr",
+        "tier": 3,
+        "column": 1,
+        "name": "Iron fortress",
+        "description": "+4 piercing; +60 starting shield.",
+        "cost": 320,
+        "effect": {
+          "pierce": 4,
+          "shield": 60
+        },
+        "requiresPair": [
+          "left",
+          "right"
+        ]
+      },
+      {
+        "id": "t3-mr",
+        "tier": 3,
+        "column": 2,
+        "name": "Critical breach",
+        "description": "+15% critical chance; +40% ability power.",
+        "cost": 340,
+        "effect": {
+          "crit": 0.15,
+          "abilityPower": 0.4
+        },
+        "requiresPair": [
+          "middle",
+          "right"
+        ]
+      }
+    ]
+  },
+  "magnet": {
+    "gunId": "magnet",
+    "nodes": [
+      {
+        "id": "t1-left",
+        "tier": 1,
+        "column": 0,
+        "name": "Magnetic slug",
+        "description": "+10 shot damage.",
+        "cost": 65,
+        "effect": {
+          "damage": 10
+        }
+      },
+      {
+        "id": "t1-middle",
+        "tier": 1,
+        "column": 1,
+        "name": "Wide field",
+        "description": "+12% area-effect radius.",
+        "cost": 70,
+        "effect": {
+          "blastRadius": 0.12
+        }
+      },
+      {
+        "id": "t1-right",
+        "tier": 1,
+        "column": 2,
+        "name": "Polarity core",
+        "description": "+20% ability power.",
+        "cost": 75,
+        "effect": {
+          "abilityPower": 0.2
+        }
+      },
+      {
+        "id": "t2-left",
+        "tier": 2,
+        "column": 0,
+        "name": "Flux sight",
+        "description": "+10% critical chance.",
+        "cost": 135,
+        "effect": {
+          "crit": 0.1
+        }
+      },
+      {
+        "id": "t2-middle",
+        "tier": 2,
+        "column": 1,
+        "name": "Gravity cage",
+        "description": "+20% area-effect radius.",
+        "cost": 145,
+        "effect": {
+          "blastRadius": 0.2
+        }
+      },
+      {
+        "id": "t2-right",
+        "tier": 2,
+        "column": 2,
+        "name": "Magnet shield",
+        "description": "+30 starting shield.",
+        "cost": 155,
+        "effect": {
+          "shield": 30
+        }
+      },
+      {
+        "id": "t3-lm",
+        "tier": 3,
+        "column": 0,
+        "name": "Crushing field",
+        "description": "+22 shot damage; +25% area-effect radius.",
+        "cost": 300,
+        "effect": {
+          "damage": 22,
+          "blastRadius": 0.25
+        },
+        "requiresPair": [
+          "left",
+          "middle"
+        ]
+      },
+      {
+        "id": "t3-lr",
+        "tier": 3,
+        "column": 1,
+        "name": "Flux collapse",
+        "description": "+15% critical chance; +40% ability power.",
+        "cost": 320,
+        "effect": {
+          "crit": 0.15,
+          "abilityPower": 0.4
+        },
+        "requiresPair": [
+          "left",
+          "right"
+        ]
+      },
+      {
+        "id": "t3-mr",
+        "tier": 3,
+        "column": 2,
+        "name": "Magnetic wall",
+        "description": "+30% area-effect radius; +55 starting shield.",
+        "cost": 340,
+        "effect": {
+          "blastRadius": 0.3,
+          "shield": 55
+        },
+        "requiresPair": [
+          "middle",
+          "right"
+        ]
+      }
+    ]
+  },
+  "chrono": {
+    "gunId": "chrono",
+    "nodes": [
+      {
+        "id": "t1-left",
+        "tier": 1,
+        "column": 0,
+        "name": "Time crystal",
+        "description": "+9 shot damage.",
+        "cost": 65,
+        "effect": {
+          "damage": 9
+        }
+      },
+      {
+        "id": "t1-middle",
+        "tier": 1,
+        "column": 1,
+        "name": "Fast second",
+        "description": "+10% fire rate.",
+        "cost": 70,
+        "effect": {
+          "fireRate": 0.1
+        }
+      },
+      {
+        "id": "t1-right",
+        "tier": 1,
+        "column": 2,
+        "name": "Phase boots",
+        "description": "+8% movement speed.",
+        "cost": 75,
+        "effect": {
+          "moveSpeed": 0.08
+        }
+      },
+      {
+        "id": "t2-left",
+        "tier": 2,
+        "column": 0,
+        "name": "Stasis rounds",
+        "description": "+0.2 seconds of freeze on hit.",
+        "cost": 135,
+        "effect": {
+          "freeze": 0.2
+        }
+      },
+      {
+        "id": "t2-middle",
+        "tier": 2,
+        "column": 1,
+        "name": "Clockwork tip",
+        "description": "+2 piercing.",
+        "cost": 145,
+        "effect": {
+          "pierce": 2
+        }
+      },
+      {
+        "id": "t2-right",
+        "tier": 2,
+        "column": 2,
+        "name": "Reserve time",
+        "description": "+15% shorter cooldown.",
+        "cost": 155,
+        "effect": {
+          "abilityCooldown": 0.15
+        }
+      },
+      {
+        "id": "t3-lm",
+        "tier": 3,
+        "column": 0,
+        "name": "Frozen minute",
+        "description": "+0.35 seconds of freeze on hit; +2 piercing.",
+        "cost": 300,
+        "effect": {
+          "freeze": 0.35,
+          "pierce": 2
+        },
+        "requiresPair": [
+          "left",
+          "middle"
+        ]
+      },
+      {
+        "id": "t3-lr",
+        "tier": 3,
+        "column": 1,
+        "name": "Phase hunter",
+        "description": "+0.3 seconds of freeze on hit; +12% movement speed.",
+        "cost": 320,
+        "effect": {
+          "freeze": 0.3,
+          "moveSpeed": 0.12
+        },
+        "requiresPair": [
+          "left",
+          "right"
+        ]
+      },
+      {
+        "id": "t3-mr",
+        "tier": 3,
+        "column": 2,
+        "name": "Timeless needle",
+        "description": "+3 piercing; +15% shorter cooldown.",
+        "cost": 340,
+        "effect": {
+          "pierce": 3,
+          "abilityCooldown": 0.15
+        },
+        "requiresPair": [
+          "middle",
+          "right"
+        ]
+      }
+    ]
+  },
+  "paradox": {
+    "gunId": "paradox",
+    "nodes": [
+      {
+        "id": "t1-left",
+        "tier": 1,
+        "column": 0,
+        "name": "Fracture tip",
+        "description": "+16 shot damage.",
+        "cost": 65,
+        "effect": {
+          "damage": 16
+        }
+      },
+      {
+        "id": "t1-middle",
+        "tier": 1,
+        "column": 1,
+        "name": "Loop rails",
+        "description": "+2 bounces.",
+        "cost": 70,
+        "effect": {
+          "bounce": 2
+        }
+      },
+      {
+        "id": "t1-right",
+        "tier": 1,
+        "column": 2,
+        "name": "Paradox core",
+        "description": "+20% ability power.",
+        "cost": 75,
+        "effect": {
+          "abilityPower": 0.2
+        }
+      },
+      {
+        "id": "t2-left",
+        "tier": 2,
+        "column": 0,
+        "name": "Future sight",
+        "description": "+15% critical chance.",
+        "cost": 135,
+        "effect": {
+          "crit": 0.15
+        }
+      },
+      {
+        "id": "t2-middle",
+        "tier": 2,
+        "column": 1,
+        "name": "Time needle",
+        "description": "+2 piercing.",
+        "cost": 145,
+        "effect": {
+          "pierce": 2
+        }
+      },
+      {
+        "id": "t2-right",
+        "tier": 2,
+        "column": 2,
+        "name": "Epoch reserve",
+        "description": "+15% shorter cooldown.",
+        "cost": 155,
+        "effect": {
+          "abilityCooldown": 0.15
+        }
+      },
+      {
+        "id": "t3-lm",
+        "tier": 3,
+        "column": 0,
+        "name": "Loop storm",
+        "description": "+25 shot damage; +3 bounces.",
+        "cost": 300,
+        "effect": {
+          "damage": 25,
+          "bounce": 3
+        },
+        "requiresPair": [
+          "left",
+          "middle"
+        ]
+      },
+      {
+        "id": "t3-lr",
+        "tier": 3,
+        "column": 1,
+        "name": "Future collapse",
+        "description": "+15% critical chance; +45% ability power.",
+        "cost": 320,
+        "effect": {
+          "crit": 0.15,
+          "abilityPower": 0.45
+        },
+        "requiresPair": [
+          "left",
+          "right"
+        ]
+      },
+      {
+        "id": "t3-mr",
+        "tier": 3,
+        "column": 2,
+        "name": "Eternal arrow",
+        "description": "+3 piercing; +20% shorter cooldown.",
+        "cost": 340,
+        "effect": {
+          "pierce": 3,
+          "abilityCooldown": 0.2
+        },
+        "requiresPair": [
+          "middle",
+          "right"
+        ]
+      }
+    ]
   }
 }; root.TrazZUpgradeTrees = trees; if(typeof module!=="undefined" && module.exports) module.exports=trees; })(globalThis);

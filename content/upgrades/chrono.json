@@ -1,0 +1,119 @@
+{
+  "gunId": "chrono",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Time crystal",
+      "description": "+9 shot damage.",
+      "cost": 65,
+      "effect": {
+        "damage": 9
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Fast second",
+      "description": "+10% fire rate.",
+      "cost": 70,
+      "effect": {
+        "fireRate": 0.1
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Phase boots",
+      "description": "+8% movement speed.",
+      "cost": 75,
+      "effect": {
+        "moveSpeed": 0.08
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Stasis rounds",
+      "description": "+0.2 seconds of freeze on hit.",
+      "cost": 135,
+      "effect": {
+        "freeze": 0.2
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Clockwork tip",
+      "description": "+2 piercing.",
+      "cost": 145,
+      "effect": {
+        "pierce": 2
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Reserve time",
+      "description": "+15% shorter cooldown.",
+      "cost": 155,
+      "effect": {
+        "abilityCooldown": 0.15
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Frozen minute",
+      "description": "+0.35 seconds of freeze on hit; +2 piercing.",
+      "cost": 300,
+      "effect": {
+        "freeze": 0.35,
+        "pierce": 2
+      },
+      "requiresPair": [
+        "left",
+        "middle"
+      ]
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Phase hunter",
+      "description": "+0.3 seconds of freeze on hit; +12% movement speed.",
+      "cost": 320,
+      "effect": {
+        "freeze": 0.3,
+        "moveSpeed": 0.12
+      },
+      "requiresPair": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Timeless needle",
+      "description": "+3 piercing; +15% shorter cooldown.",
+      "cost": 340,
+      "effect": {
+        "pierce": 3,
+        "abilityCooldown": 0.15
+      },
+      "requiresPair": [
+        "middle",
+        "right"
+      ]
+    }
+  ]
+}

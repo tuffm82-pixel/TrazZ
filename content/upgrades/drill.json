@@ -1,0 +1,119 @@
+{
+  "gunId": "drill",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Hard tip",
+      "description": "+20 shot damage.",
+      "cost": 65,
+      "effect": {
+        "damage": 20
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Rail accelerator",
+      "description": "+250 projectile speed.",
+      "cost": 70,
+      "effect": {
+        "projectileSpeed": 250
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Steel guard",
+      "description": "+25 starting shield.",
+      "cost": 75,
+      "effect": {
+        "shield": 25
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Breach teeth",
+      "description": "+3 piercing.",
+      "cost": 135,
+      "effect": {
+        "pierce": 3
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Precision drill",
+      "description": "+15% critical chance.",
+      "cost": 145,
+      "effect": {
+        "crit": 0.15
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Coolant loop",
+      "description": "+15% shorter cooldown.",
+      "cost": 155,
+      "effect": {
+        "abilityCooldown": 0.15
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Adamant line",
+      "description": "+30 shot damage; +3 piercing.",
+      "cost": 300,
+      "effect": {
+        "damage": 30,
+        "pierce": 3
+      },
+      "requiresPair": [
+        "left",
+        "middle"
+      ]
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Iron fortress",
+      "description": "+4 piercing; +60 starting shield.",
+      "cost": 320,
+      "effect": {
+        "pierce": 4,
+        "shield": 60
+      },
+      "requiresPair": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Critical breach",
+      "description": "+15% critical chance; +40% ability power.",
+      "cost": 340,
+      "effect": {
+        "crit": 0.15,
+        "abilityPower": 0.4
+      },
+      "requiresPair": [
+        "middle",
+        "right"
+      ]
+    }
+  ]
+}

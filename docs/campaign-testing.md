@@ -44,3 +44,9 @@
 - Independently reproduced fire damage immunity and Mars charging outside the playable area. Added actual bullet-hit checks for all nine bosses from both sides and an offscreen-charge regression. Fire can now be defeated early or survived.
 - All 45 checks pass, covering 45 ordered levels, old 30-level saves, 32 guns/96 upgrade paths, seven permanent upgrade types and all new weapon abilities/attack signatures.
 - Browser tested fire health decreasing from 3360 to 3110 after firing, and actual bullet damage against Crystal Monarch, Storm Leviathan and Void Sovereign. New environments rendered without console errors. These were isolated local boss sessions with extra test health and disabled persistence; not a full campaign playthrough. Temporary sessions were removed and are not published.
+
+## Living worlds / Debug pass — 29 October 2026
+- Reproduced continuous Freeze Pistol and Glacier AR shots preventing all boss attacks. Centralized freeze application, added a half-second boss cap and two-second recovery window; sustained-fire regression now permits retaliation.
+- All52 tests pass:60 ordered levels,38 guns/114 tree paths, save migration from45 clears, repair delay/max-health bounds, movement/blast/velocity upgrades, new gun abilities and all12 hittable bosses.
+
+- Browser tested the three new environments and bosses using isolated local sessions with extra test health and no save writes. Thornheart, Furnace Colossus and Chrono Keeper all took real projectile damage; new weapon abilities activated and the11 permanent upgrade cards rendered. No console warnings/errors. Full60-level and physical-iPad playthroughs remain untested. Test session pages were removed and are not published.

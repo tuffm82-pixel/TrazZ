@@ -2,7 +2,7 @@
   "name": "trazz",
   "version": "3.0.0",
   "private": true,
-  "description": "TrazZ: 32 guns, 45 campaign levels, nine unique boss encounters, keyboard and iPad controls.",
+  "description": "TrazZ: 38 guns, 60 campaign levels, twelve unique boss encounters, keyboard and iPad controls.",
   "scripts": {
     "start": "node server.js",
     "build": "node scripts/build-walk.js && node scripts/build-upgrades.js && node scripts/build-standalone.js",

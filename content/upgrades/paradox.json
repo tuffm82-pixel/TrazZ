@@ -1,0 +1,119 @@
+{
+  "gunId": "paradox",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Fracture tip",
+      "description": "+16 shot damage.",
+      "cost": 65,
+      "effect": {
+        "damage": 16
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Loop rails",
+      "description": "+2 bounces.",
+      "cost": 70,
+      "effect": {
+        "bounce": 2
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Paradox core",
+      "description": "+20% ability power.",
+      "cost": 75,
+      "effect": {
+        "abilityPower": 0.2
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Future sight",
+      "description": "+15% critical chance.",
+      "cost": 135,
+      "effect": {
+        "crit": 0.15
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Time needle",
+      "description": "+2 piercing.",
+      "cost": 145,
+      "effect": {
+        "pierce": 2
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Epoch reserve",
+      "description": "+15% shorter cooldown.",
+      "cost": 155,
+      "effect": {
+        "abilityCooldown": 0.15
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Loop storm",
+      "description": "+25 shot damage; +3 bounces.",
+      "cost": 300,
+      "effect": {
+        "damage": 25,
+        "bounce": 3
+      },
+      "requiresPair": [
+        "left",
+        "middle"
+      ]
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Future collapse",
+      "description": "+15% critical chance; +45% ability power.",
+      "cost": 320,
+      "effect": {
+        "crit": 0.15,
+        "abilityPower": 0.45
+      },
+      "requiresPair": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Eternal arrow",
+      "description": "+3 piercing; +20% shorter cooldown.",
+      "cost": 340,
+      "effect": {
+        "pierce": 3,
+        "abilityCooldown": 0.2
+      },
+      "requiresPair": [
+        "middle",
+        "right"
+      ]
+    }
+  ]
+}

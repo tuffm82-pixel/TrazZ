@@ -1,0 +1,120 @@
+{
+  "gunId": "swarm",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Hive node",
+      "description": "+1 chain targets.",
+      "cost": 65,
+      "effect": {
+        "chain": 1
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Golden stinger",
+      "description": "+8 shot damage.",
+      "cost": 70,
+      "effect": {
+        "damage": 8
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Wing motor",
+      "description": "+6% movement speed.",
+      "cost": 75,
+      "effect": {
+        "moveSpeed": 0.06
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Swarm link",
+      "description": "+1 chain targets; +10% critical chance.",
+      "cost": 135,
+      "effect": {
+        "chain": 1,
+        "crit": 0.1
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Fast hatch",
+      "description": "+20% fire rate.",
+      "cost": 145,
+      "effect": {
+        "fireRate": 0.2
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Hive radius",
+      "description": "+15% area-effect radius.",
+      "cost": 155,
+      "effect": {
+        "blastRadius": 0.15
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Endless swarm",
+      "description": "+2 chain targets; +12 shot damage.",
+      "cost": 300,
+      "effect": {
+        "chain": 2,
+        "damage": 12
+      },
+      "requiresPair": [
+        "left",
+        "middle"
+      ]
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Royal hive",
+      "description": "+2 chain targets; +30% area-effect radius.",
+      "cost": 320,
+      "effect": {
+        "chain": 2,
+        "blastRadius": 0.3
+      },
+      "requiresPair": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Hornet drive",
+      "description": "+25% fire rate; +10% movement speed.",
+      "cost": 340,
+      "effect": {
+        "fireRate": 0.25,
+        "moveSpeed": 0.1
+      },
+      "requiresPair": [
+        "middle",
+        "right"
+      ]
+    }
+  ]
+}

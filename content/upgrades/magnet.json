@@ -1,0 +1,119 @@
+{
+  "gunId": "magnet",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Magnetic slug",
+      "description": "+10 shot damage.",
+      "cost": 65,
+      "effect": {
+        "damage": 10
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Wide field",
+      "description": "+12% area-effect radius.",
+      "cost": 70,
+      "effect": {
+        "blastRadius": 0.12
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Polarity core",
+      "description": "+20% ability power.",
+      "cost": 75,
+      "effect": {
+        "abilityPower": 0.2
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Flux sight",
+      "description": "+10% critical chance.",
+      "cost": 135,
+      "effect": {
+        "crit": 0.1
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Gravity cage",
+      "description": "+20% area-effect radius.",
+      "cost": 145,
+      "effect": {
+        "blastRadius": 0.2
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Magnet shield",
+      "description": "+30 starting shield.",
+      "cost": 155,
+      "effect": {
+        "shield": 30
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Crushing field",
+      "description": "+22 shot damage; +25% area-effect radius.",
+      "cost": 300,
+      "effect": {
+        "damage": 22,
+        "blastRadius": 0.25
+      },
+      "requiresPair": [
+        "left",
+        "middle"
+      ]
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Flux collapse",
+      "description": "+15% critical chance; +40% ability power.",
+      "cost": 320,
+      "effect": {
+        "crit": 0.15,
+        "abilityPower": 0.4
+      },
+      "requiresPair": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Magnetic wall",
+      "description": "+30% area-effect radius; +55 starting shield.",
+      "cost": 340,
+      "effect": {
+        "blastRadius": 0.3,
+        "shield": 55
+      },
+      "requiresPair": [
+        "middle",
+        "right"
+      ]
+    }
+  ]
+}

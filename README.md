@@ -1,6 +1,6 @@
 # TrazZ
 
-A playable 2D space shooter with TrazZ, your green duck defender, 32 guns earned by beating campaign levels, nine campaign worlds, bosses, armour and permanent upgrades. Artwork is redrawn from the supplied paper references with transparent SVG backgrounds.
+A playable 2D space shooter with TrazZ, your green duck defender, 38 guns earned by beating campaign levels, twelve campaign worlds, bosses, armour and permanent upgrades. Artwork is redrawn from the supplied paper references with transparent SVG backgrounds.
 
 ## Play
 
@@ -12,7 +12,7 @@ Keyboard: arrow keys move, A/W/D aim left/up/right, Space fires, E activates the
 
 ## Progression
 
-Moon Base → Mars Mountains → Neptune Hills → Asteroid Maze → Volcanic Voyage → Acid Planet → Crystal Caverns → Stormreach → Void Frontier. Each world has five separately selectable levels with three waves per level. The fifth level ends in a unique planet boss. Clear levels in order, or replay cleared levels for smaller completion bonuses.
+Moon Base → Mars Mountains → Neptune Hills → Asteroid Maze → Volcanic Voyage → Acid Planet → Crystal Caverns → Stormreach → Void Frontier → Verdant Wilds → Iron Citadel → Chrono Rift. Each world has five separately selectable levels with three waves per level. The fifth level ends in a unique planet boss. Clear levels in order, or replay cleared levels for smaller completion bonuses.
 
 Defeating monsters earns **coins** for armour purchases. Shoot glowing purple crystals to collect **gems** for permanent health, damage, cooldown and weapon upgrades. There is no random gun rolling.
 
@@ -24,9 +24,9 @@ Progress is saved locally in this browser. Existing saves retain XP, coins and v
 
 ## Development
 
-- `npm test`: migration, progression, economy and all 96 possible weapon upgrade paths.
+- `npm test`: migration, progression, economy and all 114 possible weapon upgrade paths.
 - `npm run check`: JavaScript syntax checks.
-- `npm run build`: validate the 32 independent upgrade trees and generate the embedded offline HTML.
+- `npm run build`: validate the 38 independent upgrade trees and generate the embedded offline HTML.
 
 Base gun stats, ability metadata, armour and worlds live in `data.js`; upgrade content is in `content/upgrades/<gun-id>.json`, aggregated into `upgrade-catalog.js`. Combat and UI are in `app.js`, economy/progression rules in `core.js`. Gun/bullet SVGs are in `assets/guns` and `assets/bullets`, character in `assets/characters/trazz-v7.svg` and `trazz-body-v7.svg`. No photographs of the paper are displayed in the game.
 
@@ -51,3 +51,8 @@ TrazZ has eight walking poses for side aim and eight for upward aim, including a
 The campaign has 45 levels, nine worlds/boss encounters, and 32 guns with 288 tree nodes. New guns arrive at campaign clears 32 (Shard Repeater), 35 (Prism Lance), 37 (Tempest Caster), 40 (Thunder Drum), 42 (Void Needle), and 45 (Eclipse Cannon). Their abilities add a shield, piercing ray fan, lightning burst, radial salvo, gravity field and healing blast. Four new permanent gem upgrades add critical chance, life-steal, starting shields and fire rate. Existing 30-level saves continue directly into Crystal Caverns.
 
 Boss fixes: fire takes bullet damage while retaining its survival option, and bosses stay inside the shootable arena after charges.
+
+## Living worlds expansion — 29 October 2026
+TrazZ now has 60 campaign levels across12 worlds and38 level-earned guns. The new Verdant, foundry and time worlds end in Thornheart, Furnace Colossus and Chrono Keeper encounters. New gun milestones:47 Thorn Bloom,50 Swarm Hive,52 Alloy Drill,55 Magnetron,57 Chrono Blaster and60 Paradox Bow. Each adds a complete nine-node tree and a separate ability.
+
+Permanent upgrades now include suit repair after five seconds without a hit, faster movement, larger area effects and faster projectiles. Starweave Suit, Forgeplate and Temporal Aegis add late-game armour choices. Bosses freeze for at most half a second and then resist another freeze for two seconds; regular monsters still take full freezing effects.

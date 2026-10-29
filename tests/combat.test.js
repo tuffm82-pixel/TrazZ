@@ -11,7 +11,7 @@ function harness(){
  let source=fs.readFileSync(path.join(__dirname,'..','app.js'),'utf8');
  const marker='updateStatus();requestAnimationFrame(loop);';
  assert.ok(source.includes(marker),'app boot marker exists for test-only exposure');
- source=source.replace(marker,'window.combatTest={startGame,update,spawnEnemy,enemyAttack,updateEnemies,damage,shoot,useAbility,nextWave,goHome,save,uiText(selector){return $(selector).textContent},uiStyle(selector,key){return $(selector).style[key]},get selection(){return {planet:selectedPlanet,level:selectedLevel}},get run(){return run},select(planet,level){selectedPlanet=planet;selectedLevel=level}};'+marker);
+ source=source.replace(marker,'window.combatTest={startGame,update,spawnEnemy,enemyAttack,updateEnemies,damage,hurtPlayer,area,shoot,useAbility,nextWave,goHome,save,uiText(selector){return $(selector).textContent},uiStyle(selector,key){return $(selector).style[key]},get selection(){return {planet:selectedPlanet,level:selectedLevel}},get run(){return run},select(planet,level){selectedPlanet=planet;selectedLevel=level}};'+marker);
  vm.runInNewContext(source,context,{filename:'app.js'});
  return Object.assign(context.window.combatTest,{key(key,repeat=false){events.get('keydown')({key,code:key,repeat,preventDefault:noop})},release(key){events.get('keyup')({key,code:key})},click(selector){element(selector).onclick()},panelOpen(){return element('#panel').open}});
 }
@@ -75,7 +75,7 @@ test('returning to the menu recommends the next uncleared mission',()=>{
  const h=harness();h.save.clearedLevels=['moon-1','moon-2'];h.save.completedPlanets=[];h.goHome();
  assert.equal(h.selection.planet,'moon');assert.equal(h.selection.level,3);
  h.save.clearedLevels=D.planets.flatMap(p=>[1,2,3,4,5].map(l=>p.id+'-'+l));h.goHome();
- assert.equal(h.selection.planet,'void');assert.equal(h.selection.level,5);
+ assert.equal(h.selection.planet,'chrono');assert.equal(h.selection.level,5);
 });
 
 test('red winged skulls appear on all worlds and grow in later levels',()=>{
@@ -144,3 +144,12 @@ test('dodging a boss charge cannot leave the boss outside the shootable arena',(
 
 test('expansion bosses have distinct warned attacks',()=>{for(const [i,kind,count] of [[6,'shard',5],[7,'bolt',4],[8,'void',8]]){const h=harness(),r=start(h,i,5);h.spawnEnemy(true);const e=r.enemies[0];e.x=950;e.attackTimer=0;h.updateEnemies(.1);assert.ok(e.attackWindup>0);assert.equal(r.hostiles.length,0);for(let n=0;n<16;n++)h.updateEnemies(.06);assert.equal(r.hostiles.length,count);assert.ok(r.hostiles.every(b=>b.kind===kind));}});
 test('all expansion gun abilities produce their advertised combat effect',()=>{for(const id of ['shard','prism','tempest','thunder','voidneedle','eclipse']){const h=harness();h.save.gun=id;const r=start(h,6,1);h.spawnEnemy(false);r.enemies[0].x=800;r.player.hp=30;h.useAbility();assert.ok(r.abilityCd>0);if(id==='shard')assert.ok(r.player.shield>0);if(['prism','thunder'].includes(id))assert.ok(r.bullets.length>=3);if(id==='voidneedle')assert.equal(r.fields[0].kind,'pull');if(['tempest','eclipse'].includes(id))assert.ok(r.enemies[0].hp<r.enemies[0].maxHp);if(id==='eclipse')assert.ok(r.player.hp>30);}});
+
+test('sustained freezing shots cannot permanently stop a boss attacking',()=>{
+ for(const gun of ['freezepistol','glacierar']){const h=harness();h.save.gun=gun;const r=start(h,8,5);h.spawnEnemy(true);const e=r.enemies[0];e.x=900;r.player.invincible=1000;h.key('Space');let attacked=false;for(let n=0;n<900;n++){h.update(1/60);if(r.hostiles.length)attacked=true;}assert.ok(attacked,gun+' must allow boss retaliation');assert.ok(e.hp<e.maxHp);}
+});
+
+test('repair waits for five seconds after a hit and respects maximum health',()=>{const h=harness();h.save.global.regen=1;const r=start(h);h.spawnEnemy(false);r.enemies[0].x=1100;r.enemies[0].freeze=1000;r.player.hp=50;for(let i=0;i<4;i++)h.update(1);assert.equal(r.player.hp,50);h.update(1);assert.equal(r.player.hp,50.4);r.player.invincible=0;h.hurtPlayer(10);const hp=r.player.hp;h.update(1);assert.equal(r.player.hp,hp);r.player.hp=r.player.maxHp-.1;r.player.recovery=10;h.update(1);assert.equal(r.player.hp,r.player.maxHp);});
+test('blast shaping extends area damage and thruster boots increase movement',()=>{const h=harness();h.save.global.blast=5;h.save.global.mobility=1;const r=start(h);h.spawnEnemy(false);const e=r.enemies[0];e.x=r.player.x+200;e.r=20;e.y=r.player.y;const hp=e.hp;h.area(r.player.x,r.player.y,140,25);assert.equal(e.hp,hp-25);const x=r.player.x;h.key('ArrowRight');h.update(.1);assert.ok(r.player.x>x+28);});
+test('new world bosses have unique working attacks',()=>{for(const [i,kind,count] of [[9,'thorn',5],[10,'slag',3],[11,'clock',5]]){const h=harness(),r=start(h,i,5);h.spawnEnemy(true);const e=r.enemies[0];e.x=950;e.attackTarget={x:600,y:465};h.enemyAttack(e);assert.equal(r.hostiles.length,count);assert.ok(r.hostiles.every(b=>b.kind===kind));}});
+test('second expansion weapon abilities work',()=>{for(const id of ['thorn','swarm','drill','magnet','chrono','paradox']){const h=harness();h.save.gun=id;const r=start(h,9,1);h.spawnEnemy(false);const e=r.enemies[0];e.x=800;r.player.hp=30;h.useAbility();assert.ok(r.abilityCd>0);if(id==='thorn'){assert.equal(r.fields[0].kind,'poison');assert.ok(r.player.hp>30);}if(id==='magnet'){assert.equal(r.fields[0].kind,'pull');assert.ok(r.player.shield>0);}if(['swarm','drill','paradox'].includes(id))assert.ok(r.bullets.length>0);if(id==='chrono'){assert.ok(e.freeze>0);assert.ok(e.hp<e.maxHp);}}});

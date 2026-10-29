@@ -1,0 +1,120 @@
+{
+  "gunId": "thorn",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Venom bud",
+      "description": "+8 shot damage.",
+      "cost": 65,
+      "effect": {
+        "damage": 8
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Quick vines",
+      "description": "+10% fire rate.",
+      "cost": 70,
+      "effect": {
+        "fireRate": 0.1
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Living armour",
+      "description": "+0.5 health/sec after 5 seconds unharmed.",
+      "cost": 75,
+      "effect": {
+        "regen": 0.5
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Thorn tips",
+      "description": "+10% critical chance.",
+      "cost": 135,
+      "effect": {
+        "crit": 0.1
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Root needles",
+      "description": "+2 piercing.",
+      "cost": 145,
+      "effect": {
+        "pierce": 2
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Renewal cell",
+      "description": "+0.8 health/sec after 5 seconds unharmed; +10% shorter cooldown.",
+      "cost": 155,
+      "effect": {
+        "regen": 0.8,
+        "abilityCooldown": 0.1
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Briar storm",
+      "description": "+16 shot damage; +10% critical chance.",
+      "cost": 300,
+      "effect": {
+        "damage": 16,
+        "crit": 0.1
+      },
+      "requiresPair": [
+        "left",
+        "middle"
+      ]
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Wild renewal",
+      "description": "+1.2 health/sec after 5 seconds unharmed; +30% ability power.",
+      "cost": 320,
+      "effect": {
+        "regen": 1.2,
+        "abilityPower": 0.3
+      },
+      "requiresPair": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Evergreen heart",
+      "description": "+20% fire rate; +1.5 health/sec after 5 seconds unharmed.",
+      "cost": 340,
+      "effect": {
+        "fireRate": 0.2,
+        "regen": 1.5
+      },
+      "requiresPair": [
+        "middle",
+        "right"
+      ]
+    }
+  ]
+}

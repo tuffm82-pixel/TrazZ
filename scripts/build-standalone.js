@@ -9,4 +9,4 @@ for(const f of ['upgrade-catalog.js','data.js','core.js','campaign-art.js','musi
   html=html.replace(tag,()=>`<script>${f==='upgrade-catalog.js'?'window.TrazZAssets='+JSON.stringify(assets)+';':''}\n${read(f).replace(/<\/script/gi,'<\\/script')}\n</script>`);
 }
 for(const [file,uri]of Object.entries(assets))html=html.replaceAll(`src="${file}"`,`src="${uri}"`).replaceAll(`href="${file}"`,`href="${uri}"`);
-fs.writeFileSync(path.join(root,'TrazZ.html'),html);console.log('Built TrazZ.html: complete offline game with embedded artwork and all 32 upgrade trees.');
+fs.writeFileSync(path.join(root,'TrazZ.html'),html);console.log('Built TrazZ.html: complete offline game with embedded artwork and all 38 upgrade trees.');

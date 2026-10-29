@@ -3238,5 +3238,723 @@
         ]
       }
     ]
+  },
+  "shard": {
+    "gunId": "shard",
+    "nodes": [
+      {
+        "id": "t1-left",
+        "tier": 1,
+        "column": 0,
+        "name": "Sharp facets",
+        "description": "+8 shot damage.",
+        "cost": 60,
+        "effect": {
+          "damage": 8
+        }
+      },
+      {
+        "id": "t1-middle",
+        "tier": 1,
+        "column": 1,
+        "name": "Fast feed",
+        "description": "+10% fire rate.",
+        "cost": 65,
+        "effect": {
+          "fireRate": 0.1
+        }
+      },
+      {
+        "id": "t1-right",
+        "tier": 1,
+        "column": 2,
+        "name": "Prism cell",
+        "description": "+20 starting shield.",
+        "cost": 70,
+        "effect": {
+          "shield": 20
+        }
+      },
+      {
+        "id": "t2-left",
+        "tier": 2,
+        "column": 0,
+        "name": "Needle tips",
+        "description": "+10% critical chance; +1 piercing.",
+        "cost": 120,
+        "effect": {
+          "crit": 0.1,
+          "pierce": 1
+        }
+      },
+      {
+        "id": "t2-middle",
+        "tier": 2,
+        "column": 1,
+        "name": "Crystal drive",
+        "description": "+20% fire rate.",
+        "cost": 130,
+        "effect": {
+          "fireRate": 0.2
+        }
+      },
+      {
+        "id": "t2-right",
+        "tier": 2,
+        "column": 2,
+        "name": "Guard battery",
+        "description": "+35 starting shield; +10% shorter cooldown.",
+        "cost": 140,
+        "effect": {
+          "shield": 35,
+          "abilityCooldown": 0.1
+        }
+      },
+      {
+        "id": "t3-lm",
+        "tier": 3,
+        "column": 0,
+        "name": "Shatter stream",
+        "description": "+15% critical chance; +12 shot damage.",
+        "cost": 280,
+        "effect": {
+          "crit": 0.15,
+          "damage": 12
+        },
+        "requiresPair": [
+          "left",
+          "middle"
+        ]
+      },
+      {
+        "id": "t3-lr",
+        "tier": 3,
+        "column": 1,
+        "name": "Mirror shield",
+        "description": "+50 starting shield; +2 piercing.",
+        "cost": 290,
+        "effect": {
+          "shield": 50,
+          "pierce": 2
+        },
+        "requiresPair": [
+          "left",
+          "right"
+        ]
+      },
+      {
+        "id": "t3-mr",
+        "tier": 3,
+        "column": 2,
+        "name": "Prism fortress",
+        "description": "+25% fire rate; +50 starting shield.",
+        "cost": 300,
+        "effect": {
+          "fireRate": 0.25,
+          "shield": 50
+        },
+        "requiresPair": [
+          "middle",
+          "right"
+        ]
+      }
+    ]
+  },
+  "prism": {
+    "gunId": "prism",
+    "nodes": [
+      {
+        "id": "t1-left",
+        "tier": 1,
+        "column": 0,
+        "name": "Long lens",
+        "description": "+16 shot damage.",
+        "cost": 60,
+        "effect": {
+          "damage": 16
+        }
+      },
+      {
+        "id": "t1-middle",
+        "tier": 1,
+        "column": 1,
+        "name": "Light rails",
+        "description": "+200 projectile speed.",
+        "cost": 65,
+        "effect": {
+          "projectileSpeed": 200
+        }
+      },
+      {
+        "id": "t1-right",
+        "tier": 1,
+        "column": 2,
+        "name": "Refraction cell",
+        "description": "+20% ability power.",
+        "cost": 70,
+        "effect": {
+          "abilityPower": 0.2
+        }
+      },
+      {
+        "id": "t2-left",
+        "tier": 2,
+        "column": 0,
+        "name": "Focused core",
+        "description": "+15% critical chance.",
+        "cost": 120,
+        "effect": {
+          "crit": 0.15
+        }
+      },
+      {
+        "id": "t2-middle",
+        "tier": 2,
+        "column": 1,
+        "name": "Split ray",
+        "description": "+3 piercing.",
+        "cost": 130,
+        "effect": {
+          "pierce": 3
+        }
+      },
+      {
+        "id": "t2-right",
+        "tier": 2,
+        "column": 2,
+        "name": "Light reserve",
+        "description": "+15% shorter cooldown.",
+        "cost": 140,
+        "effect": {
+          "abilityCooldown": 0.15
+        }
+      },
+      {
+        "id": "t3-lm",
+        "tier": 3,
+        "column": 0,
+        "name": "Diamond point",
+        "description": "+30 shot damage; +10% critical chance.",
+        "cost": 280,
+        "effect": {
+          "damage": 30,
+          "crit": 0.1
+        },
+        "requiresPair": [
+          "left",
+          "middle"
+        ]
+      },
+      {
+        "id": "t3-lr",
+        "tier": 3,
+        "column": 1,
+        "name": "Sun prism",
+        "description": "+50% ability power; +20 shot damage.",
+        "cost": 290,
+        "effect": {
+          "abilityPower": 0.5,
+          "damage": 20
+        },
+        "requiresPair": [
+          "left",
+          "right"
+        ]
+      },
+      {
+        "id": "t3-mr",
+        "tier": 3,
+        "column": 2,
+        "name": "Infinite refraction",
+        "description": "+5 piercing; +20% shorter cooldown.",
+        "cost": 300,
+        "effect": {
+          "pierce": 5,
+          "abilityCooldown": 0.2
+        },
+        "requiresPair": [
+          "middle",
+          "right"
+        ]
+      }
+    ]
+  },
+  "tempest": {
+    "gunId": "tempest",
+    "nodes": [
+      {
+        "id": "t1-left",
+        "tier": 1,
+        "column": 0,
+        "name": "Charged coil",
+        "description": "+7 shot damage.",
+        "cost": 60,
+        "effect": {
+          "damage": 7
+        }
+      },
+      {
+        "id": "t1-middle",
+        "tier": 1,
+        "column": 1,
+        "name": "Jump capacitor",
+        "description": "+1 chain targets.",
+        "cost": 65,
+        "effect": {
+          "chain": 1
+        }
+      },
+      {
+        "id": "t1-right",
+        "tier": 1,
+        "column": 2,
+        "name": "Crown cell",
+        "description": "+20% ability power.",
+        "cost": 70,
+        "effect": {
+          "abilityPower": 0.2
+        }
+      },
+      {
+        "id": "t2-left",
+        "tier": 2,
+        "column": 0,
+        "name": "Thunder link",
+        "description": "+10% critical chance; +1 chain targets.",
+        "cost": 120,
+        "effect": {
+          "crit": 0.1,
+          "chain": 1
+        }
+      },
+      {
+        "id": "t2-middle",
+        "tier": 2,
+        "column": 1,
+        "name": "Fast storm",
+        "description": "+15% fire rate.",
+        "cost": 130,
+        "effect": {
+          "fireRate": 0.15
+        }
+      },
+      {
+        "id": "t2-right",
+        "tier": 2,
+        "column": 2,
+        "name": "Insulated shell",
+        "description": "+30 starting shield.",
+        "cost": 140,
+        "effect": {
+          "shield": 30
+        }
+      },
+      {
+        "id": "t3-lm",
+        "tier": 3,
+        "column": 0,
+        "name": "Storm web",
+        "description": "+2 chain targets; +12 shot damage.",
+        "cost": 280,
+        "effect": {
+          "chain": 2,
+          "damage": 12
+        },
+        "requiresPair": [
+          "left",
+          "middle"
+        ]
+      },
+      {
+        "id": "t3-lr",
+        "tier": 3,
+        "column": 1,
+        "name": "Lightning armour",
+        "description": "+15% critical chance; +50 starting shield.",
+        "cost": 290,
+        "effect": {
+          "crit": 0.15,
+          "shield": 50
+        },
+        "requiresPair": [
+          "left",
+          "right"
+        ]
+      },
+      {
+        "id": "t3-mr",
+        "tier": 3,
+        "column": 2,
+        "name": "Hurricane circuit",
+        "description": "+25% fire rate; +2 chain targets.",
+        "cost": 300,
+        "effect": {
+          "fireRate": 0.25,
+          "chain": 2
+        },
+        "requiresPair": [
+          "middle",
+          "right"
+        ]
+      }
+    ]
+  },
+  "thunder": {
+    "gunId": "thunder",
+    "nodes": [
+      {
+        "id": "t1-left",
+        "tier": 1,
+        "column": 0,
+        "name": "Heavy shells",
+        "description": "+5 shot damage.",
+        "cost": 60,
+        "effect": {
+          "damage": 5
+        }
+      },
+      {
+        "id": "t1-middle",
+        "tier": 1,
+        "column": 1,
+        "name": "Drum extension",
+        "description": "+1 pellets.",
+        "cost": 65,
+        "effect": {
+          "pellets": 1
+        }
+      },
+      {
+        "id": "t1-right",
+        "tier": 1,
+        "column": 2,
+        "name": "Shock cell",
+        "description": "+20% ability power.",
+        "cost": 70,
+        "effect": {
+          "abilityPower": 0.2
+        }
+      },
+      {
+        "id": "t2-left",
+        "tier": 2,
+        "column": 0,
+        "name": "Deadly charge",
+        "description": "+10% critical chance.",
+        "cost": 120,
+        "effect": {
+          "crit": 0.1
+        }
+      },
+      {
+        "id": "t2-middle",
+        "tier": 2,
+        "column": 1,
+        "name": "Scatter rack",
+        "description": "+2 pellets.",
+        "cost": 130,
+        "effect": {
+          "pellets": 2
+        }
+      },
+      {
+        "id": "t2-right",
+        "tier": 2,
+        "column": 2,
+        "name": "Clap reserve",
+        "description": "+15% shorter cooldown.",
+        "cost": 140,
+        "effect": {
+          "abilityCooldown": 0.15
+        }
+      },
+      {
+        "id": "t3-lm",
+        "tier": 3,
+        "column": 0,
+        "name": "Rolling thunder",
+        "description": "+9 shot damage; +2 pellets.",
+        "cost": 280,
+        "effect": {
+          "damage": 9,
+          "pellets": 2
+        },
+        "requiresPair": [
+          "left",
+          "middle"
+        ]
+      },
+      {
+        "id": "t3-lr",
+        "tier": 3,
+        "column": 1,
+        "name": "Thunder heart",
+        "description": "+15% critical chance; +50% ability power.",
+        "cost": 290,
+        "effect": {
+          "crit": 0.15,
+          "abilityPower": 0.5
+        },
+        "requiresPair": [
+          "left",
+          "right"
+        ]
+      },
+      {
+        "id": "t3-mr",
+        "tier": 3,
+        "column": 2,
+        "name": "Storm salvo",
+        "description": "+3 pellets; +15% shorter cooldown.",
+        "cost": 300,
+        "effect": {
+          "pellets": 3,
+          "abilityCooldown": 0.15
+        },
+        "requiresPair": [
+          "middle",
+          "right"
+        ]
+      }
+    ]
+  },
+  "voidneedle": {
+    "gunId": "voidneedle",
+    "nodes": [
+      {
+        "id": "t1-left",
+        "tier": 1,
+        "column": 0,
+        "name": "Dark tips",
+        "description": "+9 shot damage.",
+        "cost": 60,
+        "effect": {
+          "damage": 9
+        }
+      },
+      {
+        "id": "t1-middle",
+        "tier": 1,
+        "column": 1,
+        "name": "Orbit rails",
+        "description": "+2 bounces.",
+        "cost": 65,
+        "effect": {
+          "bounce": 2
+        }
+      },
+      {
+        "id": "t1-right",
+        "tier": 1,
+        "column": 2,
+        "name": "Vampire cell",
+        "description": "+2% life-steal.",
+        "cost": 70,
+        "effect": {
+          "lifesteal": 0.02
+        }
+      },
+      {
+        "id": "t2-left",
+        "tier": 2,
+        "column": 0,
+        "name": "Horizon needle",
+        "description": "+10% critical chance; +2 piercing.",
+        "cost": 120,
+        "effect": {
+          "crit": 0.1,
+          "pierce": 2
+        }
+      },
+      {
+        "id": "t2-middle",
+        "tier": 2,
+        "column": 1,
+        "name": "Gravity mirrors",
+        "description": "+3 bounces.",
+        "cost": 130,
+        "effect": {
+          "bounce": 3
+        }
+      },
+      {
+        "id": "t2-right",
+        "tier": 2,
+        "column": 2,
+        "name": "Dark siphon",
+        "description": "+3% life-steal.",
+        "cost": 140,
+        "effect": {
+          "lifesteal": 0.03
+        }
+      },
+      {
+        "id": "t3-lm",
+        "tier": 3,
+        "column": 0,
+        "name": "Spiral singularity",
+        "description": "+18 shot damage; +3 bounces.",
+        "cost": 280,
+        "effect": {
+          "damage": 18,
+          "bounce": 3
+        },
+        "requiresPair": [
+          "left",
+          "middle"
+        ]
+      },
+      {
+        "id": "t3-lr",
+        "tier": 3,
+        "column": 1,
+        "name": "Vampire horizon",
+        "description": "+3 piercing; +4% life-steal.",
+        "cost": 290,
+        "effect": {
+          "pierce": 3,
+          "lifesteal": 0.04
+        },
+        "requiresPair": [
+          "left",
+          "right"
+        ]
+      },
+      {
+        "id": "t3-mr",
+        "tier": 3,
+        "column": 2,
+        "name": "Endless orbit",
+        "description": "+4 bounces; +5% life-steal.",
+        "cost": 300,
+        "effect": {
+          "bounce": 4,
+          "lifesteal": 0.05
+        },
+        "requiresPair": [
+          "middle",
+          "right"
+        ]
+      }
+    ]
+  },
+  "eclipse": {
+    "gunId": "eclipse",
+    "nodes": [
+      {
+        "id": "t1-left",
+        "tier": 1,
+        "column": 0,
+        "name": "Dark warhead",
+        "description": "+22 shot damage.",
+        "cost": 60,
+        "effect": {
+          "damage": 22
+        }
+      },
+      {
+        "id": "t1-middle",
+        "tier": 1,
+        "column": 1,
+        "name": "Solar ash",
+        "description": "+8 burn power.",
+        "cost": 65,
+        "effect": {
+          "burn": 8
+        }
+      },
+      {
+        "id": "t1-right",
+        "tier": 1,
+        "column": 2,
+        "name": "Harvest cell",
+        "description": "+2% life-steal.",
+        "cost": 70,
+        "effect": {
+          "lifesteal": 0.02
+        }
+      },
+      {
+        "id": "t2-left",
+        "tier": 2,
+        "column": 0,
+        "name": "Black star",
+        "description": "+12% critical chance.",
+        "cost": 120,
+        "effect": {
+          "crit": 0.12
+        }
+      },
+      {
+        "id": "t2-middle",
+        "tier": 2,
+        "column": 1,
+        "name": "Crushing mass",
+        "description": "+30 shot damage.",
+        "cost": 130,
+        "effect": {
+          "damage": 30
+        }
+      },
+      {
+        "id": "t2-right",
+        "tier": 2,
+        "column": 2,
+        "name": "Harvest reserve",
+        "description": "+15% shorter cooldown.",
+        "cost": 140,
+        "effect": {
+          "abilityCooldown": 0.15
+        }
+      },
+      {
+        "id": "t3-lm",
+        "tier": 3,
+        "column": 0,
+        "name": "Supernova shell",
+        "description": "+35 shot damage; +10% critical chance.",
+        "cost": 280,
+        "effect": {
+          "damage": 35,
+          "crit": 0.1
+        },
+        "requiresPair": [
+          "left",
+          "middle"
+        ]
+      },
+      {
+        "id": "t3-lr",
+        "tier": 3,
+        "column": 1,
+        "name": "Eternal harvest",
+        "description": "+6% life-steal; +40% ability power.",
+        "cost": 290,
+        "effect": {
+          "lifesteal": 0.06,
+          "abilityPower": 0.4
+        },
+        "requiresPair": [
+          "left",
+          "right"
+        ]
+      },
+      {
+        "id": "t3-mr",
+        "tier": 3,
+        "column": 2,
+        "name": "Blood moon",
+        "description": "+18 burn power; +20% shorter cooldown.",
+        "cost": 300,
+        "effect": {
+          "burn": 18,
+          "abilityCooldown": 0.2
+        },
+        "requiresPair": [
+          "middle",
+          "right"
+        ]
+      }
+    ]
   }
 }; root.TrazZUpgradeTrees = trees; if(typeof module!=="undefined" && module.exports) module.exports=trees; })(globalThis);

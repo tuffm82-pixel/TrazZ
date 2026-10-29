@@ -1,0 +1,119 @@
+{
+  "gunId": "prism",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Long lens",
+      "description": "+16 shot damage.",
+      "cost": 60,
+      "effect": {
+        "damage": 16
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Light rails",
+      "description": "+200 projectile speed.",
+      "cost": 65,
+      "effect": {
+        "projectileSpeed": 200
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Refraction cell",
+      "description": "+20% ability power.",
+      "cost": 70,
+      "effect": {
+        "abilityPower": 0.2
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Focused core",
+      "description": "+15% critical chance.",
+      "cost": 120,
+      "effect": {
+        "crit": 0.15
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Split ray",
+      "description": "+3 piercing.",
+      "cost": 130,
+      "effect": {
+        "pierce": 3
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Light reserve",
+      "description": "+15% shorter cooldown.",
+      "cost": 140,
+      "effect": {
+        "abilityCooldown": 0.15
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Diamond point",
+      "description": "+30 shot damage; +10% critical chance.",
+      "cost": 280,
+      "effect": {
+        "damage": 30,
+        "crit": 0.1
+      },
+      "requiresPair": [
+        "left",
+        "middle"
+      ]
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Sun prism",
+      "description": "+50% ability power; +20 shot damage.",
+      "cost": 290,
+      "effect": {
+        "abilityPower": 0.5,
+        "damage": 20
+      },
+      "requiresPair": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Infinite refraction",
+      "description": "+5 piercing; +20% shorter cooldown.",
+      "cost": 300,
+      "effect": {
+        "pierce": 5,
+        "abilityCooldown": 0.2
+      },
+      "requiresPair": [
+        "middle",
+        "right"
+      ]
+    }
+  ]
+}

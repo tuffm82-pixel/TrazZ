@@ -39,3 +39,8 @@
 - All 39 automated checks pass, including walk/idle/upward aim/edge transitions, audio waiting for interaction, a single scheduler, mute/pause and saved music preferences.
 - Browser checked Music toggling and persistence after reload, movement with the walking frames and pause. No console warnings/errors. Audio scheduling is tested; no physical iPad listening test was performed.
 - Both walking views and the original synthesized soundtrack are embedded in the standalone game.
+
+## Expanded frontier and boss fixes — 29 October 2026
+- Independently reproduced fire damage immunity and Mars charging outside the playable area. Added actual bullet-hit checks for all nine bosses from both sides and an offscreen-charge regression. Fire can now be defeated early or survived.
+- All 45 checks pass, covering 45 ordered levels, old 30-level saves, 32 guns/96 upgrade paths, seven permanent upgrade types and all new weapon abilities/attack signatures.
+- Browser tested fire health decreasing from 3360 to 3110 after firing, and actual bullet damage against Crystal Monarch, Storm Leviathan and Void Sovereign. New environments rendered without console errors. These were isolated local boss sessions with extra test health and disabled persistence; not a full campaign playthrough. Temporary sessions were removed and are not published.

@@ -1,0 +1,121 @@
+{
+  "gunId": "shard",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Sharp facets",
+      "description": "+8 shot damage.",
+      "cost": 60,
+      "effect": {
+        "damage": 8
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Fast feed",
+      "description": "+10% fire rate.",
+      "cost": 65,
+      "effect": {
+        "fireRate": 0.1
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Prism cell",
+      "description": "+20 starting shield.",
+      "cost": 70,
+      "effect": {
+        "shield": 20
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Needle tips",
+      "description": "+10% critical chance; +1 piercing.",
+      "cost": 120,
+      "effect": {
+        "crit": 0.1,
+        "pierce": 1
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Crystal drive",
+      "description": "+20% fire rate.",
+      "cost": 130,
+      "effect": {
+        "fireRate": 0.2
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Guard battery",
+      "description": "+35 starting shield; +10% shorter cooldown.",
+      "cost": 140,
+      "effect": {
+        "shield": 35,
+        "abilityCooldown": 0.1
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Shatter stream",
+      "description": "+15% critical chance; +12 shot damage.",
+      "cost": 280,
+      "effect": {
+        "crit": 0.15,
+        "damage": 12
+      },
+      "requiresPair": [
+        "left",
+        "middle"
+      ]
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Mirror shield",
+      "description": "+50 starting shield; +2 piercing.",
+      "cost": 290,
+      "effect": {
+        "shield": 50,
+        "pierce": 2
+      },
+      "requiresPair": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Prism fortress",
+      "description": "+25% fire rate; +50 starting shield.",
+      "cost": 300,
+      "effect": {
+        "fireRate": 0.25,
+        "shield": 50
+      },
+      "requiresPair": [
+        "middle",
+        "right"
+      ]
+    }
+  ]
+}

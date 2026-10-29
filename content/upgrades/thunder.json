@@ -1,0 +1,119 @@
+{
+  "gunId": "thunder",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Heavy shells",
+      "description": "+5 shot damage.",
+      "cost": 60,
+      "effect": {
+        "damage": 5
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Drum extension",
+      "description": "+1 pellets.",
+      "cost": 65,
+      "effect": {
+        "pellets": 1
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Shock cell",
+      "description": "+20% ability power.",
+      "cost": 70,
+      "effect": {
+        "abilityPower": 0.2
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Deadly charge",
+      "description": "+10% critical chance.",
+      "cost": 120,
+      "effect": {
+        "crit": 0.1
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Scatter rack",
+      "description": "+2 pellets.",
+      "cost": 130,
+      "effect": {
+        "pellets": 2
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Clap reserve",
+      "description": "+15% shorter cooldown.",
+      "cost": 140,
+      "effect": {
+        "abilityCooldown": 0.15
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Rolling thunder",
+      "description": "+9 shot damage; +2 pellets.",
+      "cost": 280,
+      "effect": {
+        "damage": 9,
+        "pellets": 2
+      },
+      "requiresPair": [
+        "left",
+        "middle"
+      ]
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Thunder heart",
+      "description": "+15% critical chance; +50% ability power.",
+      "cost": 290,
+      "effect": {
+        "crit": 0.15,
+        "abilityPower": 0.5
+      },
+      "requiresPair": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Storm salvo",
+      "description": "+3 pellets; +15% shorter cooldown.",
+      "cost": 300,
+      "effect": {
+        "pellets": 3,
+        "abilityCooldown": 0.15
+      },
+      "requiresPair": [
+        "middle",
+        "right"
+      ]
+    }
+  ]
+}

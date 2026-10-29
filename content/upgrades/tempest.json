@@ -1,0 +1,120 @@
+{
+  "gunId": "tempest",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Charged coil",
+      "description": "+7 shot damage.",
+      "cost": 60,
+      "effect": {
+        "damage": 7
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Jump capacitor",
+      "description": "+1 chain targets.",
+      "cost": 65,
+      "effect": {
+        "chain": 1
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Crown cell",
+      "description": "+20% ability power.",
+      "cost": 70,
+      "effect": {
+        "abilityPower": 0.2
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Thunder link",
+      "description": "+10% critical chance; +1 chain targets.",
+      "cost": 120,
+      "effect": {
+        "crit": 0.1,
+        "chain": 1
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Fast storm",
+      "description": "+15% fire rate.",
+      "cost": 130,
+      "effect": {
+        "fireRate": 0.15
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Insulated shell",
+      "description": "+30 starting shield.",
+      "cost": 140,
+      "effect": {
+        "shield": 30
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Storm web",
+      "description": "+2 chain targets; +12 shot damage.",
+      "cost": 280,
+      "effect": {
+        "chain": 2,
+        "damage": 12
+      },
+      "requiresPair": [
+        "left",
+        "middle"
+      ]
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Lightning armour",
+      "description": "+15% critical chance; +50 starting shield.",
+      "cost": 290,
+      "effect": {
+        "crit": 0.15,
+        "shield": 50
+      },
+      "requiresPair": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Hurricane circuit",
+      "description": "+25% fire rate; +2 chain targets.",
+      "cost": 300,
+      "effect": {
+        "fireRate": 0.25,
+        "chain": 2
+      },
+      "requiresPair": [
+        "middle",
+        "right"
+      ]
+    }
+  ]
+}

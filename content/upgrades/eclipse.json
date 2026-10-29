@@ -1,0 +1,119 @@
+{
+  "gunId": "eclipse",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Dark warhead",
+      "description": "+22 shot damage.",
+      "cost": 60,
+      "effect": {
+        "damage": 22
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Solar ash",
+      "description": "+8 burn power.",
+      "cost": 65,
+      "effect": {
+        "burn": 8
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Harvest cell",
+      "description": "+2% life-steal.",
+      "cost": 70,
+      "effect": {
+        "lifesteal": 0.02
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Black star",
+      "description": "+12% critical chance.",
+      "cost": 120,
+      "effect": {
+        "crit": 0.12
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Crushing mass",
+      "description": "+30 shot damage.",
+      "cost": 130,
+      "effect": {
+        "damage": 30
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Harvest reserve",
+      "description": "+15% shorter cooldown.",
+      "cost": 140,
+      "effect": {
+        "abilityCooldown": 0.15
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Supernova shell",
+      "description": "+35 shot damage; +10% critical chance.",
+      "cost": 280,
+      "effect": {
+        "damage": 35,
+        "crit": 0.1
+      },
+      "requiresPair": [
+        "left",
+        "middle"
+      ]
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Eternal harvest",
+      "description": "+6% life-steal; +40% ability power.",
+      "cost": 290,
+      "effect": {
+        "lifesteal": 0.06,
+        "abilityPower": 0.4
+      },
+      "requiresPair": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Blood moon",
+      "description": "+18 burn power; +20% shorter cooldown.",
+      "cost": 300,
+      "effect": {
+        "burn": 18,
+        "abilityCooldown": 0.2
+      },
+      "requiresPair": [
+        "middle",
+        "right"
+      ]
+    }
+  ]
+}

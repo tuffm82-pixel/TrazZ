@@ -11,7 +11,7 @@ function harness(){
  let source=fs.readFileSync(path.join(__dirname,'..','app.js'),'utf8');
  const marker='updateStatus();requestAnimationFrame(loop);';
  assert.ok(source.includes(marker),'app boot marker exists for test-only exposure');
- source=source.replace(marker,'window.combatTest={startGame,update,spawnEnemy,enemyAttack,updateEnemies,damage,shoot,nextWave,goHome,save,uiText(selector){return $(selector).textContent},uiStyle(selector,key){return $(selector).style[key]},get selection(){return {planet:selectedPlanet,level:selectedLevel}},get run(){return run},select(planet,level){selectedPlanet=planet;selectedLevel=level}};'+marker);
+ source=source.replace(marker,'window.combatTest={startGame,update,spawnEnemy,enemyAttack,updateEnemies,damage,shoot,useAbility,nextWave,goHome,save,uiText(selector){return $(selector).textContent},uiStyle(selector,key){return $(selector).style[key]},get selection(){return {planet:selectedPlanet,level:selectedLevel}},get run(){return run},select(planet,level){selectedPlanet=planet;selectedLevel=level}};'+marker);
  vm.runInNewContext(source,context,{filename:'app.js'});
  return Object.assign(context.window.combatTest,{key(key,repeat=false){events.get('keydown')({key,code:key,repeat,preventDefault:noop})},release(key){events.get('keyup')({key,code:key})},click(selector){element(selector).onclick()},panelOpen(){return element('#panel').open}});
 }
@@ -75,7 +75,7 @@ test('returning to the menu recommends the next uncleared mission',()=>{
  const h=harness();h.save.clearedLevels=['moon-1','moon-2'];h.save.completedPlanets=[];h.goHome();
  assert.equal(h.selection.planet,'moon');assert.equal(h.selection.level,3);
  h.save.clearedLevels=D.planets.flatMap(p=>[1,2,3,4,5].map(l=>p.id+'-'+l));h.goHome();
- assert.equal(h.selection.planet,'acid');assert.equal(h.selection.level,5);
+ assert.equal(h.selection.planet,'void');assert.equal(h.selection.level,5);
 });
 
 test('red winged skulls appear on all worlds and grow in later levels',()=>{
@@ -111,7 +111,7 @@ test('Escape closes the result screen and returns to the menu',()=>{
 
 test('fire boss is a timed survival encounter and pays its reward once',()=>{
  const h=harness(),r=start(h,4,5);r.wave=3;r.spec=C.levelSpec(4,5,3);r.bossSpawned=true;h.spawnEnemy(true);const e=r.enemies[0];e.x=950;const hp=e.hp,coins=h.save.coins;
- h.damage(e,hp*100);assert.equal(e.hp,hp);assert.equal(r.fireSurvival,45);
+ h.damage(e,25);assert.equal(e.hp,hp-25);assert.equal(r.fireSurvival,45);
  r.player.invincible=1000;h.update(.1);assert.match(h.uiText('#boss-status'),/SURVIVE: 45s/);
  for(let i=0;i<448;i++)h.update(.1);assert.equal(e.dead,false);assert.equal(r.over,false);
  h.update(.11);assert.equal(e.dead,true);assert.equal(r.fireSurvival,0);assert.equal(r.hostiles.length,0);assert.equal(r.hazards.length,0);
@@ -131,3 +131,16 @@ test('surviving the fire countdown cannot create a fatal ground hazard during vi
 });
 
 test('walking animates only while position changes and stopping restores idle',()=>{const M=require('../character-motion.js'),h=harness(),r=start(h);h.key('ArrowRight');h.update(.1);assert.equal(r.player.walking,true);assert.match(M.pose(r.player).path,/walk-side/);h.release('ArrowRight');h.update(.1);assert.equal(r.player.walking,false);assert.equal(M.pose(r.player).bob,0);h.key('w');h.key('ArrowLeft');h.update(.1);assert.match(M.pose(r.player).path,/walk-up/);r.player.x=140;h.update(.1);assert.equal(r.player.walking,false);});
+
+test('actual horizontal bullets damage every boss including the fire boss',()=>{
+ for(let i=0;i<D.planets.length;i++)for(const aim of ['left','right']){const h=harness(),r=start(h,i,5);h.spawnEnemy(true);const e=r.enemies[0];r.player.aim=aim;e.x=r.player.x+(aim==='right'?250:-250);e.freeze=100;const hp=e.hp;h.shoot();for(let n=0;n<15;n++)h.update(.02);assert.ok(e.hp<hp,'boss '+i+' from '+aim);}
+});
+
+test('dodging a boss charge cannot leave the boss outside the shootable arena',()=>{
+ const h=harness(),r=start(h,1,5);h.spawnEnemy(true);const e=r.enemies[0];r.player.x=140;e.x=170;e.attackTarget={x:140,y:r.player.y-28};h.enemyAttack(e);r.player.x=200;r.player.invincible=1000;
+ for(let n=0;n<400;n++)h.update(.016);assert.ok(e.x>=e.r&&e.x<=1200-e.r,'boss remains within arena');
+ const hp=e.hp;r.player.aim='left';h.shoot();for(let n=0;n<25;n++)h.update(.016);assert.ok(e.hp<hp);
+});
+
+test('expansion bosses have distinct warned attacks',()=>{for(const [i,kind,count] of [[6,'shard',5],[7,'bolt',4],[8,'void',8]]){const h=harness(),r=start(h,i,5);h.spawnEnemy(true);const e=r.enemies[0];e.x=950;e.attackTimer=0;h.updateEnemies(.1);assert.ok(e.attackWindup>0);assert.equal(r.hostiles.length,0);for(let n=0;n<16;n++)h.updateEnemies(.06);assert.equal(r.hostiles.length,count);assert.ok(r.hostiles.every(b=>b.kind===kind));}});
+test('all expansion gun abilities produce their advertised combat effect',()=>{for(const id of ['shard','prism','tempest','thunder','voidneedle','eclipse']){const h=harness();h.save.gun=id;const r=start(h,6,1);h.spawnEnemy(false);r.enemies[0].x=800;r.player.hp=30;h.useAbility();assert.ok(r.abilityCd>0);if(id==='shard')assert.ok(r.player.shield>0);if(['prism','thunder'].includes(id))assert.ok(r.bullets.length>=3);if(id==='voidneedle')assert.equal(r.fields[0].kind,'pull');if(['tempest','eclipse'].includes(id))assert.ok(r.enemies[0].hp<r.enemies[0].maxHp);if(id==='eclipse')assert.ok(r.player.hp>30);}});

@@ -1,0 +1,120 @@
+{
+  "gunId": "voidneedle",
+  "nodes": [
+    {
+      "id": "t1-left",
+      "tier": 1,
+      "column": 0,
+      "name": "Dark tips",
+      "description": "+9 shot damage.",
+      "cost": 60,
+      "effect": {
+        "damage": 9
+      }
+    },
+    {
+      "id": "t1-middle",
+      "tier": 1,
+      "column": 1,
+      "name": "Orbit rails",
+      "description": "+2 bounces.",
+      "cost": 65,
+      "effect": {
+        "bounce": 2
+      }
+    },
+    {
+      "id": "t1-right",
+      "tier": 1,
+      "column": 2,
+      "name": "Vampire cell",
+      "description": "+2% life-steal.",
+      "cost": 70,
+      "effect": {
+        "lifesteal": 0.02
+      }
+    },
+    {
+      "id": "t2-left",
+      "tier": 2,
+      "column": 0,
+      "name": "Horizon needle",
+      "description": "+10% critical chance; +2 piercing.",
+      "cost": 120,
+      "effect": {
+        "crit": 0.1,
+        "pierce": 2
+      }
+    },
+    {
+      "id": "t2-middle",
+      "tier": 2,
+      "column": 1,
+      "name": "Gravity mirrors",
+      "description": "+3 bounces.",
+      "cost": 130,
+      "effect": {
+        "bounce": 3
+      }
+    },
+    {
+      "id": "t2-right",
+      "tier": 2,
+      "column": 2,
+      "name": "Dark siphon",
+      "description": "+3% life-steal.",
+      "cost": 140,
+      "effect": {
+        "lifesteal": 0.03
+      }
+    },
+    {
+      "id": "t3-lm",
+      "tier": 3,
+      "column": 0,
+      "name": "Spiral singularity",
+      "description": "+18 shot damage; +3 bounces.",
+      "cost": 280,
+      "effect": {
+        "damage": 18,
+        "bounce": 3
+      },
+      "requiresPair": [
+        "left",
+        "middle"
+      ]
+    },
+    {
+      "id": "t3-lr",
+      "tier": 3,
+      "column": 1,
+      "name": "Vampire horizon",
+      "description": "+3 piercing; +4% life-steal.",
+      "cost": 290,
+      "effect": {
+        "pierce": 3,
+        "lifesteal": 0.04
+      },
+      "requiresPair": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "t3-mr",
+      "tier": 3,
+      "column": 2,
+      "name": "Endless orbit",
+      "description": "+4 bounces; +5% life-steal.",
+      "cost": 300,
+      "effect": {
+        "bounce": 4,
+        "lifesteal": 0.05
+      },
+      "requiresPair": [
+        "middle",
+        "right"
+      ]
+    }
+  ]
+}
